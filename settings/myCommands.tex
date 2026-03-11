@@ -1,9 +1,5 @@
 % !设置自定义功能
 \newcommand{\vect}[1]{\symbf{#1}} % 粗体向量
 \newcommand{\overtext}[2]{%
-    \begin{tabular}[b]{@{}c@{}}
-        \textsf{\textbf{\fontsize{5pt}{5pt}\selectfont #2}} \\[-1.4ex]
-        \textbf{#1}
-    \end{tabular}%
+    \stackon[0.5pt]{\textbf{#1}}{\textsf{\textbf{\fontsize{5pt}{5pt}\selectfont #2}}}%
 }
-

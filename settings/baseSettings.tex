@@ -155,7 +155,7 @@
 \definecolor{RedDeep}{HTML}{D20000}          % 核心红
 \definecolor{RedLight}{HTML}{FEF2F2}         % 极浅红背景
 
-% 特殊黄
+% 定义黄
 \definecolor{YellowDeep}{HTML}{F59A23}       % 核心黄
 \definecolor{YellowLight}{HTML}{FEF9F2}      % 极浅黄背景
 
@@ -209,7 +209,7 @@
 }
 
 % 定义“定理”环境
-\newcounter{theorem}[chapter]
+\newcounter{theorem}[section]
 \renewcommand{\thetheorem}{\thechapter.\arabic{theorem}}
 \newtcolorbox{theorem}[1][]{
     myThemStyle,
@@ -218,6 +218,20 @@
     before upper={
         \stepcounter{theorem}
         \textcolor{BlueDeep}{\textbf{定理~\thetheorem}}~
+    },
+    #1
+}
+
+% 定义“定义”环境
+\newcounter{definition}[section]
+\renewcommand{\thedefinition}{\arabic{definition}}
+\newtcolorbox{definition}[1][]{
+    myThemStyle,
+    colback=YellowLight,   % 背景色
+    colframe=YellowDeep,   % 边框色
+    before upper={
+        \stepcounter{definition}
+        \textcolor{YellowDeep}{\textbf{定义~\thedefinition}}~
     },
     #1
 }
@@ -245,7 +259,7 @@
 }
 
 % 定义“问题”与“解答”环境
-\newcounter{question}[chapter]
+\newcounter{question}[section]
 \renewcommand{\thequestion}{\thechapter.\arabic{question}}
 \newtcolorbox{question}[1][]{
     myThemStyle,
