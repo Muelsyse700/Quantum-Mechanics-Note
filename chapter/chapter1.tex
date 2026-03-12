@@ -309,3 +309,112 @@ LVS满足如下法则：
     矢量在基下的展开系数称为其在这组基下的\overtext{分量}{component}。
 \end{definition}
 对于给定的基，同一矢量的分量是唯一的。
+
+\subsection{内积空间(IPS)}
+传统的矢量内积$\vec{A} \cdot \vec{B} = |\vec{A}| |\vec{B}| \cos\theta = \sum_{i}^n a_i b_i$具有如下性质：
+\begin{itemize}
+    \item $\vec{A} \cdot \vec{B} = \vec{B} \cdot \vec{A}$
+    \item $\vec{A} \cdot \vec{A} \ge 0$
+    \item $\vec{A} \cdot (b\vec{B} + c\vec{C}) = b\vec{A} \cdot \vec{B} + c\vec{A} \cdot \vec{C}$
+\end{itemize}
+
+\begin{extension}{Dirac符号}
+    记$|v\rangle = \begin{bmatrix} v_1 \\ v_2 \\ v_3 \\ \vdots \\ v_n \end{bmatrix} = \sum_{i}^n v_i |v_i\rangle$,$n$为LVS的维度。\\[1em]
+    记矢量$\ket{A}$和矢量$\ket{B}$的内积$\langle A|B \rangle$。\\
+    内积应当是个数，因此$\bra{A}$应为一个行矩阵。\\[1em]
+    $
+    \text{称}
+    \begin{cases}
+        \ket{~} \text{为\overtext{右矢}{ket}，其在一组基下的具象是一个列矩阵。}\\
+        \bra{~} \text{为\overtext{左矢}{bra}，其在一组基下的具象是一个行矩阵。}
+    \end{cases}
+    $
+\end{extension}
+
+态矢的内积应满足如下性质：
+\begin{itemize}
+    \item $\langle v|v\rangle \ge 0$矢量的模长是个非负实数
+    \item $\langle A|B\rangle = \langle B|A\rangle^*$在实矢量空间中退化为$\langle A|B\rangle = \langle B|A\rangle$
+    \item $\langle A|B\rangle = \sum_{i}^n a_i^* b_i = [a_1^* \ a_2^* \ a_3^* \ \dots \ a_n^*] \begin{bmatrix} b_1 \\ b_2 \\ b_3 \\ \vdots \\ b_n \end{bmatrix}$
+\end{itemize}
+
+综上，$\bra{v}$在形式上是$\ket{v}$的转置复共轭，称为\overtext{厄米共轭}{Hermitian conjugate}，用“\overtext{$\dagger$}{dagger}”表示，记作:
+\[(|v\rangle)^\dagger = \langle v|\]
+
+对于箭头形式矢量：
+
+\begin{center}
+    \begin{minipage}{0.35\textwidth}
+        \centering
+        \begin{tikzpicture}[>=stealth, line width=1pt]
+            \node at (1.5, 3.0) {$\vec{A} \cdot \vec{B} = |\vec{A}| |\vec{B}| \cos\theta$};
+            \coordinate (O) at (0,0);      
+            \coordinate (A) at (1.2,2.0);  
+            \coordinate (B) at (3.5,0);    
+            \coordinate (P) at (1.2,0);    
+            \draw[->, ultra thick] (0,0) -- (2.5,0) node[right, scale=1.2] {$\vec{b}$};
+            \draw[->, PurpleDeep, ultra thick] (O) -- (A) node[above right, scale=1.2] {$\vec{a}$};
+            \draw[dashed, PurpleDeep!70, ultra thick] (A) -- (P);
+            \draw[BlueDeep, line width=4.5pt] (O) -- (P);
+            \pic [draw, angle radius=0.6cm, "$\theta$", angle eccentricity=1.4] {angle = P--O--A};
+        \end{tikzpicture}
+    \end{minipage}%
+    \hfill
+    \begin{minipage}{0.65\textwidth}
+        \raggedright
+        若$\vec{b} = \hat{e_b}$，那么$\vec{a} \cdot \vec{b}$就是$\vec{a}$在$\vec{b}$方向上的长度占比。\\
+        可以认为，\textbf{两个矢量内积的模平方的相对大小反映了两矢量的重叠程度}。
+    \end{minipage}
+\end{center}
+
+根据上述观点，$|\langle \psi_1 | \psi \rangle|^2$反映了$\psi_1$态在$\psi$态上的重叠程度，即在$\psi$态中找到$\psi_1$态的概率密度。
+
+\begin{extension}{态矢的线性性}
+    有：
+    \[\langle v_1 | (a |v_2 \rangle + b |v_3 \rangle) = \langle v_1 | a v_2 + b v_3 \rangle = a \langle v_1 | v_2 \rangle + b \langle v_1 | v_3 \rangle\]
+    则：
+    \[
+    \begin{aligned} \langle a v_2 + b v_3 | v_1 \rangle &= [\langle v_1 | (a |v_2 \rangle + b |v_3 \rangle)]^* \\ &= a^* \langle v_1 | v_2 \rangle^* + b^* \langle v_1 | v_3 \rangle^* \\ &= a^* \langle v_2 | v_1 \rangle + b^* \langle v_3 | v_1 \rangle \\ &= (a^* \langle v_2 | + b^* \langle v_3 |) | v_1 \rangle \end{aligned}
+    \quad \begin{aligned}
+        & \langle a v_2 + b v_3 | = a^* \langle v_2 | + b^* \langle v_3 | \\
+        \Rightarrow \quad &\text{即} \langle av | = a^* \langle v |\\
+        &\text{这保证了} \langle cA | cA \rangle \text{为实数}
+    \end{aligned}
+    \]
+\end{extension}
+
+\begin{definition}
+    满足所有内积性质的LVS称为\overtext{内积空间}{inner product space}。
+\end{definition}
+\begin{definition}
+    若$\langle v_1|v_2 \rangle = 0$，称$\ket{v_1}$与$\ket{v_2}$是正交的。
+\end{definition}
+\begin{definition}
+    将$\sqrt{\langle v|v \rangle}$称作$\ket{v}$的范数。若$\ket{v}$的范数为$1$，则称$\ket{v}$为归一化的矢量。
+\end{definition}
+\begin{definition}
+    一组范数为$1$且两两正交的基称为\textbf{正交归一基}。
+
+\end{definition}
+对一组线性无关的基，总可以通过线性组合构造出一组正交归一基。
+
+对正交归一基，有：
+\[\langle v_i | v_j \rangle = \delta_{ij} = \begin{cases}
+    0,\quad i \neq j \\
+    1,\quad i = j
+\end{cases}\]
+其中$\delta_{ij}$称为\textbf{Kronecker delta符号}。
+
+\subsection{正交归一基}
+\begin{question}
+    已知一给定的矢量和一组正交归一基，如何确定其展开系数？
+\end{question}
+\begin{solution}
+    即
+\end{solution}
+\begin{question}
+    如何用$n$个线性无关的矢量构造一组正交归一基？
+\end{question}
+\begin{extension}{Schmidt正交化}
+    三个线性无关矢量
+\end{extension}

@@ -7,3 +7,6 @@
 
 # 编辑器配置
 .vscode/
+
+# 编译结果
+main-note.pdf
