@@ -113,7 +113,7 @@
 
 % !设置目录
 % #region
-\titleformat{name=\chapter,numberless}[block]
+\titleformat{name={\chapter},numberless}[block]
     {\Huge\heavyfont}
     {}
     {0pt}
@@ -215,8 +215,8 @@
 }
 
 % 定义“定理”环境
-\newcounter{theorem}[subsection]
-\renewcommand{\thetheorem}{\thechapter.\arabic{theorem}}
+\newcounter{theorem}[section]
+\renewcommand{\thetheorem}{\thechapter-\arabic{theorem}}
 \newtcolorbox{theorem}[1][]{
     myThemStyle,
     colback=BlueLight,   % 背景色
@@ -229,8 +229,8 @@
 }
 
 % 定义“定义”环境
-\newcounter{definition}[subsection]
-\renewcommand{\thedefinition}{\arabic{definition}}
+\newcounter{definition}[section]
+\renewcommand{\thedefinition}{\thechapter-\arabic{definition}}
 \newtcolorbox{definition}[1][]{
     myThemStyle,
     colback=YellowLight,   % 背景色
