@@ -1,0 +1,243 @@
+\chapter{量子理论基础}
+\section{Stern-Garlach实验}
+\begin{center}
+    \begin{minipage}{0.60\textwidth}
+        \centering
+        % 调整 x 比例让图形在 minipage 中更紧凑
+        \begin{tikzpicture}[>=Stealth, line width=0.8pt]
+            % -银原子源
+            \node at (-3, 1.5) {\Large $47$ \textbf{Ag}};
+            \foreach \pos in {
+                (-3.4, 0.2), (-3.6, 0.5), (-3.4, 0.8), (-3.1, 0.6), (-2.8, 0.4), (-2.5, 0.6), (-2.3, 0.2),
+                (-3.3, -0.1), (-3.5, -0.3), (-3.2, -0.4), (-2.9, -0.1), (-2.4, -0.2), (-2.2, -0.3),
+                (-3.2, 0.4), (-2.9, 0.1), (-3.3, -0.2), (-2.6, -0.1), (-3.0, 0.5), (-2.7, 0.4)
+            } {\fill \pos circle (2.2pt);}
+            % 电子排布文字
+            \node at (-3, -1) {\large $2, 8, 18, 18, 1$};
+            \node at (-1.5, -2.2) {\large $5s: n=5, l=0, m=0$};
+            % 准直孔
+            \draw[line width=3pt] (-1, 1.5) -- (-1, 0.2);
+            \draw[line width=3pt] (-1, -0.2) -- (-1, -1.5);
+            % 入射束箭头
+            \draw[->, orange, line width=1.5pt] (-1.8, 0) -- (-0.2, 0);
+            %使用 plot 绘制两条对称的分离曲线
+            \begin{scope}[OrangeDeep, line width=1.2pt]
+                \draw[domain=0:4, samples=50, smooth] plot ({0.7+\x}, {0.15*exp(0.6*\x) - 0.15});
+                \draw[domain=0:4, samples=50, smooth] plot ({0.7+\x}, {-0.15*exp(0.6*\x) + 0.15});
+                \draw (0.5, 0) -- (0.7, 0); % 磁场入口直线
+            \end{scope}
+            % 绘制向下递减的蓝色箭头
+            \begin{scope}[shift={(1, 1.2)}, color=BlueDeep]
+                \foreach \x in {0, 0.2, ..., 1.6} \draw[->] (\x, 0) -- (\x, -0.5);
+                \foreach \x in {0.4, 0.6, ..., 1.4} \draw[->] (\x, -0.6) -- (\x, -1);
+                \foreach \x in {0.6, 0.8, ..., 1.0} \draw[->] (\x, -1.1) -- (\x, -1.6);
+                \draw[->] (0.8, -1.7) -- (0.8, -2.2);
+                \node[below, font=\small] at (0.8, -2.2) {非均匀磁场};
+            \end{scope}
+            % 探测屏与坐标轴
+            \draw[line width=3pt] (5, 1.8) -- (5, -1.8);
+            \begin{scope}[shift={(3.8, 0)}]
+                \draw[->] (0,0) -- (0.6, 0) node[right] {$x$};
+                \draw[->] (0,0) -- (0, 0.6) node[above] {$z$};
+                \draw[->] (0,0) -- (-0.25, -0.25) node[left] {$y$};
+                \fill (0,0) circle (1.5pt); % 原点
+            \end{scope}
+        \end{tikzpicture}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.36\textwidth}
+        \raggedright
+        Ag轨道角动量为$0$，轨道磁矩为$0$.
+
+        $z$方向受力$F_z=\mu_z \cdot \frac{\partial B}{\partial z}$，而银原子分裂成了两束.说明磁矩$\mu_z$不为$0$，且是量子化的.
+    \end{minipage}
+\end{center}
+该实验表明电子除轨道角动量外还有一类角动量且它的大小为$\dfrac{\hbar}{2}$ (实验测定).
+
+\subsection{电子自旋假设}
+电子自旋假设由Uhlenbeck和Goudsmit于1925年提出：
+\begin{itemize}
+    \item 每个电子都具有内禀角动量(即\overtext{自旋}{spin}角动量)$\hat{S}$，大小为$\frac{\hbar}{2}$. \\
+    为什么说是内禀的自旋？如果按传统的“旋转产生角动量”来理解，电子表明的切速度会超过光速.
+    \item 自旋磁矩与自旋角动量有如下关系：
+    \[
+    \begin{cases}
+        \hat{\mu}_s = -\frac{e}{2m_e}g_s \hat{S} \\
+        g_s = 2
+    \end{cases}
+    \quad
+    \left(
+        \text{轨道磁矩}\begin{cases}
+            \hat{\mu}_l = -\frac{e}{2m_e} g_l \hat{L} \\
+            g_l = 1
+        \end{cases}
+    \right)
+    \]
+    向上偏转记为$\ket{\uparrow }$，反之为$\ket{\downarrow}$.
+\end{itemize}
+\begin{extension}{Bosen子和Fremi子}
+    称整数自旋的粒子如光子$(1)$、希格斯子$(0)$为\textbf{Bosen子}.
+
+    称非整数自旋的粒子如电子$(\frac{1}{2})$、夸克$(\frac{1}{2})$为\textbf{Fermi子}.
+\end{extension}
+
+\subsection{级联S-G实验}
+\begin{center}
+    \begin{tikzpicture}[
+        >=Stealth, 
+        line width=1.2pt,
+        sgbox/.style={draw, minimum width=1.5cm, minimum height=1.5cm, rounded corners=2pt, align=center, font=\Large\bfseries}
+    ]
+        \node[sgbox] (SG1) at (0,0) {S-G \\ $z$};
+        \draw[->] (SG1.east) ++(0,0.4) -- +(1.5,0) node[above, pos=0.45] {$\ket{\uparrow}$};
+        \draw[->] (SG1.east) ++(0,-0.4) -- +(1.5,0) node[below, pos=0.45] {$\ket{\downarrow}$};
+
+        \node[sgbox, anchor=west] (SG2) at (2.25, 0.8) {S-G \\ $x$};
+        \draw[->] (SG2.east) ++(0,0.4) -- +(1.5,0) node[above, pos=0.45] {$\ket{+}$};
+        \draw[->] (SG2.east) ++(0,-0.4) -- +(1.5,0) node[below, pos=0.45] {$\ket{-}$};
+
+        \node[sgbox, anchor=west] (SG3) at (5.25, 1.6) {S-G \\ $z$};
+        \draw[->] (SG3.east) ++(0,0.3) -- +(1.5,0) node[above, pos=0.45] {$\ket{\uparrow}$};
+        \draw[->] (SG3.east) ++(0,-0.4) -- +(1.5,0) node[below, pos=0.45] {$\ket{\downarrow}$};
+    \end{tikzpicture}
+\end{center}
+\noindent\textbf{实验现象：}
+\begin{itemize}
+    \item 银原子束通过第一个$z$方向的S-G后分为两束，取向上的一束通过$x$方向的S-G后分为两束，各占$50\%$.
+    \item 取向+的一束通过第二个$z$方向的S-G，仍能分为向上和向下的两束，各占$50\%$.
+\end{itemize}
+
+这个实验表明：对于$S_x$的测量把粒子$S_z$的信息抹去了.
+
+因此，无法同时得到关于粒子$S_x$和$S_z$的信息，称$S_x$与$S_z$是不相容的可观测量(由对称性，$S_x,S_y,S_z$都不相容).
+\begin{align*}
+    &\text{$\ket{\uparrow}$里包含了$\ket{+}$和$\ket{-}$的成分} \quad &\ket{\uparrow} = \frac{1}{\sqrt{2}} e^{i\theta} \ket{+} + \frac{1}{\sqrt{2}} e^{i\theta} \ket{-} \\
+    &\text{$\ket{+}$里包含了$\ket{\uparrow}$和$\ket{\downarrow}$的成分} &\ket{+} = \frac{1}{\sqrt{2}} e^{i\theta} \ket{\uparrow} + \frac{1}{\sqrt{2}} e^{i\theta} \ket{\downarrow}
+\end{align*}
+\begin{mistake}
+    上述表述似乎意味着$\ket{\uparrow}$和$\ket{+}$既是本征态又是叠加态.
+
+    实际上，讨论一个态是什么态要\textbf{基于某个对象}才有意义：
+    \begin{align*}
+        \text{对$S_x$，$\ket{\uparrow}$是叠加态，$\ket{+}$是本征态} \\
+        \text{对$S_z$，$\ket{\uparrow}$是本征态，$\ket{+}$是叠加态}
+    \end{align*}
+
+    这表明：
+
+    \centering\textbf{在经典和量子世界中，测量扮演着十分不同的角色}
+\end{mistake}
+
+
+\section{基于线性代数的量子力学I}
+\subsection{量子力学与线性代数的相似性}
+\begin{enumerate}
+    \item 可观测量在其本征态上有一个确定的值. \\
+    矩阵作用在本征矢上有一个确定的值.
+    \item 不同的态可以线性叠加成为一个新的可能态. \\
+    矢量之间可以通过线性叠加构造一个新的矢量.
+    \item Schrödinger方程是线性偏微分方程，其通解为本征解(特解)的线性组合.
+    $$\psi(\vec{r}, t) = \sum_{i} c_i \phi_i(\vec{r}) T_i(t)$$
+    这些本征解可以作为LVS的基，任意的通解可以通过$c_i$的线性组合来表述：
+    $$\lvert \psi \rangle = \sum_{i} c_i T_i(t) \lvert \phi_i \rangle = \sum_{i} c_i \lvert \phi_i(t) \rangle = \begin{bmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{bmatrix}$$
+    \item 可观测量由初、末两个态决定，应是二维的，而测量会使一个态转化为另一个态.\\
+    矩阵是二阶张量，矩阵作用在一个矢量上会使之变为另一个矢量.
+\end{enumerate}
+
+综上，用矢量来描述量子系统的状态，即态矢量$\ket{\psi}$，它包含了系统的全部信息；用矩阵来描述力学量$\hat{O}$，力学量是物理的，其测量值(本征值)应为实数，因此描述力学量的矩阵应为厄米矩阵.
+
+\subsection{拓展到无穷维}
+\begin{question}
+    考虑定义在$[a,b]$上的函数$f(x)$，如何用一个列矢量描述$f(x)$？
+
+    \begin{center}
+        \begin{tikzpicture}[>=stealth, scale=0.8]
+            \draw[->] (-0.5,0) -- (6,0) node[right] {$x$};
+            \draw[->] (0,-2) -- (0,2) node[right] {$f(x)$};
+            \draw[OrangeDeep, thick, samples=100, domain=1:5.5] 
+                plot (\x, {1.5*sin((\x-1)*120) * (1.2 - 0.15*\x)});
+            \node[below] at (1,0) {$a$};
+            \node[below] at (5.5,0) {$b$};
+        \end{tikzpicture}
+    \end{center}
+\end{question}
+\begin{solution}
+    将$a~b$分成$n$份(生成$n+1$个基矢)，用每处$x_i$的函数值$f(x_i)$作列矢量的矩阵元：
+    $$|f\rangle = \begin{bmatrix} f(x_1) \\ f(x_2) \\ \vdots \\ f(x_n) \end{bmatrix}$$
+    $f(x)$在每一处$x_i$的函数值等于$\ket{f}$沿着$\ket{x_i}$的分量，即$f(x_i) = \braket{x_i}{f}$.
+\end{solution}
+
+这意味着：
+\begin{center}
+    \textbf{波函数是态矢量在具体基(表象)下的展开系数}
+\end{center}
+考虑以$\ket{x_i}$为基张成的空间满足LVS的全部性质，那么$\ket{x_i}$的所有线性组合构成的矢量构成一个LVS，维度为$n+1$.当$n \rightarrow \infty$时构成了一个连续无穷维LVS.
+
+\subsection{构造连续无穷维LVS的IPS}
+在离散有限维LVS中，内积的定义为：
+$$\langle f | g \rangle = \lim_{n \to \infty} \sum^{n}_{i} f^*(x_i)g(x_i)$$
+由于$f(x_i)$和$g(x_i)$都是有限的，因此在无穷维上求和会是无穷大.这导致在连续无穷维LVS上如矩阵乘法等数学工具的发散，因此，需要构建一套新的运算规则.
+\begin{derivation}
+    为了使得结果有界，取内积在每个点上的平均：
+    \begin{align*}
+        \text{令} \quad \langle f|g \rangle &= \lim_{n \to \infty} \frac{1}{n+1} \sum_{i} f^*(x_i) g(x_i) \\
+        &= \int_a^b f^*(x) g(x) \dd{x} \\
+        &= \int_a^b \langle f|x \rangle \langle x|g \rangle \dd{x}
+    \end{align*}
+    为不失一般性，选取积分区域为整个空间：
+    $$\langle f|g \rangle = \int_{-\infty}^{\infty} \langle f|x \rangle \langle x|g \rangle \dd{x}$$
+    这就是连续无穷维LVS内积的定义.
+
+    称式中的$\int_{-\infty}^{\infty} |x \rangle \langle x| \dd{x} \equiv \hat{I}$为连续无穷维情况下的恒等算符.
+\end{derivation}
+
+\subsection{Hilbert空间}
+量子体系是物理的且可能是无穷维的.
+
+态矢量应当满足如下需求：
+
+\begin{itemize}
+    \item 态矢量可以进行内积
+    \item 态矢量可以是有限维的也可以是无穷维的
+    \item 态矢量之间的内积有限
+\end{itemize}
+
+因此量子力学所研究的空间应当满足：
+
+\begin{itemize}
+    \item 是一个IPS
+    \item 维度可以从有限到无限
+    \item 其上定义的内积是收敛的
+\end{itemize}
+
+称这样的空间为\textbf{Hilbert空间}.
+
+\begin{extension}{}
+    \textbf{应当注意：}
+    \begin{itemize}
+        \item 对同一个LVS，通过定义不同的内积法则可以构造出不同的IPS.
+        \item Hilbert空间的严格定义是“完备的内积空间”.更深入的内容涉及泛函分析.
+        \item 量子力学中会有一些内积为奇怪东西(如Dirac $\delta$函数)的量子态，这显然不存在于数学意义上的Hilbert空间中，但是在物理上是可以接受的.称这种包含奇怪量子态的空间为rigged Hilbert空间.
+    \end{itemize}
+\end{extension}
+
+
+\section{Dirac \texorpdfstring{$\delta$}{delta} 函数}
+
+
+\section{基于线性代数的量子力学II}
+
+
+\section{自旋1/2系统的矩阵表示}
+
+
+\section{(不)相容力学量和对易关系}
+
+
+\section{力学量完全集(CSCO)}
+
+
+\section{Heisenberg不确定性原理和Ehrenfest定理}
+
+
+\section{表象变换}
