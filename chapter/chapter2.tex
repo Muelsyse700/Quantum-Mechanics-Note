@@ -19,7 +19,7 @@
             \draw[line width=3pt] (-1, 1.5) -- (-1, 0.2);
             \draw[line width=3pt] (-1, -0.2) -- (-1, -1.5);
             % 入射束箭头
-            \draw[->, orange, line width=1.5pt] (-1.8, 0) -- (-0.2, 0);
+            \draw[->, OrangeDeep, line width=1.5pt] (-1.8, 0) -- (-0.2, 0);
             %使用 plot 绘制两条对称的分离曲线
             \begin{scope}[OrangeDeep, line width=1.2pt]
                 \draw[domain=0:4, samples=50, smooth] plot ({0.7+\x}, {0.15*exp(0.6*\x) - 0.15});
@@ -223,10 +223,169 @@ $$\langle f | g \rangle = \lim_{n \to \infty} \sum^{n}_{i} f^*(x_i)g(x_i)$$
 
 
 \section{Dirac \texorpdfstring{$\delta$}{delta} 函数}
+\subsection{Dirac归一化}
+考察连续无穷维LVS中基矢的正交归一性：
+\begin{derivation}
+    作为基矢，显然有$\braket{x}{x'}=0, x \neq x'$.
 
+    由于定义了新的IPS，$\braket{x}{x'}$在$x=x'$时是否等于$1$？
+
+    将$\ket{f}$用$\ket{x'}$展开：
+    \begin{align*}
+        |f\rangle &= \int_{a}^{b} |x'\rangle \langle x'|f\rangle \dd{x'}
+        \intertext{同时左乘$\bra{x}$：}
+        \langle x|f\rangle &= \int_{a}^{b} \langle x|x'\rangle \langle x'|f\rangle \dd{x'} \\
+        f(x) &= \int_{a}^{b} \langle x|x'\rangle f(x') \dd{x'} \\
+        \intertext{由于有$\langle x|x'\rangle = 0, \quad x \neq x'$，积分区间可写为$x$附近的无穷小邻域：}
+        f(x) &= \int_{x-\varepsilon}^{x+\varepsilon} \langle x|x'\rangle f(x') \dd{x'} \\
+        \intertext{在无穷小区间上$f(x)$与$f(x')$近似相等：}
+        f(x) &= \int_{x-\varepsilon}^{x+\varepsilon} \langle x|x'\rangle f(x) \dd{x'} \\
+        \intertext{$f(x)$与关于$x'$的积分无关，作常数提出：}
+        f(x) &= f(x) \int_{x-\varepsilon}^{x+\varepsilon} \langle x|x'\rangle \dd{x'} \quad \Rightarrow \quad \int_{x-\varepsilon}^{x+\varepsilon} \langle x|x'\rangle \dd{x'} = 1
+    \end{align*}
+    要在无穷小区间上积分为有限值，则$\braket{x}{x'}$在积分区间上不能是有限值，则:
+    $$\langle x|x'\rangle = \infty, \quad x-\varepsilon \le x \le x+\varepsilon$$
+    $$\begin{cases} \langle x|x'\rangle = 0 & , x' \neq x \\ \langle x|x'\rangle \to \infty & , x' = x \end{cases}$$
+\end{derivation}
+\begin{definition}
+    Dirac $\delta$函数$\braket{x}{x'}= \delta (x-x')$满足：
+    \[
+    \delta(x-x')=
+    \begin{cases}
+        0, x\neq x'\\
+        \infty, x\rightarrow x'
+    \end{cases}
+    \qquad
+    \int_{-\infty}^{+\infty} \delta(x-x') \dd{x} = 1
+    \]
+    图像表示为：
+    \begin{center}
+        \begin{tikzpicture}[>=stealth, font=\small]
+            \begin{scope}[shift={(0,0)}]
+                \draw[->, thick] (0,-0.2) -- (0,3.5);
+                \draw[->, thick] (-0.2,0) -- (4,0) node[below] {$x'$};
+                \draw[YellowDeep, very thick] plot[domain=0.2:3.8, samples=100] (\x, {0.004 / ((\x-2)^2 + 0.001)});
+                \node[YellowDeep, below] at (2,0) {$x$};
+            \end{scope}
+            \node at (5, 1.5) {\Large 或};
+            \begin{scope}[shift={(6,0)}]
+                \draw[->, thick] (0,-0.2) -- (0,3.5);
+                \draw[->, thick] (-0.2,0) -- (4,0) node[below] {$x'$};
+                \draw[YellowDeep, ultra thick, ->] (2,0) -- (2,3);
+                \node[YellowDeep, below] at (2,0) {$x$};
+            \end{scope}
+        \end{tikzpicture}
+    \end{center}
+    显然$\delta(x)$是关于$x$的偶函数.
+\end{definition}
+
+\subsection{Dirac \texorpdfstring{$\delta$}{delta} 函数的性质}
+\begin{itemize}
+    \item \textbf{采样性}\\
+    把一个函数与$\delta(x-x')$相乘并在全空间积分，就可以采集到该函数在$x_0$处的值：
+    $$\int_{-\infty}^{+\infty} f(x) \delta(x-x_0) \dd{x} = f(x_0)$$
+    \item \textbf{放缩性}
+    $$\delta(ax) = \frac{1}{|a|} \delta(x)$$
+    \begin{proof}
+        \begin{minipage}[t]{0.48\textwidth}
+            \centering
+            \textbf{当$a > 0$时}
+            \begin{align*}
+                & \int_{-\infty}^{+\infty} f(x) \delta(ax) \dd x \quad \text{令 } t \equiv ax \\
+                = & \int_{-\infty}^{+\infty} f\left(\frac{t}{a}\right) \delta(t) \dd \left(\frac{t}{a}\right) \\
+                = & \frac{1}{a} \int_{-\infty}^{+\infty} f\left(\frac{t}{a}\right) \delta(t) \dd t \\
+                \intertext{令$F(t)\equiv f(\frac{t}{a})$，有$F(0)=f(0)$} 
+                = & \frac{1}{a} F(0) = \frac{1}{a} f(0)
+            \end{align*}
+        \end{minipage}
+        \hfill\vrule\hfill
+        \begin{minipage}[t]{0.48\textwidth}
+            \centering
+            \textbf{当$-a > 0$时}
+            \begin{align*}
+                & \int_{-\infty}^{+\infty} f(x) \delta(ax) \dd x \\
+                = & \int_{+\infty}^{-\infty} f\left(-\frac{t}{a}\right) \delta(t) \dd \left(-\frac{t}{a}\right) \\
+                = & -\frac{1}{a} \int_{+\infty}^{-\infty} f\left(-\frac{t}{a}\right) \delta(t) \dd t \\
+                = & \frac{1}{a} \int_{-\infty}^{+\infty} F(-t) \delta(t) \dd t \\
+                = & \frac{1}{a} F(0) = \frac{1}{a} f(0)
+            \end{align*}
+        \end{minipage}\\[1em]
+    综上，$\delta(ax) = \frac{1}{|a|} \delta(x)$.
+    \end{proof}
+    \item \textbf{实值性}
+    $$\langle x | x' \rangle = \delta(x-x') = \delta(x'-x) = \langle x' | x \rangle = \langle x | x' \rangle^*$$
+    因此Dirac $\delta$函数为实值函数.
+\end{itemize}
+
+\subsection{Dirac \texorpdfstring{$\delta$}{delta} 函数的Fourier变换}
+Fourier变换的标准形式：
+$$\begin{cases} 
+\text{正变换 } T(k) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{-ikx} t(x) \dd{x} \\
+\text{逆变换 } t(x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{ikx} T(k) \dd{k}
+\end{cases}$$
+由于：
+$$\frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{-ikx'} \delta(x - x') \dd{x'} = \frac{1}{\sqrt{2\pi}} e^{-ikx}$$
+故而：
+\begin{align*}
+    \delta(x - x') &= \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{ikx'} \cdot \frac{1}{\sqrt{2\pi}} e^{-ikx} \dd{k} \\
+    \delta(x - x') &= \frac{1}{2\pi} \int_{-\infty}^{+\infty} e^{ik(x' - x)} \dd{k} \quad \delta \text{(函数的 Fourier 展开)}
+\end{align*}
+
+\subsection{含Dirac \texorpdfstring{$\delta$}{delta} 函数的导数的积分}
+\begin{derivation}
+    $$\begin{aligned}
+        & \int_{-\infty}^{+\infty} \delta''(x - x') f(x') \dd{x'} \\
+        = & \int_{-\infty}^{+\infty} \frac{\partial^2}{\partial x^2} \delta(x - x') f(x') \dd{x'} \\
+        = & \frac{\dd^2}{\dd{x^2}} \int_{-\infty}^{+\infty} \delta(x - x') f(x') \dd{x'} \quad \text{积分外} x' \text{被积掉了，故而变为求全导} \\
+        = & \frac{\dd^2}{\dd{x^2}} f(x)
+    \end{aligned}$$
+\end{derivation}
+
+上述推导表明，$\delta$函数的采样性亦可给出$f(x)$的各阶导：
+\begin{gather*}
+\delta^{(n)}(x - x') = \delta(x - x') \frac{\dd^n}{\dd{x^n}} \\
+\int_{-\infty}^{+\infty} \delta^{(n)}(x - x') f(x') \dd{x'} = \frac{\dd^n}{\dd{x^n}} f(x)
+\end{gather*}
+
+\subsection{单位跃阶函数}
+\begin{definition}
+    \[
+    \text{单位跃阶函数}\theta(x)=
+    \begin{cases}
+        1,x>0 \\
+        0,x<0
+    \end{cases}
+    \qquad
+    \frac{\dd}{\dd{x}}\theta(x)=\delta(x)
+    \begin{cases}
+        \infty,x=0 \\
+        0,x\neq 0
+    \end{cases}
+    \]
+    \begin{center}
+        \begin{tikzpicture}[>=stealth, thick]
+            \draw[->] (-3,0) -- (3,0) node[below] {$x$};
+            \draw[->] (0,-0.5) -- (0,2) node[right] {$\theta$};
+            \node[below left] at (0,0) {0};
+            \draw (0.1,1) -- (-0.1,1) node[left] {1};
+            \draw[YellowDeep, ultra thick] (-2.5,0) -- (0,0);
+            \draw[YellowDeep, ultra thick] (0,1) -- (2.5,1);
+        \end{tikzpicture}
+    \end{center}
+    关于$x=0$处的定义不同领域各不相同，物理学上一般定义为$\frac{1}{2}$.
+\end{definition}
 
 \section{基于线性代数的量子力学II}
+\subsection{无穷维下的算符}
+无穷维下的右矢对应了一个连续函数，因此：
+\begin{center}
+    \textbf{无穷维的算符就是将一个函数$f(x)$转换为另一个函数$\widetilde{f}(x)$}
+\end{center}
+即$\hat{O}\ket{f}=\ket{\widetilde{f}}$.
 
+\begin{extension}{求导算符$\hat{D}$}
+    
+\end{extension}
 
 \section{自旋1/2系统的矩阵表示}
 
@@ -241,3 +400,15 @@ $$\langle f | g \rangle = \lim_{n \to \infty} \sum^{n}_{i} f^*(x_i)g(x_i)$$
 
 
 \section{表象变换}
+
+
+\section{动量表象波函数}
+
+
+\section{动量表象位置算符}
+
+
+\section{动量表象下的能量本征方程}
+
+
+\section{动量与空间平移算符}
