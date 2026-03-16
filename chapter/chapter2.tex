@@ -384,7 +384,14 @@ $$\frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{-ikx'} \delta(x - x') \dd{x'
 即$\hat{O}\ket{f}=\ket{\widetilde{f}}$.
 
 \begin{extension}{求导算符$\hat{D}$}
-    
+    对求导算符有：
+    \[\hat{D}\ket{f}=\ket{\frac{\dd}{\dd x} f} \qquad \braket{x}{\frac{\dd}{\dd x}f}=\frac{\dd f}{\dd x}\]
+    要求$\hat{D}$在基$\{\ket{x}\}$($x$表象)下的矩阵表示，就是要求$\hat{D}$的矩阵元$D_{xx'} = \bra{x}\hat{D}\ket{x'}$.
+    \begin{align*}
+        \hat{D}\ket{f} &= \ket{\frac{\dd}{\dd x}f} \\
+        \bra{x}\hat{D}\ket{f} &= \bra{x}\ket{\frac{\dd}{\dd x} f} \\
+        \int_{-\infty}^{+\infty}\bra{x}\hat{D}\ket{x'}\bra{x'}\ket{f} \dd{x'} &= \bra{x}\ket{\frac{\dd}{\dd{x'}}} = \ket{x}\ket{\frac{\dd}{\dd x} f}
+    \end{align*}
 \end{extension}
 
 \section{自旋1/2系统的矩阵表示}
