@@ -395,6 +395,124 @@ $$\frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{-ikx'} \delta(x - x') \dd{x'
         \Rightarrow \delta'(x-x') = \delta(x-x')\frac{\dd}{\dd{x'}}
     \end{align*}
 \end{extension}
+\begin{proposition}
+    求导算符是反厄米算符.
+\end{proposition}
+\begin{proof}
+    即证明$\hat{D}^{\dagger} = (\hat{D}^{*})^{\top} = -\hat{D} \Rightarrow D_{xx'} = -D^*_{x'x}$.
+    \begin{align*}
+        D^*_{x'x} &=  [\delta ' (x'-x)]^* \quad \text{$\delta$函数的实值性}\\
+        &= \delta ' (x'-x) \quad \text{偶函数的一阶导是奇函数} \\
+        &= -\delta ' (x-x') \\
+        &= -D_{xx'}
+    \end{align*}
+\end{proof}
+
+可见，由反厄米算符构造厄米算符只需乘以一个$i$.
+
+\begin{extension}{位置算符$\hat{X}$}
+    有本征方程：
+    \begin{align*}
+        \hat{X}\ket{x_j} &= x_j \ket{x_j} \\
+        \bra{a_i}\hat{X}\ket{x_j} &= x_j\braket{x_i}{x_j} \\
+        X_{ij} &= x_j \delta(x_i - x_j)
+    \end{align*}
+    因此$X$在$x$表象下的矩阵为对角阵.
+\end{extension}
+
+\subsection{无穷维下的厄米算符}
+\begin{proposition}
+    若$\hat{K}$为厄米算符，则$\braket{\hat{K}f}{g} = \bra{f}\hat{K}\ket{g} = \braket{f}{\hat{K}g}$.
+\end{proposition}
+\begin{proof}
+    $$\langle \hat{K} f | = ( | \hat{K} f \rangle )^{\dagger} = \langle f | \hat{K} \implies \langle \hat{K} f | g \rangle = \langle f | \hat{K} g \rangle$$
+\end{proof}
+这是厄米算符的另一种判据，在不易求得$\hat{K}^{\top}$时可用.
+\begin{question}
+    说明$\hat{K} = -i \frac{\dd}{\dd x}$在什么情况下是厄米算符.
+\end{question}
+\begin{solution}
+    根据厄米算符的性质：
+    $$\langle \hat{K} f | g \rangle = \langle f | \hat{K} g \rangle$$
+    \begin{align*}
+        \text{左边} &= \int_a^b (\hat{K} f)^* g \dd x \\
+        &= \int_a^b i \frac{\dd}{\dd x} f^* g \dd x \\
+        &= \int_a^b i g \dd{f^*} \\
+        &= i g f^* \big|_a^b - \int_a^b i f^* \dd g \\
+        &= i g f^* \big|_a^b + \int_a^b f^* (-i \frac{\dd}{\dd x} g) \dd x \\
+        &= \langle f | \hat{K} g \rangle + i g f^* \big|_a^b
+    \end{align*}
+    显然，只有边界项$i f^* g \big|_a^b = 0$时$\hat{K} = -i \frac{\dd}{\dd x}$才是厄米算符.
+\end{solution}
+
+这表明一个算符是否为厄米算符还与其所作用的态有关.
+
+\subsection{力学量的平均值}
+以位置为例，$|\psi(x)|^2$表示粒子在$x$处出现的概率密度$\rho(x)$.
+
+$x$在全空间上的均值：
+\begin{align*}
+    \bar{x} &= \int_{-\infty}^{+\infty} x \rho(x) \dd x \\
+    &= \int_{-\infty}^{+\infty} x |\psi(x)|^2 \dd x \\
+    &= \int_{-\infty}^{+\infty} x \cdot \psi^(x) \cdot \psi(x) \dd x \\
+    &= \int_{-\infty}^{+\infty} \psi^(x) \cdot x \cdot \psi(x) \dd x \\
+    &= \langle \psi | x | \psi \rangle \quad \text{记作 } \langle x \rangle
+\end{align*}
+
+对任意力学量$\hat{\Omega}$，在$\ket{\psi}$态下对其测量时总是会落入对应特定本征值$\omega_i$的本征态$\ket{\omega_i}$，相应的概率为$p_i = |\langle \omega_i | \psi \rangle|^2$.
+
+力学量$\hat{\Omega}$在某个态$\ket{\psi}$下的平均值为：
+\begin{align*}
+    \bar{\Omega} &= \sum_i p_i \omega_i \\
+    &= \sum_i |\langle \omega_i | \psi \rangle|^2 \omega_i \\
+    &= \sum_i \langle \psi | \omega_i \rangle \langle \omega_i | \psi \rangle \omega_i \\
+    &= \sum_i \langle \psi | \omega_i | \omega_i \rangle \langle \omega_i | \psi \rangle \quad (\hat{\Omega} \text{ 的本征方程 } \hat{\Omega} |\omega_i\rangle = \omega_i |\omega_i\rangle) \\
+    &= \sum_i \langle \psi | \hat{\Omega} | \omega_i \rangle \langle \omega_i | \psi \rangle \\
+    &= \langle \psi | \hat{\Omega} | \psi \rangle \quad \text{记作 } \langle \hat{\Omega} \rangle
+\end{align*}
+
+\subsection{对应原理}
+Bohr认为在微观、少粒子的情况下，体系表现出量子力学特性；当逐渐趋于宏观，大量粒子的情况时。其统计结果逐步趋向于经典力学.
+\begin{derivation}
+    自由粒子速度的平均值：
+    \begin{align*}
+        \bar{v} &= \frac{\dd \bar{x}}{\dd t} \\
+        &= \frac{\dd}{\dd t} \int_{-\infty}^{+\infty} x |\psi(x,t)|^2 \dd x \\
+        &= \int_{-\infty}^{+\infty} \left( \frac{\partial}{\partial t} x \cdot |\psi(x,t)|^2 + x \cdot \frac{\partial}{\partial t} |\psi(x,t)|^2 \right) \dd x \\
+        &= \int_{-\infty}^{+\infty} x \cdot \frac{\partial}{\partial t} |\psi(x,t)|^2 \dd x \\
+        &= \int_{-\infty}^{+\infty} x \cdot \underbrace{\left[ \psi \frac{\partial}{\partial t} \psi^* + \psi^* \frac{\partial}{\partial t} \psi \right]}_{\text{代入Schrödinger方程}} \dd x \\
+        &= \int_{-\infty}^{+\infty} x \cdot \left[ \psi \left( \frac{i}{\hbar} \hat{H} \psi^* \right) - \psi^* \left( \frac{i}{\hbar} \hat{H} \psi \right) \right] \dd x \\
+        &= \int_{-\infty^{+\infty}} x \cdot \frac{i}{\hbar} \cdot \frac{\hbar^2}{2\mu} \left[ \psi^* \frac{\partial^2}{\partial x^2} \psi - \frac{\partial^2}{\partial x^2} \psi^* \cdot \psi \right] \dd x \\
+        &= \int_{-\infty}^{+\infty} x \cdot \frac{i\hbar}{2\mu} \cdot {\frac{\partial}{\textcolor{BlueDeep}{\partial x}} \left[ \psi^* \frac{\partial}{\partial x} \psi - \frac{\partial}{\partial x} \psi^* \cdot \psi \right] \textcolor{BlueDeep}{\dd x}} \\
+        &= \int_{-\infty}^{+\infty} x \cdot \frac{i\hbar}{2\mu} \textcolor{BlueDeep}{\dd \left[ \psi^* \frac{\partial}{\partial x} \psi - \frac{\partial}{\partial x} \psi^* \cdot \psi \right]} \\
+        &= \frac{i\hbar}{2\mu} \left\{\textcolor{OrangeDeep}{\underbrace{\left[ x \cdot \left( \psi^* \frac{\partial}{\partial x} \psi - \frac{\partial}{\partial x} \psi^* \cdot \psi \right) \right]_{-\infty}^{+\infty}}_{\text{波函数在无穷远处为$0$}}} - \int_{-\infty}^{+\infty} \left[ \psi^* \frac{\partial}{\partial x} \psi - {\frac{\partial}{\textcolor{BlueDeep}{\partial x}} \psi^* \cdot \psi} \right] \textcolor{BlueDeep}{\dd x} \right\} \\
+        &= \textcolor{OrangeDeep}{0} - \frac{i\hbar}{2\mu} \left\{ \int_{-\infty}^{+\infty} \left[ \psi^* \frac{\partial}{\partial x} \psi \right] \dd x - \int_{-\infty}^{+\infty} \psi \dd \psi^* \right\} \\
+        &= -\frac{i\hbar}{2\mu} \left\{ \int_{-\infty}^{+\infty} \left[ \psi^* \frac{\partial}{\partial x} \psi \right] \dd x - \left[ \textcolor{OrangeDeep}{\psi^* \psi \Big|_{-\infty}^{+\infty}} - \textcolor{PurpleDeep}{\int_{-\infty}^{+\infty} \psi^* \dd \psi} \right] \right\} \\
+        &= -\frac{i\hbar}{2\mu} \left\{ \int_{-\infty}^{+\infty} \left[ \psi^* \frac{\partial}{\partial x} \psi \right] \dd x + \textcolor{PurpleDeep}{\int_{-\infty}^{+\infty} \left[ \psi^* \frac{\partial}{\partial x} \psi \right] \dd x} \right\} \\
+        &= \int_{-\infty}^{+\infty} \psi^* \frac{-i\hbar}{\mu} \frac{\partial}{\partial x} \psi \dd x \\
+        &= \left\langle \psi \middle| \frac{-i\hbar}{\mu} \frac{\partial}{\partial x} \middle| \psi \right\rangle \\
+        &= \langle v_x \rangle
+    \end{align*}
+    令：
+    $$\hat{v}_x \equiv -\frac{i\hbar}{\mu}\frac{\partial}{\partial x}$$
+    则动量算符：
+    $$\hat{p} = -i\hbar \frac{\partial}{\partial x}$$
+    它是一个厄米算符.
+\end{derivation}
+
+\subsection{量子力学的五大假设}
+\begin{enumerate}
+    \item \textbf{态假设} \\
+    粒子的状态由Hilbert空间中的态矢量$\ket{\psi(t)}$完备地描述.
+    \item \textbf{力学量假设} \\
+    力学量由厄米算符描述.
+    \item \textbf{测量假设} \\
+    在$\ket{\psi}$态中对力学量$\hat{\Omega}$进行测量，会得到其本征值$\omega_i$，归一化后相应的概率为$|\braket{\omega_i}{\psi}|^2$，其中$\ket{\omega_i}$为$\omega_i$所对应的本征态.
+    \item \textbf{演化假设} \\
+    态的演化服从含时Schrödinger方程$i\hbar \frac{\partial}{\partial t}\ket{\psi(t)} = \hat{H}\ket{\psi(t)}$.
+    \item \textbf{全同粒子假设} \\
+    内禀属性完全相同的粒子不可分辨.
+\end{enumerate}
 
 \section{自旋1/2系统的矩阵表示}
 
