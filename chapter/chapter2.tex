@@ -610,24 +610,126 @@ $$\hat{S}_x = \begin{bmatrix} \frac{\hbar}{2} & 0 \\ 0 & -\frac{\hbar}{2} \end{b
 
 
 \section{(不)相容力学量和对易关系}
+\begin{definition}
+    \begin{itemize}
+        \item 称一个力学量$\hat{A}$的本征态对于另一个力学量$\hat{B}$而言是叠加态(从而$\hat{A},\hat{B}$无法同时取确定的值)的力学量为\textbf{不相容力学量}.
+        \item 称存在一组共同的本征态力学量$\hat{A}$和力学量$\hat{B}$为\textbf{相容力学量}.
+    \end{itemize}
+\end{definition}
+
+算符对应测量，若$\hat{A},\hat{B}$可同时取确定的值，则先测$\hat{A}$还是$\hat{B}$无区别.
+
+故而有$\hat{A}\hat{B}=\hat{A}\hat{B},[\hat{A},\hat{B}]=0$.
+
+\begin{proposition}
+    当且仅当$[\hat{A},\hat{B}]=0$，力学量$\hat{A}$和力学量$\hat{B}$存在一组共同的本征态.
+\end{proposition}
+\begin{proof}
+    \textbf{充分性：}
+
+    设二者有共同本征态$\{\ket{n}\}$，即$\begin{cases} \hat{A}\ket{n} = a_n\ket{n} \\ \hat{B}\ket{n} = b_n\ket{n} \end{cases}$
+
+    算符只有作用在一个态上才有意义：
+    \begin{align*}
+        \comm{\hat{A}}{\hat{B}}\ket{\psi} &= (\hat{A}\hat{B} - \hat{B}\hat{A})\hat{I}\ket{\psi} \\
+        &= \sum_{n} (\hat{A}\hat{B} - \hat{B}\hat{A})\ket{n}\bra{n}\ket{\psi} \\
+        &= \sum_{n} (\hat{A}b_n - \hat{B}a_n)\ket{n}\bra{n}\ket{\psi} \\
+        &= \sum_{n} (a_n b_n - b_n a_n)\ket{n}\bra{n}\ket{\psi} \\
+        &= 0 \quad \Rightarrow \comm{\hat{A}}{\hat{B}} = 0
+    \end{align*}
+    \rule{\textwidth}{0.4pt}
+    \textbf{必要性：}
+
+    设$\ket{n}$是$\hat{A}$的本征态：
+    \begin{align*}
+        0 &= \comm{\hat{A}}{\hat{B}}\ket{n} \\
+        &= (\hat{A}\hat{B} - \hat{B}\hat{A})\ket{n} \\
+        &= (\hat{A}\hat{B} - \hat{B}a_n)\ket{n} \quad \Rightarrow \hat{A}\hat{B}\ket{n} = a_n \hat{B}\ket{n}
+    \end{align*}
+    则$\hat{B}\ket{n}$是$\hat{A}$的本征矢，对应本征值$a_n$.
+    \begin{itemize}
+        \item \textbf{若$a_n$非简并：} \\
+        于是$\hat{B}\ket{n}$与$\ket{n}$是同一个态.\\
+        则$\hat{B}\ket{n}=b_n\ket{n}$(本征矢的长度没有意义). \\
+        因此$\ket{n}$也是$\hat{B}$的本征态.
+        \item \textbf{若$a_n$存在简并：} \\
+        表明$a_n$对应的多个本征值构成了一个本征子空间，且经过$\hat{B}$作用的$\ket{n}$(即$\hat{B}\ket{n}$)对应本征值$a_n$. \\
+        也就是说，$\hat{B}\ket{n}$也在$a_n$对应的本征子空间中. \\
+        将$\hat{B}$在该本征子空间中的表象对角化，根据定理：
+        \begin{center}
+            \textit{算符在用其自身的一组正交归一本征矢构成的基下表示为一个对角矩阵}
+        \end{center}
+        对角化构造了该本征子空间中的一组新的基，且这组基是由$\hat{B}$的正交归一本征矢构成的. \\
+        这个新基必然可以在$\ket{n}$所在的原基上被线性表出，而$a_n$所对应的本征矢的线性组合仍是对应$a_n$的本征矢. \\
+        即新基也是对应本征值$a_n$的$\hat{A}$的本征矢，又是$\hat{B}$对应另一本征值$b_n$的本征矢. \\
+        所以$\hat{A},\hat{B}$有一组共同的本征态.
+    \end{itemize}
+\end{proof}
+
+\subsection{基本对易关系}
+计算$\comm{x}{\hat{P}_X}$：
+
+将$\comm{x}{\hat{P}_X}$作用在任意波函数上：
+\begin{align*}
+    \comm{x}{\hat{p}_x} \psi(x) &= (x \hat{p}_x - \hat{p}_x x) \psi(x) \\
+    &= -i\hbar \left\{ x \frac{d}{dx} \psi(x) - \frac{d}{dx} [x \psi(x)] \right\} \\
+    &= -i\hbar \left\{ x \frac{d}{dx} \psi(x) - \left[ \psi(x) + x \frac{d}{dx} \psi(x) \right] \right\} \\
+    &= i\hbar \psi(x) \quad \Rightarrow \comm{x}{\hat{p}_x} = i\hbar \quad \text{基本对易关系}
+\end{align*}
+
+\subsection{对易式基本性质}
+\begin{itemize}
+    \item $\comm{\hat{A}}{\hat{B}} = -\comm{\hat{B}}{\hat{A}}$
+    \item $\comm{\hat{A}}{f(\hat{A})} = 0$
+    \item $\comm{\hat{A}}{\text{const}} = 0$
+    \item $\comm{\hat{A}}{\hat{B} + \hat{C}} = \comm{\hat{A}}{\hat{B}} + \comm{\hat{A}}{\hat{C}}$
+    \item $\comm{\hat{A}}{\hat{B}\hat{C}} = \hat{B}\comm{\hat{A}}{\hat{C}} + \comm{\hat{A}}{\hat{B}}\hat{C}$
+    \item $\comm{\hat{A}\hat{B}}{\hat{C}} = \hat{A}\comm{\hat{B}}{\hat{C}} + \comm{\hat{A}}{\hat{C}}\hat{B}$
+    \item $\comm{\hat{A}}{\comm{\hat{B}}{\hat{C}}} + \comm{\hat{B}}{\comm{\hat{C}}{\hat{A}}} + \comm{\hat{C}}{\comm{\hat{A}}{\hat{B}}} = 0$ \quad 雅可比恒等式
+\end{itemize}
+\begin{extension}{}
+    \begin{itemize}
+        \item \textbf{计算$\comm{x}{-\frac{\hbar^2}{2\mu} \hat{p}^2 + V(x)}$}
+        \begin{align*}
+            \comm{x}{-\frac{\hbar^2}{2\mu} \hat{p}^2 + V(x)} &= -\frac{\hbar^2}{2\mu} \comm{x}{\hat{p}^2} + \comm{x}{V(x)} \\
+            &= -\frac{\hbar^2}{2\mu} (\hat{p} \comm{x}{\hat{p}} + \comm{x}{\hat{p}} \hat{p}) \\
+            &= -\frac{i\hbar^3}{\mu} \hat{p}
+        \end{align*}
+        \item \textbf{计算$\comm{\hat{p}}{f(x)}$}
+        \begin{align*}
+            \comm{\hat{p}}{f(x)} \psi(x) &= -i\hbar \left[ \pdv{x} f(x) - f(x) \pdv{x} \right] \psi(x) \\
+            &= -i\hbar \left[ \pdv{x} (f(x) \psi(x)) - f(x) \pdv{x} \psi(x) \right] \\
+            &= \left[ -i\hbar \pdv{x} f(x) \right] \psi(x) \\
+            \Rightarrow \comm{\hat{p}}{f(x)} &= -i\hbar \pdv{x} f(x) = \comm{\hat{p}}{x} \pdv{x} f(x)
+        \end{align*}
+        \item \textbf{计算$\comm{x}{f(\hat{p})}$} \\
+        \[\comm{x}{f(\hat{p})} = \comm{x}{\hat{p}} \frac{\partial}{\partial \hat{p}} f(\hat{p})\]
+    \end{itemize}
+\end{extension}
 
 
 \section{力学量完全集(CSCO)}
 
 
+
 \section{Heisenberg不确定性原理和Ehrenfest定理}
+
 
 
 \section{表象变换}
 
 
+
 \section{动量表象波函数}
+
 
 
 \section{动量表象位置算符}
 
 
+
 \section{动量表象下的能量本征方程}
+
 
 
 \section{动量与空间平移算符}
