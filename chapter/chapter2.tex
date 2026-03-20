@@ -702,17 +702,30 @@ $$\hat{S}_x = \begin{bmatrix} \frac{\hbar}{2} & 0 \\ 0 & -\frac{\hbar}{2} \end{b
             &= \left[ -i\hbar \pdv{x} f(x) \right] \psi(x) \\
             \Rightarrow \comm{\hat{p}}{f(x)} &= -i\hbar \pdv{x} f(x) = \comm{\hat{p}}{x} \pdv{x} f(x)
         \end{align*}
-        \item \textbf{计算$\comm{x}{f(\hat{p})}$} \\
+        \item \textbf{计算$\comm{x}{f(\hat{p})}$}
         \[\comm{x}{f(\hat{p})} = \comm{x}{\hat{p}} \frac{\partial}{\partial \hat{p}} f(\hat{p})\]
     \end{itemize}
 \end{extension}
 
 
 \section{力学量完全集(CSCO)}
-
+\begin{itemize}
+    \item 若本征值非简并，则只对某力学量$\hat{A}$测得$a_n$就能确定系统处于本征态$\ket{n}$，称$\hat{A}$构成了该体系的一组\overtext{力学量完全集}{complet set of commuting observables}(CSCO).
+    \item 若本征值简并，只测得$a_n$只能确定系统的状态处于$a_n$对应的本征子空间(本征矢族$\{a_n^{(i)}\}$及其所有线性组合，$i$为简并重数)中. \\
+    由此，引入进一步的测量$\hat{B}$，$\hat{B}$应与$\hat{A}$对易，否则会破坏$\hat{A}$的测量结果.\\
+    通过$\hat{A}$的本征态矢线性组合为$\hat{B}$的本征态矢，新本征态矢仍关于$\hat{A}$简并，不一定关于$\hat{B}$简并.
+    \begin{itemize}
+        \item 若关于$\hat{B}$非简并，则$\hat{A},\hat{B}$唯一地确定了系统的状态，称$\{\hat{A},\hat{B}\}$构成了该体系的一组CSCO.
+        \item 若关于$\hat{B}$简并，重复上述操作，引入对易的测量$\hat{C},\hat{d},\cdots,\hat{\Omega}_n$直至非简并，称$\{\hat{C},\hat{d},\cdots,\hat{\Omega}_n\}$构成了该体系的一组CSCO.
+    \end{itemize}
+\end{itemize}
+显然，CSCO中力学量的个数对应系统的自由度.对同一系统，构成它CSCO的力学量可以不同，但力学量个数是固定的.
 
 
 \section{Heisenberg不确定性原理和Ehrenfest定理}
+若$\comm{\hat{A}}{\hat{B}} \neq 0$，则在一般态下$\hat{A}$与$\hat{B}$的不确定度不能同时取0，这是否意味着$\Delta\hat{A}\Delta\hat{B}>0$呢？
+
+\subsection{广义Heisenberg不确定性原理}
 
 
 
