@@ -723,10 +723,89 @@ $$\hat{S}_x = \begin{bmatrix} \frac{\hbar}{2} & 0 \\ 0 & -\frac{\hbar}{2} \end{b
 
 
 \section{Heisenberg不确定性原理和Ehrenfest定理}
-若$\comm{\hat{A}}{\hat{B}} \neq 0$，则在一般态下$\hat{A}$与$\hat{B}$的不确定度不能同时取0，这是否意味着$\Delta\hat{A}\Delta\hat{B}>0$呢？
+\begin{question}
+    若$\comm{\hat{A}}{\hat{B}} \neq 0$，则在一般态下$\hat{A}$与$\hat{B}$的不确定度不能同时取0，这是否意味着$\Delta\hat{A}\Delta\hat{B}>0$呢？
+\end{question}
 
 \subsection{广义Heisenberg不确定性原理}
+\begin{derivation}
+根据概率论，方差：
+\begin{align*}
+    (\Delta \hat{A})^2 &= \ev{(\hat{A} - \ev{\hat{A}})^2} \\
+    &= \mel{\psi}{(\hat{A} - \ev{\hat{A}})^2}{\psi} \\
+    &= \mel{\psi}{\hat{A}^2}{\psi} - \mel{\psi}{2\ev{\hat{A}}\hat{A}}{\psi} + \mel{\psi}{\ev{\hat{A}}^2}{\psi} \\
+    &= \ev{\hat{A}^2} - \ev{\hat{A}}^2
+\end{align*}
+注意到：
+\begin{align*}
+    (\Delta \hat{A})^2 &= \ev{\hat{A}^2} - \ev{\hat{A}}^2 \\
+    &= \mel{\psi}{\hat{A}^2}{\psi} - \ev{\hat{A}}^2 \braket{\psi}{\psi} \\
+    &= \mel{\psi}{\hat{A}^2}{\psi} - 2\ev{\hat{A}}^2 \braket{\psi}{\psi} + \ev{\hat{A}}^2 \braket{\psi}{\psi} \\
+    &= (\bra{\psi}\hat{A} - \bra{\psi}\ev{\hat{A}}) \cdot (\hat{A}\ket{\psi} - \ev{\hat{A}}\ket{\psi}) \\
+    &= \braket{(\hat{A} - \ev{\hat{A}})\psi}{(\hat{A} - \ev{\hat{A}})\psi} \quad \text{令 } \ket{(\hat{A} - \ev{\hat{A}})\psi} = \ket{f} \\
+    &= \braket{f}{f}
+\end{align*}
+同理$(\Delta \hat{B})^2 = \braket{g}{g}$.
+由Cauthy-Schwarz不等式$|\braket{u}{v}|^2 \le \braket{u}{u}\braket{v}{v}$：
+\[(\Delta \hat{A})^2 (\Delta \hat{B})^2 = \braket{f}{f}\braket{g}{g} \ge |\braket{f}{g}|^2\]
+令$\braket{f}{g}=z=x+iy$，有：
+\[|z|^2 = x^2 + y^2 \ge y^2 = \left[ \frac{1}{2i}(z - z^*) \right]^2\]
+即：
+\[(\Delta \hat{A})^2 (\Delta \hat{B})^2 \ge |\braket{f}{g}|^2 \ge \left[ \frac{1}{2i}(\braket{f}{g} - \braket{g}{f}) \right]^2\]
+其中：
+\begin{align*}
+    \braket{f}{g} &= \braket{(\hat{A} - \ev{\hat{A}})\psi}{(\hat{B} - \ev{\hat{B}})\psi} \\
+    &= \mel{\psi}{(\hat{A} - \ev{\hat{A}})(\hat{B} - \ev{\hat{B}})}{\psi} \\
+    &= \mel{\psi}{(\hat{A}\hat{B} - \hat{A}\ev{\hat{B}} - \ev{\hat{A}}\hat{B} + \ev{\hat{A}}\ev{\hat{B}})}{\psi} \\
+    &= \ev{\hat{A}\hat{B}} - \ev{\hat{A}}\ev{\hat{B}}
+\end{align*}
+同理有$\braket{g}{f}=\ev{\hat{B}\hat{A}} - \ev{\hat{B}}\ev{\hat{A}}$，因此：
+$$\braket{f}{g} - \braket{g}{f} = \ev{\hat{A}\hat{B}} - \ev{\hat{B}\hat{A}} = \ev{[\hat{A}, \hat{B}]}$$
+则：
+$$(\Delta \hat{A})^2 (\Delta \hat{B})^2 \ge \left[ \frac{1}{2i} (\braket{f}{g} - \braket{g}{f}) \right]^2 = \left[ \frac{1}{2i} \ev{[\hat{A}, \hat{B}]} \right]^2$$
+故而有：
+$$\Delta \hat{A} \Delta \hat{B} \ge \left| \frac{1}{2i} \ev{[\hat{A}, \hat{B}]} \right|$$
+这就是\overtext{广义}{global}\textbf{Heisenberg}\overtext{不确定性原理}{uncertainty principle}
+\end{derivation}
+根据上述原理，可以算得：
+\begin{itemize}
+    \item $\Delta x \Delta \hat{p} \ge \left| \frac{1}{2i} \ev{[x, \hat{p}]} \right| = \left| \frac{1}{2i} \cdot i\hbar \right| = \frac{\hbar}{2}$
+    \item $\Delta \hat{S}_x \Delta \hat{S}_y \ge \frac{1}{2i} \ev{[\hat{S}_x, \hat{S}_y]} = \frac{1}{2i} \ev{i\hbar \hat{S}_z} = \frac{\hbar}{2} \ev{\hat{S}_z}$
+\end{itemize}
 
+\subsection{时间-能量不确定性原理和Ehrenfest定理}
+$$\Delta E \Delta t \ge \frac{\hbar}{2}$$
+式中$\Delta t$不是指时间不确定度。在非相对论量子力学中，时间与空间不平权，时间不是力学量。
+
+考虑某状态 $\ket{\psi}$ 中某个可观测量 $\hat{Q}$ 的期望值随时间的变化：
+\begin{align*}
+    \frac{d}{dt} \ev{\hat{Q}} &= \frac{d}{dt} \mel{\psi}{\hat{Q}}{\psi} \\
+    &= \braket{\pdv{t}\psi}{\hat{Q}|\psi} + \mel{\psi}{\pdv{\hat{Q}}{t}}{\psi} + \mel{\psi}{\hat{Q}}{\pdv{t}\psi} \\
+    &= \braket{\pdv{t}\psi}{\hat{Q}|\psi} + \mel{\psi}{\hat{Q}}{\pdv{t}\psi} + \ev{\pdv{\hat{Q}}{t}} \\
+    \intertext{{由 Schrödinger 方程$i\hbar \pdv{t} \ket{\psi} = \hat{H} \ket{\psi}$，两边同取厄米共轭$-i\hbar \pdv{t} \bra{\psi} = \bra{\psi} \hat{H}$，代入：}}
+    &= \frac{i}{\hbar} \mel{\psi}{\hat{H}\hat{Q}}{\psi} - \frac{i}{\hbar} \mel{\psi}{\hat{Q}\hat{H}}{\psi} + \ev{\pdv{\hat{Q}}{t}} \\
+    &= \frac{i}{\hbar} \ev{[\hat{H}, \hat{Q}]} + \ev{\pdv{\hat{Q}}{t}}
+\end{align*}
+综上，有：
+\begin{theorem}
+    \textbf{Ehrenfest定理}：
+    \[\begin{cases}
+        \frac{d}{dt} \ev{\hat{Q}} &= \frac{1}{i\hbar} \ev{[\hat{Q}, \hat{H}]} + \ev{\pdv{\hat{Q}}{t}} \\
+        \frac{d}{dt} \ev{\hat{Q}} &= \frac{1}{i\hbar} \ev{[\hat{Q}, \hat{H}]} \quad \text{$\hat{Q}$不显含时间的退化形式}
+    \end{cases}\]
+\end{theorem}
+
+由广义Heisenberg不确定性原理：
+\begin{align*}
+    \Delta \hat{Q} \Delta \hat{H} &\ge \left| \frac{1}{2i} \ev{[\hat{Q}, \hat{H}]} \right| = \left| \frac{\hbar}{2} \frac{d}{dt} \ev{\hat{Q}} \right| \\
+    \Delta \hat{H} \frac{\Delta \hat{Q}}{\left| \frac{d}{dt} \ev{\hat{Q}} \right|} &\ge \frac{\hbar}{2}
+\end{align*}
+有$\Delta t = \frac{\Delta \hat{Q}}{\left| \frac{d}{dt} \ev{\hat{Q}} \right|},\Delta H=\Delta E$，则：
+$$\Delta E \Delta t \ge \frac{\hbar}{2}$$
+
+$\Delta \hat{Q}$ 是 $\hat{Q}$ 的一个标准差，而 $\frac{d}{dt} \ev{\hat{Q}}$ 是 $\ev{\hat{Q}}$ 变化的速率。
+
+$\Delta t$ 的物理意义为 $\ev{\hat{Q}}$ 变化一个标准差所用的时间。
 
 
 \section{表象变换}
