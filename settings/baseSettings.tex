@@ -212,7 +212,7 @@
 
 % 定义“定理”环境
 \newcounter{theorem}[section]
-\renewcommand{\thetheorem}{\thechapter-\arabic{theorem}}
+\renewcommand{\thetheorem}{\thesection-\arabic{theorem}}
 \newtcolorbox{theorem}[1][]{
     myThemStyle,
     colback=BlueLight,   % 背景色
@@ -226,7 +226,7 @@
 
 % 定义“定义”环境
 \newcounter{definition}[section]
-\renewcommand{\thedefinition}{\thechapter-\arabic{definition}}
+\renewcommand{\thedefinition}{\thesection-\arabic{definition}}
 \newtcolorbox{definition}[1][]{
     myThemStyle,
     colback=YellowLight,   % 背景色
