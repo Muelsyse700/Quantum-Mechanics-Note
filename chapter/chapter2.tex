@@ -970,8 +970,37 @@ f_x(p) = \braket{p}{x} = \braket{x}{p}^* = \frac{1}{2\pi \hbar} e^{-ipx/\hbar} \
 
 
 \section{动量表象位置算符}
+\subsection{\texorpdfstring{$\hat{p}$表象下的 $\hat{X}$ 矩阵元}{p表象下的X矩阵元}}
+\begin{align*}
+    X_{p'p} &= \bra{p'} \hat{X} \ket{p} \\
+    &= \iint \bra{p'} x' \rangle \textcolor{PurpleDeep}{\bra{x'} \hat{X} \ket{x}} \bra{x} p \rangle \dd{x'} \dd{x} \\
+    &= \iint \frac{1}{\sqrt{2\pi\hbar}} e^{-ip'x'/\hbar} \textcolor{PurpleDeep}{x \bra{x'} x \rangle} \frac{1}{\sqrt{2\pi\hbar}} e^{ipx/\hbar} \dd{x'} \dd{x} \\
+    &= \frac{1}{2\pi\hbar} \int \underbrace{\left[\textcolor{BlueDeep}{\int e^{-ip'x'/\hbar}} \textcolor{PurpleDeep}{x \delta(x-x')} \textcolor{BlueDeep}{\dd{x'}} \right]}_{\textcolor{BlueDeep}{\text{$\delta$函数的采样性}}} e^{ipx/\hbar} \dd{x} \\
+    &= \frac{1}{2\pi\hbar} \int \textcolor{BlueDeep}{x} e^{-ip'\textcolor{BlueDeep}{x}/\hbar} e^{ipx/\hbar} \dd{x} \\
+    &= \frac{1}{2\pi\hbar} \int \textcolor{OrangeDeep}{i\hbar \frac{d}{dp'} e^{-ip'x/\hbar}} e^{ipx/\hbar} \dd{x} \\
+    &= \frac{1}{2\pi\hbar} \textcolor{OrangeDeep}{i\hbar \frac{d}{dp'}} \int \textcolor{OrangeDeep}{e^{-ip'x/\hbar}} e^{ipx/\hbar} \dd{x} \\
+    &= i\hbar \frac{d}{dp'} \int \bra{p'} x \rangle \bra{x} p \rangle \dd{x} \\
+    &= i\hbar \frac{d}{dp'} \bra{p'} p \rangle \\
+    &= i\hbar \frac{d}{dp'} \delta(p'-p)
+\end{align*}
 
+\subsection{\texorpdfstring{$\hat{X}$的算符形式}{X的算符形式}}
+考虑 $\ket{\varphi} = \hat{X} \ket{\phi}$，使之在 $p$ 表象中表示 $\bra{p} \ket{\varphi} = \hat{X} \bra{p} \ket{\phi}$：
 
+用矩阵乘法写为 
+$\begin{bmatrix} \vdots \\ \bra{p} \ket{\varphi} \\ \vdots \end{bmatrix} = \begin{bmatrix} & & \\ & X_{pp'} & \\ & & \end{bmatrix} \begin{bmatrix} \vdots \\ \bra{p'} \ket{\phi} \\ \vdots \end{bmatrix}$
+\begin{align*}
+    \text{则 } \bra{p}\ket{\varphi} &= \varphi_p \\
+    &= \int_{-\infty}^{+\infty} \textcolor{PurpleDeep}{X_{pp'}} \textcolor{BlueDeep}{\bra{p'}\ket{\phi}} \dd{p'} \\
+    \intertext{$X$是厄米算符，有$X_{pp'} = X^*_{p'p} = \left[i\hbar \frac{\dd}{\dd{p'}}\delta(p'-p)\right]^* = -X_{p'p}$}：
+    &= \textcolor{PurpleDeep}{-} \int_{-\infty}^{+\infty} \textcolor{PurpleDeep}{X_{p'p}} \textcolor{BlueDeep}{\phi_{p'}} \dd{p'} \\
+    &= -\int_{-\infty}^{+\infty} i\hbar \left[ \frac{d}{\textcolor{OrangeDeep}{dp'}} \delta(p'-p) \right] \phi_{p'} \textcolor{OrangeDeep}{\dd{p'}} \\
+    &= -\int_{-\infty}^{+\infty} i\hbar \phi_{p'} \dd{[\delta(p'-p)]} \\
+    &= \textcolor{PurpleDeep}{\left[ -i\hbar \phi_{p'} \delta(p-p') \right]_{-\infty}^{+\infty}} + i\hbar \int_{-\infty}^{+\infty} \delta(p-p') \frac{d}{dp'} \phi_{p'} \dd{p'} \\
+    \intertext{波函数在无穷远处取$0$：}
+    &= i\hbar \frac{d}{dp} \phi_p
+\end{align*}
+即$\varphi_p = i\hbar\frac{\dd}{\dd p}\phi_p \Rightarrow \hat{X} = i\hbar\frac{\dd}{\dd p}$.
 
 \section{动量表象下的能量本征方程}
 
