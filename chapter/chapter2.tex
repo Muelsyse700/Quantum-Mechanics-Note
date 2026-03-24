@@ -950,7 +950,7 @@ $\text{为求 } \braket{p}{x} \text{，先求 } \braket{x}{p} \text{，令 } f_p
     &=\int \braket{x}{p} \braket{p}{x'} \dd p \\
     &=\int Ce^{\frac{ipx}{\hbar}} \cdot C^* e^{-\frac{ipx}{\hbar}} \dd p \\
     &=|C|^2 \int e^{ip(x-x')/\hbar} \dd p \\
-    \intertext{由$\delta(x-x')的Fourier变换$$\delta(x-x') = \frac{1}{2\pi} \int^{+\infty}_{-\infty} e^{ik(x'-x)} \dd k$}：
+    \intertext{由$\delta(x-x')$的Fourier变换$\delta(x-x') = \frac{1}{2\pi} \int^{+\infty}_{-\infty} e^{ik(x'-x)} \dd k$：}
     &=|C|^2 \int e^{ik(x-x')} \dd{\hbar k} \\
     \intertext{代入de Brogile关系$p=\hbar k$：}
     &=|C|^2 2\pi \hbar \delta(x-x') \Rightarrow C=\frac{1}{\sqrt{2\pi \hbar}}
@@ -992,7 +992,7 @@ $\begin{bmatrix} \vdots \\ \bra{p} \ket{\varphi} \\ \vdots \end{bmatrix} = \begi
 \begin{align*}
     \text{则 } \bra{p}\ket{\varphi} &= \varphi_p \\
     &= \int_{-\infty}^{+\infty} \textcolor{PurpleDeep}{x_{pp'}} \textcolor{BlueDeep}{\bra{p'}\ket{\phi}} \dd{p'} \\
-    \intertext{$x$是厄米算符，有$x_{pp'} = x^*_{p'p} = \left[i\hbar \frac{\dd}{\dd{p'}}\delta(p'-p)\right]^* = -x_{p'p}$}：
+    \intertext{$x$是厄米算符，有$x_{pp'} = x^*_{p'p} = \left[i\hbar \frac{\dd}{\dd{p'}}\delta(p'-p)\right]^* = -x_{p'p}$：}
     &= \textcolor{PurpleDeep}{-} \int_{-\infty}^{+\infty} \textcolor{PurpleDeep}{x_{p'p}} \textcolor{BlueDeep}{\phi_{p'}} \dd{p'} \\
     &= -\int_{-\infty}^{+\infty} i\hbar \left[ \frac{d}{\textcolor{OrangeDeep}{dp'}} \delta(p'-p) \right] \phi_{p'} \textcolor{OrangeDeep}{\dd{p'}} \\
     &= -\int_{-\infty}^{+\infty} i\hbar \phi_{p'} \dd{[\delta(p'-p)]} \\
@@ -1044,10 +1044,53 @@ $\begin{bmatrix} \vdots \\ \bra{p} \ket{\varphi} \\ \vdots \end{bmatrix} = \begi
     \end{align*}
     这就是$p$表象下的能量本征方程.
 \end{derivation}
-利用上述能量本征方程，如谐振子势：
+利用上述能量本征方程，如谐振子势
 \[V(\hat{x})=\frac{1}{2}\mu \omega^2 \hat{x}^2 = \frac{1}{2} \mu \omega^2 \left(i\hbar\pdv{p}\right)^2\]
 在$p$表象下的能量本征方程为：
 \[\left[\frac{p^2}{2\mu} + \frac{1}{2}\mu\omega^2 \left(i\hbar\pdv{p}\right)^2\right]\psi_p = E\psi_p\]
 
 
 \section{动量与空间平移算符}
+把$x'$处的态$\psi(x')$平移到$x'+a$处：
+\begin{align*}
+    \psi(x'+a) &= \psi(x') + \frac{a}{1!}\dv{x'}\psi(x') + \frac{a^2}{2!} \dv[2]{}{{x'}} \psi(x') + \cdots \quad \text{Taylor展开} \\
+    \intertext{若$a$极小，取$1$阶近似：}
+    &\approx \psi(x') + \frac{a}{1!}\dv{x'} \psi(x') \\
+    &= \left(1+a\dv{x'}\right) \psi(x')
+\end{align*}
+令$\hat{g}(a) \equiv 1+a\dv{x'}$，称之为无穷小平移算符.
+
+分析力学表明，动量是无穷小平移生成元.
+
+\begin{derivation}
+    尝试基于$\hat{g}(a)$中的$\dv{x}$构造动量算符$\hat{p}$：
+
+    $\hat{g}(a)$中的求导算符$\dv{x'}$是反厄米算符，乘以$\pm i$使之变成厄米的.
+
+    $\pm i\dv{x'}$的量纲为$L^{-1}$，$\hat{p}$的量纲为$MLT^{-1}$，乘以量纲为$ML^2T^{-1}$(角动量量纲)的$\hbar$，则：
+    \begin{align*}
+        \hat{g}(a) &= 1 \pm \frac{1}{\hbar}\cdot\left(\pm ai\hbar\dv{x}\right) \\
+        &= 1 \mp \frac{i}{\hbar}\cdot\left(\pm ai\hbar\dv{x}\right) \\
+        &= 1 + \frac{ia}{\hbar}\cdot\left(-i\hbar\dv{x}\right)
+    \end{align*}
+\end{derivation}
+
+\begin{derivation}
+    尝试构造有限大平移算符：
+    \begin{align*}
+        \psi(x'+a) &= \psi(x') + \frac{a}{1!}\dv{x'}\psi(x') + \frac{a}{2!}\dv[2]{}{{x'}}\psi(x') + \cdots \\
+        &= \left( 1 + \frac{\frac{i}{\hbar}\hat{p}a}{1!} + \frac{\frac{i}{\hbar}\hat{p}a}{2!} + \cdots \right) \psi(x') \\
+        &= e^{\frac{i}{\hbar}\hat{p}a}\psi(x')
+    \end{align*}
+    令$\hat{T}(a) \equiv e^{\frac{i}{\hbar}\hat{p}a}$，称之为\overtext{空间平移算符}{spatial translation operator}.
+\end{derivation}
+
+$\hat{T}$对本征矢的作用：
+\begin{itemize}
+    \item $\begin{cases}
+        (\bra{x'}\hat{T}(a))^\dagger = \hat{T}^\dagger(a)\ket{x'} = \ket{x'+a} \\
+        \hat{T}(a)\ket{x'} = \ket{x'-a}
+    \end{cases} \Rightarrow \quad \hat{T}(-a) = \hat{T}^\dagger(a)$ 对本征基的移动
+    \item $1+\frac{i\hat{p}}{\hbar}a\ket{x'} = \ket{x'-a}$
+    \item $1-\frac{i\hat{p}}{\hbar}a\ket{x'} = \ket{x'+a}$
+\end{itemize}
