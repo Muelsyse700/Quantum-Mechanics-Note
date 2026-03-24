@@ -411,14 +411,14 @@ $$\frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{-ikx'} \delta(x - x') \dd{x'
 
 可见，由反厄米算符构造厄米算符只需乘以一个$i$.
 
-\begin{extension}{位置算符$\hat{X}$}
+\begin{extension}{位置算符$\hat{x}$}
     有本征方程：
     \begin{align*}
-        \hat{X}\ket{x_j} &= x_j \ket{x_j} \\
-        \bra{a_i}\hat{X}\ket{x_j} &= x_j\braket{x_i}{x_j} \\
-        X_{ij} &= x_j \delta(x_i - x_j)
+        \hat{x}\ket{x_j} &= x_j \ket{x_j} \\
+        \bra{a_i}\hat{x}\ket{x_j} &= x_j\braket{x_i}{x_j} \\
+        x_{ij} &= x_j \delta(x_i - x_j)
     \end{align*}
-    因此$X$在$x$表象下的矩阵为对角阵.
+    因此$x$在$x$表象下的矩阵为对角阵.
 \end{extension}
 
 \subsection{无穷维下的厄米算符}
@@ -667,9 +667,9 @@ $$\hat{S}_x = \begin{bmatrix} \frac{\hbar}{2} & 0 \\ 0 & -\frac{\hbar}{2} \end{b
 \end{proof}
 
 \subsection{基本对易关系}
-计算$\comm{x}{\hat{P}_X}$：
+计算$\comm{x}{\hat{P}_x}$：
 
-将$\comm{x}{\hat{P}_X}$作用在任意波函数上：
+将$\comm{x}{\hat{P}_x}$作用在任意波函数上：
 \begin{align*}
     \comm{x}{\hat{p}_x} \psi(x) &= (x \hat{p}_x - \hat{p}_x x) \psi(x) \\
     &= -i\hbar \left\{ x \frac{d}{dx} \psi(x) - \frac{d}{dx} [x \psi(x)] \right\} \\
@@ -970,10 +970,10 @@ f_x(p) = \braket{p}{x} = \braket{x}{p}^* = \frac{1}{2\pi \hbar} e^{-ipx/\hbar} \
 
 
 \section{动量表象位置算符}
-\subsection{\texorpdfstring{$\hat{p}$表象下的 $\hat{X}$ 矩阵元}{p表象下的X矩阵元}}
+\subsection{\texorpdfstring{$\hat{p}$表象下的 $\hat{x}$ 矩阵元}{p表象下的x矩阵元}}
 \begin{align*}
-    X_{p'p} &= \bra{p'} \hat{X} \ket{p} \\
-    &= \iint \bra{p'} x' \rangle \textcolor{PurpleDeep}{\bra{x'} \hat{X} \ket{x}} \bra{x} p \rangle \dd{x'} \dd{x} \\
+    x_{p'p} &= \bra{p'} \hat{x} \ket{p} \\
+    &= \iint \bra{p'} x' \rangle \textcolor{PurpleDeep}{\bra{x'} \hat{x} \ket{x}} \bra{x} p \rangle \dd{x'} \dd{x} \\
     &= \iint \frac{1}{\sqrt{2\pi\hbar}} e^{-ip'x'/\hbar} \textcolor{PurpleDeep}{x \bra{x'} x \rangle} \frac{1}{\sqrt{2\pi\hbar}} e^{ipx/\hbar} \dd{x'} \dd{x} \\
     &= \frac{1}{2\pi\hbar} \int \underbrace{\left[\textcolor{BlueDeep}{\int e^{-ip'x'/\hbar}} \textcolor{PurpleDeep}{x \delta(x-x')} \textcolor{BlueDeep}{\dd{x'}} \right]}_{\textcolor{BlueDeep}{\text{$\delta$函数的采样性}}} e^{ipx/\hbar} \dd{x} \\
     &= \frac{1}{2\pi\hbar} \int \textcolor{BlueDeep}{x} e^{-ip'\textcolor{BlueDeep}{x}/\hbar} e^{ipx/\hbar} \dd{x} \\
@@ -984,26 +984,70 @@ f_x(p) = \braket{p}{x} = \braket{x}{p}^* = \frac{1}{2\pi \hbar} e^{-ipx/\hbar} \
     &= i\hbar \frac{d}{dp'} \delta(p'-p)
 \end{align*}
 
-\subsection{\texorpdfstring{$\hat{X}$的算符形式}{X的算符形式}}
-考虑 $\ket{\varphi} = \hat{X} \ket{\phi}$，使之在 $p$ 表象中表示 $\bra{p} \ket{\varphi} = \hat{X} \bra{p} \ket{\phi}$：
+\subsection{\texorpdfstring{$\hat{x}$的算符形式}{x的算符形式}}
+考虑 $\ket{\varphi} = \hat{x} \ket{\phi}$，使之在 $p$ 表象中表示 $\bra{p} \ket{\varphi} = \hat{x} \bra{p} \ket{\phi}$：
 
 用矩阵乘法写为 
-$\begin{bmatrix} \vdots \\ \bra{p} \ket{\varphi} \\ \vdots \end{bmatrix} = \begin{bmatrix} & & \\ & X_{pp'} & \\ & & \end{bmatrix} \begin{bmatrix} \vdots \\ \bra{p'} \ket{\phi} \\ \vdots \end{bmatrix}$
+$\begin{bmatrix} \vdots \\ \bra{p} \ket{\varphi} \\ \vdots \end{bmatrix} = \begin{bmatrix} & & \\ & x_{pp'} & \\ & & \end{bmatrix} \begin{bmatrix} \vdots \\ \bra{p'} \ket{\phi} \\ \vdots \end{bmatrix}$
 \begin{align*}
     \text{则 } \bra{p}\ket{\varphi} &= \varphi_p \\
-    &= \int_{-\infty}^{+\infty} \textcolor{PurpleDeep}{X_{pp'}} \textcolor{BlueDeep}{\bra{p'}\ket{\phi}} \dd{p'} \\
-    \intertext{$X$是厄米算符，有$X_{pp'} = X^*_{p'p} = \left[i\hbar \frac{\dd}{\dd{p'}}\delta(p'-p)\right]^* = -X_{p'p}$}：
-    &= \textcolor{PurpleDeep}{-} \int_{-\infty}^{+\infty} \textcolor{PurpleDeep}{X_{p'p}} \textcolor{BlueDeep}{\phi_{p'}} \dd{p'} \\
+    &= \int_{-\infty}^{+\infty} \textcolor{PurpleDeep}{x_{pp'}} \textcolor{BlueDeep}{\bra{p'}\ket{\phi}} \dd{p'} \\
+    \intertext{$x$是厄米算符，有$x_{pp'} = x^*_{p'p} = \left[i\hbar \frac{\dd}{\dd{p'}}\delta(p'-p)\right]^* = -x_{p'p}$}：
+    &= \textcolor{PurpleDeep}{-} \int_{-\infty}^{+\infty} \textcolor{PurpleDeep}{x_{p'p}} \textcolor{BlueDeep}{\phi_{p'}} \dd{p'} \\
     &= -\int_{-\infty}^{+\infty} i\hbar \left[ \frac{d}{\textcolor{OrangeDeep}{dp'}} \delta(p'-p) \right] \phi_{p'} \textcolor{OrangeDeep}{\dd{p'}} \\
     &= -\int_{-\infty}^{+\infty} i\hbar \phi_{p'} \dd{[\delta(p'-p)]} \\
     &= \textcolor{PurpleDeep}{\left[ -i\hbar \phi_{p'} \delta(p-p') \right]_{-\infty}^{+\infty}} + i\hbar \int_{-\infty}^{+\infty} \delta(p-p') \frac{d}{dp'} \phi_{p'} \dd{p'} \\
     \intertext{波函数在无穷远处取$0$：}
     &= i\hbar \frac{d}{dp} \phi_p
 \end{align*}
-即$\varphi_p = i\hbar\frac{\dd}{\dd p}\phi_p \Rightarrow \hat{X} = i\hbar\frac{\dd}{\dd p}$.
+即$\varphi_p = i\hbar\frac{\dd}{\dd p}\phi_p \Rightarrow \hat{x} = i\hbar\frac{\dd}{\dd p}$.
 
 \section{动量表象下的能量本征方程}
-
+\begin{derivation}
+    能量本征方程：
+    \begin{align*}
+        \hat{H}\ket{\psi} &= E\ket{\psi} \\
+        \intertext{式中Hamilton量$\hat{H}=\underset{\text{动能}}{\hat{T}} + \underset{\text{势能}}{\hat{V}} = \dfrac{\hat{p}}{2\mu} + \hat{V}$：}
+        (\hat{H}-E)\ket{\psi} &= 0 \\
+        \int (\hat{T} + \hat{V} -E)\ket{p'}\braket{p'}{\psi} \dd{p'} &= 0 \\
+        \intertext{投影到$\ket{p}$方向：}
+        \bra{p} \int (\hat{T} + \hat{V} -E)\ket{p'}\braket{p'}{\psi} \dd{p'} &= 0 \\
+        \int (\mel{p}{\hat{T}}{p'} + \mel{p}{\hat{V}}{p'} - E\braket{p}{p'})\braket{p'}{\psi} \dd{p'} &= 0 \\
+        \int \left[\frac{{p'}^2}{2\mu}\braket{p}{p'}+V_{pp'}-E\delta(p-p')\right]\braket{p'}{\psi} \dd{p'} &= 0 \\
+        \int \left[\frac{{p'}^2}{2\mu}\braket{p}{p'}+V_{pp'}-E\delta(p-p')\right] \psi_{p'} \dd{p'} &= 0\\
+        \frac{p'}{2\mu}\psi_p + \int V_{pp'}\psi_{p'}\dd{p'} &= E\psi_p
+    \end{align*}
+    式中：
+    \begin{align*}
+        V_{pp'} &= \mel{p}{\hat{V}}{p'} \\
+        &= \iint \braket{p}{x}\mel{x}{V(\hat{x})}{x'}\braket{x'}{p'} \dd{x} \dd{x'} \\
+        &= \iint \frac{1}{\sqrt{2\pi\hbar}} e^{-ipx/\hbar} V(x') \braket{x}{x'} \frac{1}{\sqrt{2\pi\hbar}} e^{ip'x'/\hbar} \dd{x} \dd{x'} \\
+        &= \iint \frac{1}{\sqrt{2\pi\hbar}} e^{-ipx/\hbar} V(x') \delta(x-x') \frac{1}{\sqrt{2\pi\hbar}} e^{ip'x'/\hbar} \dd{x'} \dd{x} \\
+        &= \frac{1}{2\pi\hbar} \int e^{-ipx/\hbar} V(x) e^{ip'x/\hbar} \dd{x} \\
+        &= \frac{1}{2\pi\hbar} \int V(x) e^{i(p'-p)x/\hbar} \dd{x}
+    \end{align*}
+    特别地，若$V(\hat{x})$可表示成$V(x) = \sum_{n}^{} c_n \hat{x}^n$，根据$\hat{x} e^{i(p'-p)x/\hbar} = i\hbar\pdv{p}e^{i(p'-p)x/\hbar}$则：
+    \begin{align*}
+        V_{pp'} &= \frac{1}{2\pi\hbar}\int\sum_{n}^{} c_n \hat{x}^n e^{i(p'-p)x/\hbar} \dd{x} \\
+        &= \sum_{n}^{} c_n \frac{1}{2\pi\hbar} \int \left(i\hbar\pdv{p}\right)^n e^{i(p'-p)x/\hbar} \dd{x} \\
+        &= \sum_{n}^{} c_n \textcolor{PurpleDeep}{\frac{1}{2\pi\hbar}}\left(i\hbar\pdv{p}\right)^n \textcolor{PurpleDeep}{\int e^{i(p'-p)x/\hbar} \dd{x}} \\
+        &= \textcolor{BlueDeep}{\sum_{n}^{} c_n \left(i\hbar\pdv{p}\right)^n} \textcolor{PurpleDeep}{\int \braket{p}{x}\braket{x}{p'} \dd{x}} \\
+        &= \textcolor{BlueDeep}{V(\hat{x})}\textcolor{PurpleDeep}{\delta(p-p')} \\
+        &\Rightarrow \text{一般式：} V_{pp'} = \frac{1}{2\pi\hbar} \int V(x) e^{i(p'-p)x/\hbar} \dd{x}
+    \end{align*}
+    代入$V_{pp'}$至能量本征方程：
+    \begin{align*}
+        \frac{p^2}{2\mu}\psi_p + \int V_{pp'} \psi_{p'} \dd{p'} &= E\psi_p \\
+        \frac{p^2}{2\mu}\psi_p + \int V(x)\delta(p-p')\psi_{p'}\dd{p'} &= E\psi_p \\
+        \frac{p^2}{2\mu}\psi_p + V(\hat{x})\psi_p &= E\psi_p \\
+        \left[\frac{p^2}{2\mu} + V(\hat{x})\right]\psi_p &= E\psi_p
+    \end{align*}
+    这就是$p$表象下的能量本征方程.
+\end{derivation}
+利用上述能量本征方程，如谐振子势：
+\[V(\hat{x})=\frac{1}{2}\mu \omega^2 \hat{x}^2 = \frac{1}{2} \mu \omega^2 \left(i\hbar\pdv{p}\right)^2\]
+在$p$表象下的能量本征方程为：
+\[\left[\frac{p^2}{2\mu} + \frac{1}{2}\mu\omega^2 \left(i\hbar\pdv{p}\right)^2\right]\psi_p = E\psi_p\]
 
 
 \section{动量与空间平移算符}
