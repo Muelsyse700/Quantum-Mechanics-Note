@@ -18,6 +18,8 @@
     chapter/beforeskip=0pt,
     chapter/afterskip=0pt,
 }
+\usetikzlibrary{angles, quotes, arrows.meta}
+\usetikzlibrary{decorations.pathmorphing, fpu, positioning}
 % 设置正文Chapter样式
 \titleformat{\chapter}[display]
     {\raggedright} % 整体左对齐
@@ -29,12 +31,6 @@
     {-15pt} % 标签和标题之间的垂直距离
     {\huge\heavyfont #1}
 \titlespacing*{\chapter}{0pt}{-20pt}{30pt}
-
-
-
-\usetikzlibrary{angles, quotes, arrows.meta} 
-
-
 
 % 设置正文Section样式
 \tcbset{
@@ -58,7 +54,7 @@
     {}                       % 标签留空
     {0pt}                    % 间距
     {\begin{tcolorbox}[sectionbox]
-        Section~\thesection\quad #1
+        \S\thesection\quad #1
     \end{tcolorbox}}
 \titlespacing{\section}{0pt}{0pt}{-20pt} % 调整标题周围的间距 (左, 上, 下)
 
@@ -216,7 +212,7 @@
 
 % 定义“定理”环境
 \newcounter{theorem}[section]
-\renewcommand{\thetheorem}{\thechapter-\arabic{theorem}}
+\renewcommand{\thetheorem}{\thesection-\arabic{theorem}}
 \newtcolorbox{theorem}[1][]{
     myThemStyle,
     colback=BlueLight,   % 背景色
@@ -230,7 +226,7 @@
 
 % 定义“定义”环境
 \newcounter{definition}[section]
-\renewcommand{\thedefinition}{\thechapter-\arabic{definition}}
+\renewcommand{\thedefinition}{\thesection-\arabic{definition}}
 \newtcolorbox{definition}[1][]{
     myThemStyle,
     colback=YellowLight,   % 背景色

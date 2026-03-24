@@ -1,0 +1,1096 @@
+\chapter{量子理论基础}
+\section{Stern-Garlach实验}
+\begin{center}
+    \begin{minipage}{0.60\textwidth}
+        \centering
+        % 调整 x 比例让图形在 minipage 中更紧凑
+        \begin{tikzpicture}[>=Stealth, line width=0.8pt]
+            % -银原子源
+            \node at (-3, 1.5) {\Large $47$ \textbf{Ag}};
+            \foreach \pos in {
+                (-3.4, 0.2), (-3.6, 0.5), (-3.4, 0.8), (-3.1, 0.6), (-2.8, 0.4), (-2.5, 0.6), (-2.3, 0.2),
+                (-3.3, -0.1), (-3.5, -0.3), (-3.2, -0.4), (-2.9, -0.1), (-2.4, -0.2), (-2.2, -0.3),
+                (-3.2, 0.4), (-2.9, 0.1), (-3.3, -0.2), (-2.6, -0.1), (-3.0, 0.5), (-2.7, 0.4)
+            } {\fill \pos circle (2.2pt);}
+            % 电子排布文字
+            \node at (-3, -1) {\large $2, 8, 18, 18, 1$};
+            \node at (-1.5, -2.2) {\large $5s: n=5, l=0, m=0$};
+            % 准直孔
+            \draw[line width=3pt] (-1, 1.5) -- (-1, 0.2);
+            \draw[line width=3pt] (-1, -0.2) -- (-1, -1.5);
+            % 入射束箭头
+            \draw[->, OrangeDeep, line width=1.5pt] (-1.8, 0) -- (-0.2, 0);
+            %使用 plot 绘制两条对称的分离曲线
+            \begin{scope}[OrangeDeep, line width=1.2pt]
+                \draw[domain=0:4, samples=50, smooth] plot ({0.7+\x}, {0.15*exp(0.6*\x) - 0.15});
+                \draw[domain=0:4, samples=50, smooth] plot ({0.7+\x}, {-0.15*exp(0.6*\x) + 0.15});
+                \draw (0.5, 0) -- (0.7, 0); % 磁场入口直线
+            \end{scope}
+            % 绘制向下递减的蓝色箭头
+            \begin{scope}[shift={(1, 1.2)}, color=BlueDeep]
+                \foreach \x in {0, 0.2, ..., 1.6} \draw[->] (\x, 0) -- (\x, -0.5);
+                \foreach \x in {0.4, 0.6, ..., 1.4} \draw[->] (\x, -0.6) -- (\x, -1);
+                \foreach \x in {0.6, 0.8, ..., 1.0} \draw[->] (\x, -1.1) -- (\x, -1.6);
+                \draw[->] (0.8, -1.7) -- (0.8, -2.2);
+                \node[below, font=\small] at (0.8, -2.2) {非均匀磁场};
+            \end{scope}
+            % 探测屏与坐标轴
+            \draw[line width=3pt] (5, 1.8) -- (5, -1.8);
+            \begin{scope}[shift={(3.8, 0)}]
+                \draw[->] (0,0) -- (0.6, 0) node[right] {$x$};
+                \draw[->] (0,0) -- (0, 0.6) node[above] {$z$};
+                \draw[->] (0,0) -- (-0.25, -0.25) node[left] {$y$};
+                \fill (0,0) circle (1.5pt); % 原点
+            \end{scope}
+        \end{tikzpicture}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.36\textwidth}
+        \raggedright
+        Ag轨道角动量为$0$，轨道磁矩为$0$.
+
+        $z$方向受力$F_z=\mu_z \cdot \frac{\partial B}{\partial z}$，而银原子分裂成了两束.说明磁矩$\mu_z$不为$0$，且是量子化的.
+    \end{minipage}
+\end{center}
+该实验表明电子除轨道角动量外还有一类角动量且它的大小为$\dfrac{\hbar}{2}$ (实验测定).
+
+\subsection{电子自旋假设}
+电子自旋假设由Uhlenbeck和Goudsmit于1925年提出：
+\begin{itemize}
+    \item 每个电子都具有内禀角动量(即\overtext{自旋}{spin}角动量)$\hat{S}$，大小为$\frac{\hbar}{2}$. \\
+    为什么说是内禀的自旋？如果按传统的“旋转产生角动量”来理解，电子表明的切速度会超过光速.
+    \item 自旋磁矩与自旋角动量有如下关系：
+    \[
+    \begin{cases}
+        \hat{\mu}_s = -\frac{e}{2m_e}g_s \hat{S} \\
+        g_s = 2
+    \end{cases}
+    \quad
+    \left(
+        \text{轨道磁矩}\begin{cases}
+            \hat{\mu}_l = -\frac{e}{2m_e} g_l \hat{L} \\
+            g_l = 1
+        \end{cases}
+    \right)
+    \]
+    向上偏转记为$\ket{\uparrow }$，反之为$\ket{\downarrow}$.
+\end{itemize}
+\begin{extension}{Bosen子和Fremi子}
+    称整数自旋的粒子如光子$(1)$、希格斯子$(0)$为\textbf{Bosen子}.
+
+    称非整数自旋的粒子如电子$(\frac{1}{2})$、夸克$(\frac{1}{2})$为\textbf{Fermi子}.
+\end{extension}
+
+\subsection{级联S-G实验}
+\begin{center}
+    \begin{tikzpicture}[
+        >=Stealth, 
+        line width=1.2pt,
+        sgbox/.style={draw, minimum width=1.5cm, minimum height=1.5cm, rounded corners=2pt, align=center, font=\Large\bfseries}
+    ]
+        \node[sgbox] (SG1) at (0,0) {S-G \\ $z$};
+        \draw[->] (SG1.east) ++(0,0.4) -- +(1.5,0) node[above, pos=0.45] {$\ket{\uparrow}$};
+        \draw[->] (SG1.east) ++(0,-0.4) -- +(1.5,0) node[below, pos=0.45] {$\ket{\downarrow}$};
+
+        \node[sgbox, anchor=west] (SG2) at (2.25, 0.8) {S-G \\ $x$};
+        \draw[->] (SG2.east) ++(0,0.4) -- +(1.5,0) node[above, pos=0.45] {$\ket{+}$};
+        \draw[->] (SG2.east) ++(0,-0.4) -- +(1.5,0) node[below, pos=0.45] {$\ket{-}$};
+
+        \node[sgbox, anchor=west] (SG3) at (5.25, 1.6) {S-G \\ $z$};
+        \draw[->] (SG3.east) ++(0,0.3) -- +(1.5,0) node[above, pos=0.45] {$\ket{\uparrow}$};
+        \draw[->] (SG3.east) ++(0,-0.4) -- +(1.5,0) node[below, pos=0.45] {$\ket{\downarrow}$};
+    \end{tikzpicture}
+\end{center}
+\noindent\textbf{实验现象：}
+\begin{itemize}
+    \item 银原子束通过第一个$z$方向的S-G后分为两束，取向上的一束通过$x$方向的S-G后分为两束，各占$50\%$.
+    \item 取向+的一束通过第二个$z$方向的S-G，仍能分为向上和向下的两束，各占$50\%$.
+\end{itemize}
+
+这个实验表明：对于$S_x$的测量把粒子$S_z$的信息抹去了.
+
+因此，无法同时得到关于粒子$S_x$和$S_z$的信息，称$S_x$与$S_z$是不相容的可观测量(由对称性，$S_x,S_y,S_z$都不相容).
+\begin{align*}
+    &\text{$\ket{\uparrow}$里包含了$\ket{+}$和$\ket{-}$的成分} \quad &\ket{\uparrow} = \frac{1}{\sqrt{2}} e^{i\theta} \ket{+} + \frac{1}{\sqrt{2}} e^{i\theta} \ket{-} \\
+    &\text{$\ket{+}$里包含了$\ket{\uparrow}$和$\ket{\downarrow}$的成分} &\ket{+} = \frac{1}{\sqrt{2}} e^{i\theta} \ket{\uparrow} + \frac{1}{\sqrt{2}} e^{i\theta} \ket{\downarrow}
+\end{align*}
+\begin{mistake}
+    上述表述似乎意味着$\ket{\uparrow}$和$\ket{+}$既是本征态又是叠加态.
+
+    实际上，讨论一个态是什么态要\textbf{基于某个对象}才有意义：
+    \begin{align*}
+        \text{对$S_x$，$\ket{\uparrow}$是叠加态，$\ket{+}$是本征态} \\
+        \text{对$S_z$，$\ket{\uparrow}$是本征态，$\ket{+}$是叠加态}
+    \end{align*}
+
+    这表明：
+
+    \centering\textbf{在经典和量子世界中，测量扮演着十分不同的角色}
+\end{mistake}
+
+
+\section{基于线性代数的量子力学I}
+\subsection{量子力学与线性代数的相似性}
+\begin{enumerate}
+    \item 可观测量在其本征态上有一个确定的值. \\
+    矩阵作用在本征矢上有一个确定的值.
+    \item 不同的态可以线性叠加成为一个新的可能态. \\
+    矢量之间可以通过线性叠加构造一个新的矢量.
+    \item Schrödinger方程是线性偏微分方程，其通解为本征解(特解)的线性组合.
+    $$\psi(\vec{r}, t) = \sum_{i} c_i \phi_i(\vec{r}) T_i(t)$$
+    这些本征解可以作为LVS的基，任意的通解可以通过$c_i$的线性组合来表述：
+    $$\lvert \psi \rangle = \sum_{i} c_i T_i(t) \lvert \phi_i \rangle = \sum_{i} c_i \lvert \phi_i(t) \rangle = \begin{bmatrix} c_1 \\ c_2 \\ \vdots \\ c_n \end{bmatrix}$$
+    \item 可观测量由初、末两个态决定，应是二维的，而测量会使一个态转化为另一个态.\\
+    矩阵是二阶张量，矩阵作用在一个矢量上会使之变为另一个矢量.
+\end{enumerate}
+
+综上，用矢量来描述量子系统的状态，即态矢量$\ket{\psi}$，它包含了系统的全部信息；用矩阵来描述力学量$\hat{O}$，力学量是物理的，其测量值(本征值)应为实数，因此描述力学量的矩阵应为厄米矩阵.
+
+\subsection{拓展到无穷维}
+\begin{question}
+    考虑定义在$[a,b]$上的函数$f(x)$，如何用一个列矢量描述$f(x)$？
+
+    \begin{center}
+        \begin{tikzpicture}[>=stealth, scale=0.8]
+            \draw[->] (-0.5,0) -- (6,0) node[right] {$x$};
+            \draw[->] (0,-2) -- (0,2) node[right] {$f(x)$};
+            \draw[OrangeDeep, thick, samples=100, domain=1:5.5] 
+                plot (\x, {1.5*sin((\x-1)*120) * (1.2 - 0.15*\x)});
+            \node[below] at (1,0) {$a$};
+            \node[below] at (5.5,0) {$b$};
+        \end{tikzpicture}
+    \end{center}
+\end{question}
+\begin{solution}
+    将$a~b$分成$n$份(生成$n+1$个基矢)，用每处$x_i$的函数值$f(x_i)$作列矢量的矩阵元：
+    $$|f\rangle = \begin{bmatrix} f(x_1) \\ f(x_2) \\ \vdots \\ f(x_n) \end{bmatrix}$$
+    $f(x)$在每一处$x_i$的函数值等于$\ket{f}$沿着$\ket{x_i}$的分量，即$f(x_i) = \braket{x_i}{f}$.
+\end{solution}
+
+这意味着：
+\begin{center}
+    \textbf{波函数是态矢量在具体基(表象)下的展开系数}
+\end{center}
+考虑以$\ket{x_i}$为基张成的空间满足LVS的全部性质，那么$\ket{x_i}$的所有线性组合构成的矢量构成一个LVS，维度为$n+1$.当$n \rightarrow \infty$时构成了一个连续无穷维LVS.
+
+\subsection{构造连续无穷维LVS的IPS}
+在离散有限维LVS中，内积的定义为：
+$$\langle f | g \rangle = \lim_{n \to \infty} \sum^{n}_{i} f^*(x_i)g(x_i)$$
+由于$f(x_i)$和$g(x_i)$都是有限的，因此在无穷维上求和会是无穷大.这导致在连续无穷维LVS上如矩阵乘法等数学工具的发散，因此，需要构建一套新的运算规则.
+\begin{derivation}
+    为了使得结果有界，取内积在每个点上的平均：
+    \begin{align*}
+        \text{令} \quad \langle f|g \rangle &= \lim_{n \to \infty} \frac{1}{n+1} \sum_{i} f^*(x_i) g(x_i) \\
+        &= \int_a^b f^*(x) g(x) \dd{x} \\
+        &= \int_a^b \langle f|x \rangle \langle x|g \rangle \dd{x}
+    \end{align*}
+    为不失一般性，选取积分区域为整个空间：
+    $$\langle f|g \rangle = \int_{-\infty}^{\infty} \langle f|x \rangle \langle x|g \rangle \dd{x}$$
+    这就是连续无穷维LVS内积的定义.
+
+    称式中的$\int_{-\infty}^{\infty} |x \rangle \langle x| \dd{x} \equiv \hat{I}$为连续无穷维情况下的恒等算符.
+\end{derivation}
+
+\subsection{Hilbert空间}
+量子体系是物理的且可能是无穷维的.
+
+态矢量应当满足如下需求：
+
+\begin{itemize}
+    \item 态矢量可以进行内积
+    \item 态矢量可以是有限维的也可以是无穷维的
+    \item 态矢量之间的内积有限
+\end{itemize}
+
+因此量子力学所研究的空间应当满足：
+
+\begin{itemize}
+    \item 是一个IPS
+    \item 维度可以从有限到无限
+    \item 其上定义的内积是收敛的
+\end{itemize}
+
+称这样的空间为\textbf{Hilbert空间}.
+
+\begin{extension}{}
+    \textbf{应当注意：}
+    \begin{itemize}
+        \item 对同一个LVS，通过定义不同的内积法则可以构造出不同的IPS.
+        \item Hilbert空间的严格定义是“完备的内积空间”.更深入的内容涉及泛函分析.
+        \item 量子力学中会有一些内积为奇怪东西(如Dirac $\delta$函数)的量子态，这显然不存在于数学意义上的Hilbert空间中，但是在物理上是可以接受的.称这种包含奇怪量子态的空间为rigged Hilbert空间.
+    \end{itemize}
+\end{extension}
+
+
+\section{Dirac \texorpdfstring{$\delta$}{delta} 函数}
+\subsection{Dirac归一化}
+考察连续无穷维LVS中基矢的正交归一性：
+\begin{derivation}
+    作为基矢，显然有$\braket{x}{x'}=0, x \neq x'$.
+
+    由于定义了新的IPS，$\braket{x}{x'}$在$x=x'$时是否等于$1$？
+
+    将$\ket{f}$用$\ket{x'}$展开：
+    \begin{align*}
+        |f\rangle &= \int_{a}^{b} |x'\rangle \langle x'|f\rangle \dd{x'}
+        \intertext{同时左乘$\bra{x}$：}
+        \langle x|f\rangle &= \int_{a}^{b} \langle x|x'\rangle \langle x'|f\rangle \dd{x'} \\
+        f(x) &= \int_{a}^{b} \langle x|x'\rangle f(x') \dd{x'} \\
+        \intertext{由于有$\langle x|x'\rangle = 0, \quad x \neq x'$，积分区间可写为$x$附近的无穷小邻域：}
+        f(x) &= \int_{x-\varepsilon}^{x+\varepsilon} \langle x|x'\rangle f(x') \dd{x'} \\
+        \intertext{在无穷小区间上$f(x)$与$f(x')$近似相等：}
+        f(x) &= \int_{x-\varepsilon}^{x+\varepsilon} \langle x|x'\rangle f(x) \dd{x'} \\
+        \intertext{$f(x)$与关于$x'$的积分无关，作常数提出：}
+        f(x) &= f(x) \int_{x-\varepsilon}^{x+\varepsilon} \langle x|x'\rangle \dd{x'} \quad \Rightarrow \quad \int_{x-\varepsilon}^{x+\varepsilon} \langle x|x'\rangle \dd{x'} = 1
+    \end{align*}
+    要在无穷小区间上积分为有限值，则$\braket{x}{x'}$在积分区间上不能是有限值，则:
+    $$\langle x|x'\rangle = \infty, \quad x-\varepsilon \le x \le x+\varepsilon$$
+    $$\begin{cases} \langle x|x'\rangle = 0 & , x' \neq x \\ \langle x|x'\rangle \to \infty & , x' = x \end{cases}$$
+\end{derivation}
+\begin{definition}
+    Dirac $\delta$函数$\braket{x}{x'}= \delta (x-x')$满足：
+    \[
+    \delta(x-x')=
+    \begin{cases}
+        0, x\neq x'\\
+        \infty, x\rightarrow x'
+    \end{cases}
+    \qquad
+    \int_{-\infty}^{+\infty} \delta(x-x') \dd{x} = 1
+    \]
+    图像表示为：
+    \begin{center}
+        \begin{tikzpicture}[>=stealth, font=\small]
+            \begin{scope}[shift={(0,0)}]
+                \draw[->, thick] (0,-0.2) -- (0,3.5);
+                \draw[->, thick] (-0.2,0) -- (4,0) node[below] {$x'$};
+                \draw[YellowDeep, very thick] plot[domain=0.2:3.8, samples=100] (\x, {0.004 / ((\x-2)^2 + 0.001)});
+                \node[YellowDeep, below] at (2,0) {$x$};
+            \end{scope}
+            \node at (5, 1.5) {\Large 或};
+            \begin{scope}[shift={(6,0)}]
+                \draw[->, thick] (0,-0.2) -- (0,3.5);
+                \draw[->, thick] (-0.2,0) -- (4,0) node[below] {$x'$};
+                \draw[YellowDeep, ultra thick, ->] (2,0) -- (2,3);
+                \node[YellowDeep, below] at (2,0) {$x$};
+            \end{scope}
+        \end{tikzpicture}
+    \end{center}
+    显然$\delta(x)$是关于$x$的偶函数.
+\end{definition}
+
+\subsection{Dirac \texorpdfstring{$\delta$}{delta} 函数的性质}
+\begin{itemize}
+    \item \textbf{采样性}\\
+    把一个函数与$\delta(x-x')$相乘并在全空间积分，就可以采集到该函数在$x_0$处的值：
+    $$\int_{-\infty}^{+\infty} f(x) \delta(x-x_0) \dd{x} = f(x_0)$$
+    \item \textbf{放缩性}
+    $$\delta(ax) = \frac{1}{|a|} \delta(x)$$
+    \begin{proof}
+        \begin{minipage}[t]{0.48\textwidth}
+            \centering
+            \textbf{当$a > 0$时}
+            \begin{align*}
+                & \int_{-\infty}^{+\infty} f(x) \delta(ax) \dd x \quad \text{令 } t \equiv ax \\
+                = & \int_{-\infty}^{+\infty} f\left(\frac{t}{a}\right) \delta(t) \dd \left(\frac{t}{a}\right) \\
+                = & \frac{1}{a} \int_{-\infty}^{+\infty} f\left(\frac{t}{a}\right) \delta(t) \dd t \\
+                \intertext{令$F(t)\equiv f(\frac{t}{a})$，有$F(0)=f(0)$} 
+                = & \frac{1}{a} F(0) = \frac{1}{a} f(0)
+            \end{align*}
+        \end{minipage}
+        \hfill\vrule\hfill
+        \begin{minipage}[t]{0.48\textwidth}
+            \centering
+            \textbf{当$-a > 0$时}
+            \begin{align*}
+                & \int_{-\infty}^{+\infty} f(x) \delta(ax) \dd x \\
+                = & \int_{+\infty}^{-\infty} f\left(-\frac{t}{a}\right) \delta(t) \dd \left(-\frac{t}{a}\right) \\
+                = & -\frac{1}{a} \int_{+\infty}^{-\infty} f\left(-\frac{t}{a}\right) \delta(t) \dd t \\
+                = & \frac{1}{a} \int_{-\infty}^{+\infty} F(-t) \delta(t) \dd t \\
+                = & \frac{1}{a} F(0) = \frac{1}{a} f(0)
+            \end{align*}
+        \end{minipage}\\[1em]
+    综上，$\delta(ax) = \frac{1}{|a|} \delta(x)$.
+    \end{proof}
+    \item \textbf{实值性}
+    $$\langle x | x' \rangle = \delta(x-x') = \delta(x'-x) = \langle x' | x \rangle = \langle x | x' \rangle^*$$
+    因此Dirac $\delta$函数为实值函数.
+\end{itemize}
+
+\subsection{Dirac \texorpdfstring{$\delta$}{delta} 函数的Fourier变换}
+Fourier变换的标准形式：
+$$\begin{cases} 
+\text{正变换 } T(k) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{-ikx} t(x) \dd{x} \\
+\text{逆变换 } t(x) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{ikx} T(k) \dd{k}
+\end{cases}$$
+由于：
+$$\frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{-ikx'} \delta(x - x') \dd{x'} = \frac{1}{\sqrt{2\pi}} e^{-ikx}$$
+故而：
+\begin{align*}
+    \delta(x - x') &= \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{+\infty} e^{ikx'} \cdot \frac{1}{\sqrt{2\pi}} e^{-ikx} \dd{k} \\
+    \delta(x - x') &= \frac{1}{2\pi} \int_{-\infty}^{+\infty} e^{ik(x' - x)} \dd{k} \quad \delta \text{(函数的 Fourier 展开)}
+\end{align*}
+
+\subsection{含Dirac \texorpdfstring{$\delta$}{delta} 函数的导数的积分}
+\begin{derivation}
+    $$\begin{aligned}
+        & \int_{-\infty}^{+\infty} \delta''(x - x') f(x') \dd{x'} \\
+        = & \int_{-\infty}^{+\infty} \frac{\partial^2}{\partial x^2} \delta(x - x') f(x') \dd{x'} \\
+        = & \frac{\dd^2}{\dd{x^2}} \int_{-\infty}^{+\infty} \delta(x - x') f(x') \dd{x'} \quad \text{积分外} x' \text{被积掉了，故而变为求全导} \\
+        = & \frac{\dd^2}{\dd{x^2}} f(x)
+    \end{aligned}$$
+\end{derivation}
+
+上述推导表明，$\delta$函数的采样性亦可给出$f(x)$的各阶导：
+\begin{gather*}
+\delta^{(n)}(x - x') = \delta(x - x') \frac{\dd^n}{\dd{x^n}} \\
+\int_{-\infty}^{+\infty} \delta^{(n)}(x - x') f(x') \dd{x'} = \frac{\dd^n}{\dd{x^n}} f(x)
+\end{gather*}
+
+\subsection{单位跃阶函数}
+\begin{definition}
+    \[
+    \text{单位跃阶函数}\theta(x)=
+    \begin{cases}
+        1,x>0 \\
+        0,x<0
+    \end{cases}
+    \qquad
+    \frac{\dd}{\dd{x}}\theta(x)=\delta(x)
+    \begin{cases}
+        \infty,x=0 \\
+        0,x\neq 0
+    \end{cases}
+    \]
+    \begin{center}
+        \begin{tikzpicture}[>=stealth, thick]
+            \draw[->] (-3,0) -- (3,0) node[below] {$x$};
+            \draw[->] (0,-0.5) -- (0,2) node[right] {$\theta$};
+            \node[below left] at (0,0) {0};
+            \draw (0.1,1) -- (-0.1,1) node[left] {1};
+            \draw[YellowDeep, ultra thick] (-2.5,0) -- (0,0);
+            \draw[YellowDeep, ultra thick] (0,1) -- (2.5,1);
+        \end{tikzpicture}
+    \end{center}
+    关于$x=0$处的定义不同领域各不相同，物理学上一般定义为$\frac{1}{2}$.
+\end{definition}
+
+
+\section{基于线性代数的量子力学II}
+\subsection{无穷维下的算符}
+无穷维下的右矢对应了一个连续函数，因此：
+\begin{center}
+    \textbf{无穷维的算符就是将一个函数$f(x)$转换为另一个函数$\widetilde{f}(x)$}
+\end{center}
+即$\hat{O}\ket{f}=\ket{\widetilde{f}}$.
+
+\begin{extension}{求导算符$\hat{D}$}
+    对求导算符有：
+    \[\hat{D}\ket{f}=\ket{\frac{\dd}{\dd x} f} \qquad \braket{x}{\frac{\dd}{\dd x}f}=\frac{\dd f}{\dd x}\]
+    要求$\hat{D}$在基$\{\ket{x}\}$($x$表象)下的矩阵表示，就是要求$\hat{D}$的矩阵元$D_{xx'} = \bra{x}\hat{D}\ket{x'}$.
+    \begin{align*}
+        \hat{D}\ket{f} &= \ket{\frac{\dd}{\dd x}f} \\
+        \bra{x}\hat{D}\ket{f} &= \bra{x}\ket{\frac{\dd}{\dd x} f} \\
+        \int_{-\infty}^{+\infty}\bra{x}\hat{D}\ket{x'}\bra{x'}\ket{f} \dd{x'} &= \bra{x}\ket{\frac{\dd}{\dd{x'}}} = \ket{x}\ket{\frac{\dd}{\dd x} f} \\
+        \int_{-\infty}^{+\infty} D_{xx'} f(x') \dd{x'} &= f'(x) \\
+        \Rightarrow \delta'(x-x') = \delta(x-x')\frac{\dd}{\dd{x'}}
+    \end{align*}
+\end{extension}
+\begin{proposition}
+    求导算符是反厄米算符.
+\end{proposition}
+\begin{proof}
+    即证明$\hat{D}^{\dagger} = (\hat{D}^{*})^{\top} = -\hat{D} \Rightarrow D_{xx'} = -D^*_{x'x}$.
+    \begin{align*}
+        D^*_{x'x} &=  [\delta ' (x'-x)]^* \quad \text{$\delta$函数的实值性}\\
+        &= \delta ' (x'-x) \quad \text{偶函数的一阶导是奇函数} \\
+        &= -\delta ' (x-x') \\
+        &= -D_{xx'}
+    \end{align*}
+\end{proof}
+
+可见，由反厄米算符构造厄米算符只需乘以一个$i$.
+
+\begin{extension}{位置算符$\hat{x}$}
+    有本征方程：
+    \begin{align*}
+        \hat{x}\ket{x_j} &= x_j \ket{x_j} \\
+        \bra{a_i}\hat{x}\ket{x_j} &= x_j\braket{x_i}{x_j} \\
+        x_{ij} &= x_j \delta(x_i - x_j)
+    \end{align*}
+    因此$x$在$x$表象下的矩阵为对角阵.
+\end{extension}
+
+\subsection{无穷维下的厄米算符}
+\begin{proposition}
+    若$\hat{K}$为厄米算符，则$\braket{\hat{K}f}{g} = \bra{f}\hat{K}\ket{g} = \braket{f}{\hat{K}g}$.
+\end{proposition}
+\begin{proof}
+    $$\langle \hat{K} f | = ( | \hat{K} f \rangle )^{\dagger} = \langle f | \hat{K} \implies \langle \hat{K} f | g \rangle = \langle f | \hat{K} g \rangle$$
+\end{proof}
+这是厄米算符的另一种判据，在不易求得$\hat{K}^{\top}$时可用.
+\begin{question}
+    说明$\hat{K} = -i \frac{\dd}{\dd x}$在什么情况下是厄米算符.
+\end{question}
+\begin{solution}
+    根据厄米算符的性质：
+    $$\langle \hat{K} f | g \rangle = \langle f | \hat{K} g \rangle$$
+    \begin{align*}
+        \text{左边} &= \int_a^b (\hat{K} f)^* g \dd x \\
+        &= \int_a^b i \frac{\dd}{\dd x} f^* g \dd x \\
+        &= \int_a^b i g \dd{f^*} \\
+        &= i g f^* \big|_a^b - \int_a^b i f^* \dd g \\
+        &= i g f^* \big|_a^b + \int_a^b f^* (-i \frac{\dd}{\dd x} g) \dd x \\
+        &= \langle f | \hat{K} g \rangle + i g f^* \big|_a^b
+    \end{align*}
+    显然，只有边界项$i f^* g \big|_a^b = 0$时$\hat{K} = -i \frac{\dd}{\dd x}$才是厄米算符.
+\end{solution}
+
+这表明一个算符是否为厄米算符还与其所作用的态有关.
+
+\subsection{力学量的平均值}
+以位置为例，$|\psi(x)|^2$表示粒子在$x$处出现的概率密度$\rho(x)$.
+
+$x$在全空间上的均值：
+\begin{align*}
+    \bar{x} &= \int_{-\infty}^{+\infty} x \rho(x) \dd x \\
+    &= \int_{-\infty}^{+\infty} x |\psi(x)|^2 \dd x \\
+    &= \int_{-\infty}^{+\infty} x \cdot \psi^(x) \cdot \psi(x) \dd x \\
+    &= \int_{-\infty}^{+\infty} \psi^(x) \cdot x \cdot \psi(x) \dd x \\
+    &= \langle \psi | x | \psi \rangle \quad \text{记作 } \langle x \rangle
+\end{align*}
+
+对任意力学量$\hat{\Omega}$，在$\ket{\psi}$态下对其测量时总是会落入对应特定本征值$\omega_i$的本征态$\ket{\omega_i}$，相应的概率为$p_i = |\langle \omega_i | \psi \rangle|^2$.
+
+力学量$\hat{\Omega}$在某个态$\ket{\psi}$下的平均值为：
+\begin{align*}
+    \bar{\Omega} &= \sum_i p_i \omega_i \\
+    &= \sum_i |\langle \omega_i | \psi \rangle|^2 \omega_i \\
+    &= \sum_i \langle \psi | \omega_i \rangle \langle \omega_i | \psi \rangle \omega_i \\
+    &= \sum_i \langle \psi | \omega_i | \omega_i \rangle \langle \omega_i | \psi \rangle \quad (\hat{\Omega} \text{ 的本征方程 } \hat{\Omega} |\omega_i\rangle = \omega_i |\omega_i\rangle) \\
+    &= \sum_i \langle \psi | \hat{\Omega} | \omega_i \rangle \langle \omega_i | \psi \rangle \\
+    &= \langle \psi | \hat{\Omega} | \psi \rangle \quad \text{记作 } \langle \hat{\Omega} \rangle
+\end{align*}
+
+\subsection{对应原理}
+Bohr认为在微观、少粒子的情况下，体系表现出量子力学特性；当逐渐趋于宏观，大量粒子的情况时。其统计结果逐步趋向于经典力学.
+\begin{derivation}
+    自由粒子速度的平均值：
+    \begin{align*}
+        \bar{v} &= \frac{\dd \bar{x}}{\dd t} \\
+        &= \frac{\dd}{\dd t} \int_{-\infty}^{+\infty} x |\psi(x,t)|^2 \dd x \\
+        &= \int_{-\infty}^{+\infty} \left( \frac{\partial}{\partial t} x \cdot |\psi(x,t)|^2 + x \cdot \frac{\partial}{\partial t} |\psi(x,t)|^2 \right) \dd x \\
+        &= \int_{-\infty}^{+\infty} x \cdot \frac{\partial}{\partial t} |\psi(x,t)|^2 \dd x \\
+        &= \int_{-\infty}^{+\infty} x \cdot \underbrace{\left[ \psi \frac{\partial}{\partial t} \psi^* + \psi^* \frac{\partial}{\partial t} \psi \right]}_{\text{代入Schrödinger方程}} \dd x \\
+        &= \int_{-\infty}^{+\infty} x \cdot \left[ \psi \left( \frac{i}{\hbar} \hat{H} \psi^* \right) - \psi^* \left( \frac{i}{\hbar} \hat{H} \psi \right) \right] \dd x \\
+        &= \int_{-\infty^{+\infty}} x \cdot \frac{i}{\hbar} \cdot \frac{\hbar^2}{2\mu} \left[ \psi^* \frac{\partial^2}{\partial x^2} \psi - \frac{\partial^2}{\partial x^2} \psi^* \cdot \psi \right] \dd x \\
+        &= \int_{-\infty}^{+\infty} x \cdot \frac{i\hbar}{2\mu} \cdot {\frac{\partial}{\textcolor{BlueDeep}{\partial x}} \left[ \psi^* \frac{\partial}{\partial x} \psi - \frac{\partial}{\partial x} \psi^* \cdot \psi \right] \textcolor{BlueDeep}{\dd x}} \\
+        &= \int_{-\infty}^{+\infty} x \cdot \frac{i\hbar}{2\mu} \textcolor{BlueDeep}{\dd \left[ \psi^* \frac{\partial}{\partial x} \psi - \frac{\partial}{\partial x} \psi^* \cdot \psi \right]} \\
+        &= \frac{i\hbar}{2\mu} \left\{\textcolor{OrangeDeep}{\underbrace{\left[ x \cdot \left( \psi^* \frac{\partial}{\partial x} \psi - \frac{\partial}{\partial x} \psi^* \cdot \psi \right) \right]_{-\infty}^{+\infty}}_{\text{波函数在无穷远处为$0$}}} - \int_{-\infty}^{+\infty} \left[ \psi^* \frac{\partial}{\partial x} \psi - {\frac{\partial}{\textcolor{BlueDeep}{\partial x}} \psi^* \cdot \psi} \right] \textcolor{BlueDeep}{\dd x} \right\} \\
+        &= \textcolor{OrangeDeep}{0} - \frac{i\hbar}{2\mu} \left\{ \int_{-\infty}^{+\infty} \left[ \psi^* \frac{\partial}{\partial x} \psi \right] \dd x - \int_{-\infty}^{+\infty} \psi \dd \psi^* \right\} \\
+        &= -\frac{i\hbar}{2\mu} \left\{ \int_{-\infty}^{+\infty} \left[ \psi^* \frac{\partial}{\partial x} \psi \right] \dd x - \left[ \textcolor{OrangeDeep}{\psi^* \psi \Big|_{-\infty}^{+\infty}} - \textcolor{PurpleDeep}{\int_{-\infty}^{+\infty} \psi^* \dd \psi} \right] \right\} \\
+        &= -\frac{i\hbar}{2\mu} \left\{ \int_{-\infty}^{+\infty} \left[ \psi^* \frac{\partial}{\partial x} \psi \right] \dd x + \textcolor{PurpleDeep}{\int_{-\infty}^{+\infty} \left[ \psi^* \frac{\partial}{\partial x} \psi \right] \dd x} \right\} \\
+        &= \int_{-\infty}^{+\infty} \psi^* \frac{-i\hbar}{\mu} \frac{\partial}{\partial x} \psi \dd x \\
+        &= \left\langle \psi \middle| \frac{-i\hbar}{\mu} \frac{\partial}{\partial x} \middle| \psi \right\rangle \\
+        &= \langle v_x \rangle
+    \end{align*}
+    令：
+    $$\hat{v}_x \equiv -\frac{i\hbar}{\mu}\frac{\partial}{\partial x}$$
+    则动量算符：
+    $$\hat{p} = -i\hbar \frac{\partial}{\partial x}$$
+    它是一个厄米算符.
+\end{derivation}
+
+\subsection{量子力学的五大假设}
+\begin{enumerate}
+    \item \textbf{态假设} \\
+    粒子的状态由Hilbert空间中的态矢量$\ket{\psi(t)}$完备地描述.
+    \item \textbf{力学量假设} \\
+    力学量由厄米算符描述.
+    \item \textbf{测量假设} \\
+    在$\ket{\psi}$态中对力学量$\hat{\Omega}$进行测量，会得到其本征值$\omega_i$，归一化后相应的概率为$|\braket{\omega_i}{\psi}|^2$，其中$\ket{\omega_i}$为$\omega_i$所对应的本征态.
+    \item \textbf{演化假设} \\
+    态的演化服从含时Schrödinger方程$i\hbar \frac{\partial}{\partial t}\ket{\psi(t)} = \hat{H}\ket{\psi(t)}$.
+    \item \textbf{全同粒子假设} \\
+    内禀属性完全相同的粒子不可分辨.
+\end{enumerate}
+
+
+\section{自旋1/2系统的矩阵表示}
+在$\hat{S}_z$的本征矢所构成的基下，$\hat{S}_z$是一个对角阵.取：
+$$\ket{\uparrow} = \begin{bmatrix} 1 \\ 0 \end{bmatrix},\qquad \ket{\downarrow} = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$$
+则在$\hat{S}_z$表象下：
+$$\hat{S}_z = \begin{bmatrix} \frac{\hbar}{2} & 0 \\ 0 & -\frac{\hbar}{2} \end{bmatrix} = \underbrace{\frac{\hbar}{2} \ket{\uparrow}\bra{\uparrow} + (-\frac{\hbar}{2}) \ket{\downarrow}\bra{\downarrow}}_{\text{这样的表达不依赖于表象，是抽象的}}$$
+而在$\hat{S}_x$表象下：
+$$\hat{S}_x = \begin{bmatrix} \frac{\hbar}{2} & 0 \\ 0 & -\frac{\hbar}{2} \end{bmatrix} = \frac{\hbar}{2} \ket{+}\bra{+} + (-\frac{\hbar}{2}) \ket{-}\bra{-}$$
+
+在表象下对力学量进行描述，只是用所属该表象的数学语言描述客观实在，而力学量作为客观实在是不依赖于表象而存在的.
+
+\subsection{在\texorpdfstring{$\hat{S}_z$}{Sz}表象中表达\texorpdfstring{$\hat{S}_x$}{Sx}的矩阵}
+\textbf{整体相位因子没有物理意义}，对波函数，乘以整体相位因子$e^{i\alpha}$后对其归一性没有任何影响：
+\begin{align*}
+    \rho = |\psi(x)|^2 &= \psi^*(x)\psi(x) \\
+    &= (\psi(x)e^{i\alpha})^* \psi(x)e^{i\alpha} \\\
+    &= |\psi(x)e^{i\alpha}|^2
+\end{align*}
+这样的特性也适用于态矢量，因为波函数的本质是态矢量在坐标基上的投影.
+\begin{derivation}
+    在级联S-G实验中有叠加态：
+    $$\ket{\uparrow} = \frac{1}{\sqrt{2}} e^{i\theta} \ket{+} + \frac{1}{\sqrt{2}} e^{i\varphi} \ket{-}$$
+    乘以一个整体相位因子$e^{i\theta}$，物理意义不变.
+    $$\ket{\uparrow} = \frac{1}{\sqrt{2}} \ket{+} + \frac{1}{\sqrt{2}} e^{i(\varphi-\theta)} \ket{-}$$
+    令$\delta_1 \equiv \varphi  - \theta$，则上式写为：
+    $$\ket{\uparrow} = \frac{1}{\sqrt{2}} \ket{+} + \frac{1}{\sqrt{2}} e^{i\delta_1} \ket{-}$$
+    同理有：
+    $$\begin{cases} \ket{+} = \frac{1}{\sqrt{2}} \ket{\uparrow} + \frac{1}{\sqrt{2}} e^{i\delta_2} \ket{\downarrow} \\ \ket{-} = \frac{1}{\sqrt{2}} \ket{\uparrow} + \frac{1}{\sqrt{2}} e^{i\delta_2'} \ket{\downarrow} \end{cases}$$
+    厄米算符对不同本征值的本征矢是相互正交的，因此$\braket{-}{+}=0$，即：
+    \begin{align*}
+        \braket{-}{+} &= \left( \frac{1}{\sqrt{2}} \ket{\uparrow} + \frac{1}{\sqrt{2}} e^{i\delta_2'} \ket{\downarrow} \right)^{\dagger} \cdot \left( \frac{1}{\sqrt{2}} \ket{\uparrow} + \frac{1}{\sqrt{2}} e^{i\delta_2} \ket{\downarrow} \right) \\
+        &= \frac{1}{2} + \frac{1}{2} e^{i(\delta_2 - \delta_2')} \\
+        &= 0
+    \end{align*}
+    则$e^{i\delta_2'} = -e^{i\delta_2}$.
+    
+    转换为相同的相对相位因子是为了确保它们“方向一致”，减少无贡献物理量.
+
+    于是有:
+    $$\begin{cases} \ket{+} = \frac{1}{\sqrt{2}} \ket{\uparrow} + \frac{1}{\sqrt{2}} e^{i\delta_1} \ket{\downarrow} \\ \ket{-} = \frac{1}{\sqrt{2}} \ket{\uparrow} - \frac{1}{\sqrt{2}} e^{i\delta_1} \ket{\downarrow} \end{cases}$$
+    称之为$\hat{S}_x$的本征矢在$\hat{S}_z$表象下的形式.
+
+    在$\hat{S}_x$表象下：
+    $\hat{S}_x = \frac{\hbar}{2} \ketbra{+}{+} + (-\frac{\hbar}{2}) \ketbra{-}{-}$
+    为在$\hat{S}_z$表象下表达$\hat{S}_x$，即须求$\ketbra{+}{+}$和$\ketbra{-}{-}$基于$\ket{\downarrow}$和$\ket{\uparrow}$的表达：
+    \begin{align*}
+        \ketbra{+}{+} =& \left( \frac{1}{\sqrt{2}} \ket{\uparrow} + \frac{1}{\sqrt{2}} e^{i\delta_1} \ket{\downarrow} \right) \cdot \left( \frac{1}{\sqrt{2}} \ket{\uparrow} + \frac{1}{\sqrt{2}} e^{-i\delta_1} \ket{\downarrow} \right)^{\dagger} \\
+        =& \frac{1}{2} \left( \ketbra{\uparrow}{\uparrow} + e^{-i\delta_1} \ketbra{\uparrow}{\downarrow} + e^{i\delta_1} \ketbra{\downarrow}{\uparrow} + \ketbra{\downarrow}{\downarrow} \right) \\
+        \ketbra{-}{-} =& \left( \frac{1}{\sqrt{2}} \ket{\uparrow} - \frac{1}{\sqrt{2}} e^{i\delta_1} \ket{\downarrow} \right) \cdot \left( \frac{1}{\sqrt{2}} \ket{\uparrow} - \frac{1}{\sqrt{2}} e^{-i\delta_1} \ket{\downarrow} \right)^{\dagger} \\
+        =& \frac{1}{2} \left( \ketbra{\uparrow}{\uparrow} - e^{-i\delta_1} \ketbra{\uparrow}{\downarrow} - e^{i\delta_1} \ketbra{\downarrow}{\uparrow} + \ketbra{\downarrow}{\downarrow} \right) \\
+        \hat{S}_x =& \frac{\hbar}{2} \cdot \frac{1}{2} \left( \ketbra{\uparrow}{\uparrow} + e^{-i\delta_1} \ketbra{\uparrow}{\downarrow} + e^{i\delta_1} \ketbra{\downarrow}{\uparrow} + \ketbra{\downarrow}{\downarrow} \right) \\
+        &- \frac{\hbar}{2} \cdot \frac{1}{2} \left( \ketbra{\uparrow}{\uparrow} - e^{-i\delta_1} \ketbra{\uparrow}{\downarrow} - e^{i\delta_1} \ketbra{\downarrow}{\uparrow} + \ketbra{\downarrow}{\downarrow} \right) \\
+        =& \frac{\hbar}{2} \left( e^{-i\delta_1} \ketbra{\uparrow}{\downarrow} + e^{i\delta_1} \ketbra{\downarrow}{\uparrow} \right) \\
+        =& \frac{\hbar}{2} \begin{bmatrix} 0 & e^{-i\delta_1} \\ e^{i\delta_1} & 0 \end{bmatrix}
+    \end{align*}
+    接下来求取$\delta_2$的值，先考虑$\hat{S}_y$在$\hat{S}_z$表象下的形式.
+    
+    由于$y$轴和$x$轴在物理地位上是平权的，所以$\hat{S}_y$和$\hat{S}_z$在$\hat{S}_x$表象下的数学形式应为一致的：
+    $$\hat{S}_y = \frac{\hbar}{2} \begin{bmatrix} 0 & e^{-i\delta_3} \\ e^{i\delta_3} & 0 \end{bmatrix}$$
+    由级联S-G实验有：
+    \begin{align*}
+        |\braket{\textcolor{OrangeDeep}{S_{y+}}}{\textcolor{BlueDeep}{{-}}}|^2 &= \frac{1}{2} \\
+        \left| \textcolor{OrangeDeep}{\left( \frac{1}{\sqrt{2}} \bra{\uparrow} + \frac{1}{\sqrt{2}} e^{-i\delta_3} \bra{\downarrow} \right)} \textcolor{BlueDeep}{\left( \frac{1}{\sqrt{2}} \ket{\uparrow} - \frac{1}{\sqrt{2}} e^{i\delta_2} \ket{\downarrow} \right)} \right|^2 &= \frac{1}{2} \\
+        \frac{1}{4} |1 - e^{i(\delta_2 - \delta_3)}|^2 &= \frac{1}{2} \\
+        |1 - e^{i(\delta_2 - \delta_3)}|^2 &= 2
+    \end{align*}
+    又由$\braket{S_{y-}}{-} = \frac{1}{2}$有$|1 + e^{i(\delta_2 - \delta_3)}|^2 = 2$，因此：
+    $$\delta_2 - \delta_3 = \pm \frac{\pi}{2}$$
+    \[\begin{cases}
+        \text{若$\delta_2-\delta_3=-\frac{\pi}{2}$，称所构建的坐标系为右手系} \\
+        \text{若$\delta_2-\delta_3=\frac{\pi}{2}$，称所构建的坐标系为左手系}
+    \end{cases}\]
+    基于右手系，令$\delta_2 \equiv 0$，则$\delta_3 = \frac{\pi}{2}$.
+    
+    故而$\hat{S}_z$表象下：
+    $$\hat{S}_x = \frac{\hbar}{2} \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} \qquad \hat{S}_y = \frac{\hbar}{2} \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix} \qquad \hat{S}_z = \frac{\hbar}{2} \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix}$$
+\end{derivation}
+\begin{extension}{$\hat{S}_x$和$\hat{S}_z$的对易子$[\hat{S}_x,\hat{S}_z]$}
+    \begin{align*}
+        [\hat{S}_x, \hat{S}_z] &= \hat{S}_x \hat{S}_z - \hat{S}_z \hat{S}_x \\
+        &= \frac{\hbar^2}{4} \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} - \frac{\hbar^2}{4} \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} \\
+        &= \frac{\hbar^2}{4} \left( \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix} - \begin{bmatrix} 0 & 1 \\ -1 & 0 \end{bmatrix} \right) \\
+        &= \frac{\hbar^2}{4} \begin{bmatrix} 0 & -2 \\ 2 & 0 \end{bmatrix} \\
+        &= -i\hbar \cdot \frac{\hbar}{2} \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix} \\
+        &= -i\hbar \hat{S}_y
+    \end{align*}
+    经过不同坐标的计算，不难发现如下规律：
+    $$[\hat{S}_\alpha,\hat{S}_\beta] = \varepsilon_{\alpha\beta\gamma} i\hbar\hat{S}_\gamma$$
+    其中，$\varepsilon_{\alpha\beta\gamma}$称为\textbf{Levi-civita记号}，逆序数为偶时等于$1$，为奇时等于$-1$.
+    
+    还可以定义$\hat{S}^2 = \hat{S}_x^2 + \hat{S}_y^2 + \hat{S}_z^2 = \frac{3}{4}\hbar^2\hat{I}$，显然$\hat{S}^2$是个常数算符，而常数与任何算符的对易子均为$0$，有$[\hat{S}^2,\hat{S}_\alpha]=0$.
+\end{extension}
+
+
+\section{(不)相容力学量和对易关系}
+\begin{definition}
+    \begin{itemize}
+        \item 称一个力学量$\hat{A}$的本征态对于另一个力学量$\hat{B}$而言是叠加态(从而$\hat{A},\hat{B}$无法同时取确定的值)的力学量为\textbf{不相容力学量}.
+        \item 称存在一组共同的本征态力学量$\hat{A}$和力学量$\hat{B}$为\textbf{相容力学量}.
+    \end{itemize}
+\end{definition}
+
+算符对应测量，若$\hat{A},\hat{B}$可同时取确定的值，则先测$\hat{A}$还是$\hat{B}$无区别.
+
+故而有$\hat{A}\hat{B}=\hat{A}\hat{B},[\hat{A},\hat{B}]=0$.
+
+\begin{proposition}
+    当且仅当$[\hat{A},\hat{B}]=0$，力学量$\hat{A}$和力学量$\hat{B}$存在一组共同的本征态.
+\end{proposition}
+\begin{proof}
+    \textbf{充分性：}
+
+    设二者有共同本征态$\{\ket{n}\}$，即$\begin{cases} \hat{A}\ket{n} = a_n\ket{n} \\ \hat{B}\ket{n} = b_n\ket{n} \end{cases}$
+
+    算符只有作用在一个态上才有意义：
+    \begin{align*}
+        \comm{\hat{A}}{\hat{B}}\ket{\psi} &= (\hat{A}\hat{B} - \hat{B}\hat{A})\hat{I}\ket{\psi} \\
+        &= \sum_{n} (\hat{A}\hat{B} - \hat{B}\hat{A})\ket{n}\bra{n}\ket{\psi} \\
+        &= \sum_{n} (\hat{A}b_n - \hat{B}a_n)\ket{n}\bra{n}\ket{\psi} \\
+        &= \sum_{n} (a_n b_n - b_n a_n)\ket{n}\bra{n}\ket{\psi} \\
+        &= 0 \quad \Rightarrow \comm{\hat{A}}{\hat{B}} = 0
+    \end{align*}
+    \rule{\textwidth}{0.4pt}
+    \textbf{必要性：}
+
+    设$\ket{n}$是$\hat{A}$的本征态：
+    \begin{align*}
+        0 &= \comm{\hat{A}}{\hat{B}}\ket{n} \\
+        &= (\hat{A}\hat{B} - \hat{B}\hat{A})\ket{n} \\
+        &= (\hat{A}\hat{B} - \hat{B}a_n)\ket{n} \quad \Rightarrow \hat{A}\hat{B}\ket{n} = a_n \hat{B}\ket{n}
+    \end{align*}
+    则$\hat{B}\ket{n}$是$\hat{A}$的本征矢，对应本征值$a_n$.
+    \begin{itemize}
+        \item \textbf{若$a_n$非简并：} \\
+        于是$\hat{B}\ket{n}$与$\ket{n}$是同一个态.\\
+        则$\hat{B}\ket{n}=b_n\ket{n}$(本征矢的长度没有意义). \\
+        因此$\ket{n}$也是$\hat{B}$的本征态.
+        \item \textbf{若$a_n$存在简并：} \\
+        表明$a_n$对应的多个本征值构成了一个本征子空间，且经过$\hat{B}$作用的$\ket{n}$(即$\hat{B}\ket{n}$)对应本征值$a_n$. \\
+        也就是说，$\hat{B}\ket{n}$也在$a_n$对应的本征子空间中. \\
+        将$\hat{B}$在该本征子空间中的表象对角化，根据定理：
+        \begin{center}
+            \textit{算符在用其自身的一组正交归一本征矢构成的基下表示为一个对角矩阵}
+        \end{center}
+        对角化构造了该本征子空间中的一组新的基，且这组基是由$\hat{B}$的正交归一本征矢构成的. \\
+        这个新基必然可以在$\ket{n}$所在的原基上被线性表出，而$a_n$所对应的本征矢的线性组合仍是对应$a_n$的本征矢. \\
+        即新基也是对应本征值$a_n$的$\hat{A}$的本征矢，又是$\hat{B}$对应另一本征值$b_n$的本征矢. \\
+        所以$\hat{A},\hat{B}$有一组共同的本征态.
+    \end{itemize}
+\end{proof}
+
+\subsection{基本对易关系}
+计算$\comm{x}{\hat{P}_x}$：
+
+将$\comm{x}{\hat{P}_x}$作用在任意波函数上：
+\begin{align*}
+    \comm{x}{\hat{p}_x} \psi(x) &= (x \hat{p}_x - \hat{p}_x x) \psi(x) \\
+    &= -i\hbar \left\{ x \frac{d}{dx} \psi(x) - \frac{d}{dx} [x \psi(x)] \right\} \\
+    &= -i\hbar \left\{ x \frac{d}{dx} \psi(x) - \left[ \psi(x) + x \frac{d}{dx} \psi(x) \right] \right\} \\
+    &= i\hbar \psi(x) \quad \Rightarrow \comm{x}{\hat{p}_x} = i\hbar \quad \text{基本对易关系}
+\end{align*}
+
+\subsection{对易式基本性质}
+\begin{itemize}
+    \item $\comm{\hat{A}}{\hat{B}} = -\comm{\hat{B}}{\hat{A}}$
+    \item $\comm{\hat{A}}{f(\hat{A})} = 0$
+    \item $\comm{\hat{A}}{\text{const}} = 0$
+    \item $\comm{\hat{A}}{\hat{B} + \hat{C}} = \comm{\hat{A}}{\hat{B}} + \comm{\hat{A}}{\hat{C}}$
+    \item $\comm{\hat{A}}{\hat{B}\hat{C}} = \hat{B}\comm{\hat{A}}{\hat{C}} + \comm{\hat{A}}{\hat{B}}\hat{C}$
+    \item $\comm{\hat{A}\hat{B}}{\hat{C}} = \hat{A}\comm{\hat{B}}{\hat{C}} + \comm{\hat{A}}{\hat{C}}\hat{B}$
+    \item $\comm{\hat{A}}{\comm{\hat{B}}{\hat{C}}} + \comm{\hat{B}}{\comm{\hat{C}}{\hat{A}}} + \comm{\hat{C}}{\comm{\hat{A}}{\hat{B}}} = 0$ \quad 雅可比恒等式
+\end{itemize}
+\begin{extension}{}
+    \begin{itemize}
+        \item \textbf{计算$\comm{x}{-\frac{\hbar^2}{2\mu} \hat{p}^2 + V(x)}$}
+        \begin{align*}
+            \comm{x}{-\frac{\hbar^2}{2\mu} \hat{p}^2 + V(x)} &= -\frac{\hbar^2}{2\mu} \comm{x}{\hat{p}^2} + \comm{x}{V(x)} \\
+            &= -\frac{\hbar^2}{2\mu} (\hat{p} \comm{x}{\hat{p}} + \comm{x}{\hat{p}} \hat{p}) \\
+            &= -\frac{i\hbar^3}{\mu} \hat{p}
+        \end{align*}
+        \item \textbf{计算$\comm{\hat{p}}{f(x)}$}
+        \begin{align*}
+            \comm{\hat{p}}{f(x)} \psi(x) &= -i\hbar \left[ \pdv{x} f(x) - f(x) \pdv{x} \right] \psi(x) \\
+            &= -i\hbar \left[ \pdv{x} (f(x) \psi(x)) - f(x) \pdv{x} \psi(x) \right] \\
+            &= \left[ -i\hbar \pdv{x} f(x) \right] \psi(x) \\
+            \Rightarrow \comm{\hat{p}}{f(x)} &= -i\hbar \pdv{x} f(x) = \comm{\hat{p}}{x} \pdv{x} f(x)
+        \end{align*}
+        \item \textbf{计算$\comm{x}{f(\hat{p})}$}
+        \[\comm{x}{f(\hat{p})} = \comm{x}{\hat{p}} \frac{\partial}{\partial \hat{p}} f(\hat{p})\]
+    \end{itemize}
+\end{extension}
+
+
+\section{力学量完全集(CSCO)}
+\begin{itemize}
+    \item 若本征值非简并，则只对某力学量$\hat{A}$测得$a_n$就能确定系统处于本征态$\ket{n}$，称$\hat{A}$构成了该体系的一组\overtext{力学量完全集}{complet set of commuting observables}(CSCO).
+    \item 若本征值简并，只测得$a_n$只能确定系统的状态处于$a_n$对应的本征子空间(本征矢族$\{a_n^{(i)}\}$及其所有线性组合，$i$为简并重数)中. \\
+    由此，引入进一步的测量$\hat{B}$，$\hat{B}$应与$\hat{A}$对易，否则会破坏$\hat{A}$的测量结果.\\
+    通过$\hat{A}$的本征态矢线性组合为$\hat{B}$的本征态矢，新本征态矢仍关于$\hat{A}$简并，不一定关于$\hat{B}$简并.
+    \begin{itemize}
+        \item 若关于$\hat{B}$非简并，则$\hat{A},\hat{B}$唯一地确定了系统的状态，称$\{\hat{A},\hat{B}\}$构成了该体系的一组CSCO.
+        \item 若关于$\hat{B}$简并，重复上述操作，引入对易的测量$\hat{C},\hat{d},\cdots,\hat{\Omega}_n$直至非简并，称$\{\hat{C},\hat{d},\cdots,\hat{\Omega}_n\}$构成了该体系的一组CSCO.
+    \end{itemize}
+\end{itemize}
+显然，CSCO中力学量的个数对应系统的自由度.对同一系统，构成它CSCO的力学量可以不同，但力学量个数是固定的.
+
+
+\section{Heisenberg不确定性原理和Ehrenfest定理}
+\begin{question}
+    若$\comm{\hat{A}}{\hat{B}} \neq 0$，则在一般态下$\hat{A}$与$\hat{B}$的不确定度不能同时取0，这是否意味着$\Delta\hat{A}\Delta\hat{B}>0$呢？
+\end{question}
+
+\subsection{广义Heisenberg不确定性原理}
+\begin{derivation}
+根据概率论，方差：
+\begin{align*}
+    (\Delta \hat{A})^2 &= \ev{(\hat{A} - \ev{\hat{A}})^2} \\
+    &= \mel{\psi}{(\hat{A} - \ev{\hat{A}})^2}{\psi} \\
+    &= \mel{\psi}{\hat{A}^2}{\psi} - \mel{\psi}{2\ev{\hat{A}}\hat{A}}{\psi} + \mel{\psi}{\ev{\hat{A}}^2}{\psi} \\
+    &= \ev{\hat{A}^2} - \ev{\hat{A}}^2
+\end{align*}
+注意到：
+\begin{align*}
+    (\Delta \hat{A})^2 &= \ev{\hat{A}^2} - \ev{\hat{A}}^2 \\
+    &= \mel{\psi}{\hat{A}^2}{\psi} - \ev{\hat{A}}^2 \braket{\psi}{\psi} \\
+    &= \mel{\psi}{\hat{A}^2}{\psi} - 2\ev{\hat{A}}^2 \braket{\psi}{\psi} + \ev{\hat{A}}^2 \braket{\psi}{\psi} \\
+    &= (\bra{\psi}\hat{A} - \bra{\psi}\ev{\hat{A}}) \cdot (\hat{A}\ket{\psi} - \ev{\hat{A}}\ket{\psi}) \\
+    &= \braket{(\hat{A} - \ev{\hat{A}})\psi}{(\hat{A} - \ev{\hat{A}})\psi} \quad \text{令 } \ket{(\hat{A} - \ev{\hat{A}})\psi} = \ket{f} \\
+    &= \braket{f}{f}
+\end{align*}
+同理$(\Delta \hat{B})^2 = \braket{g}{g}$.
+由Cauthy-Schwarz不等式$|\braket{u}{v}|^2 \le \braket{u}{u}\braket{v}{v}$：
+\[(\Delta \hat{A})^2 (\Delta \hat{B})^2 = \braket{f}{f}\braket{g}{g} \ge |\braket{f}{g}|^2\]
+令$\braket{f}{g}=z=x+iy$，有：
+\[|z|^2 = x^2 + y^2 \ge y^2 = \left[ \frac{1}{2i}(z - z^*) \right]^2\]
+即：
+\[(\Delta \hat{A})^2 (\Delta \hat{B})^2 \ge |\braket{f}{g}|^2 \ge \left[ \frac{1}{2i}(\braket{f}{g} - \braket{g}{f}) \right]^2\]
+其中：
+\begin{align*}
+    \braket{f}{g} &= \braket{(\hat{A} - \ev{\hat{A}})\psi}{(\hat{B} - \ev{\hat{B}})\psi} \\
+    &= \mel{\psi}{(\hat{A} - \ev{\hat{A}})(\hat{B} - \ev{\hat{B}})}{\psi} \\
+    &= \mel{\psi}{(\hat{A}\hat{B} - \hat{A}\ev{\hat{B}} - \ev{\hat{A}}\hat{B} + \ev{\hat{A}}\ev{\hat{B}})}{\psi} \\
+    &= \ev{\hat{A}\hat{B}} - \ev{\hat{A}}\ev{\hat{B}}
+\end{align*}
+同理有$\braket{g}{f}=\ev{\hat{B}\hat{A}} - \ev{\hat{B}}\ev{\hat{A}}$，因此：
+$$\braket{f}{g} - \braket{g}{f} = \ev{\hat{A}\hat{B}} - \ev{\hat{B}\hat{A}} = \ev{[\hat{A}, \hat{B}]}$$
+则：
+$$(\Delta \hat{A})^2 (\Delta \hat{B})^2 \ge \left[ \frac{1}{2i} (\braket{f}{g} - \braket{g}{f}) \right]^2 = \left[ \frac{1}{2i} \ev{[\hat{A}, \hat{B}]} \right]^2$$
+故而有：
+$$\Delta \hat{A} \Delta \hat{B} \ge \left| \frac{1}{2i} \ev{[\hat{A}, \hat{B}]} \right|$$
+这就是\overtext{广义}{global}\textbf{Heisenberg}\overtext{不确定性原理}{uncertainty principle}
+\end{derivation}
+根据上述原理，可以算得：
+\begin{itemize}
+    \item $\Delta x \Delta \hat{p} \ge \left| \frac{1}{2i} \ev{[x, \hat{p}]} \right| = \left| \frac{1}{2i} \cdot i\hbar \right| = \frac{\hbar}{2}$
+    \item $\Delta \hat{S}_x \Delta \hat{S}_y \ge \frac{1}{2i} \ev{[\hat{S}_x, \hat{S}_y]} = \frac{1}{2i} \ev{i\hbar \hat{S}_z} = \frac{\hbar}{2} \ev{\hat{S}_z}$
+\end{itemize}
+
+\subsection{时间-能量不确定性原理和Ehrenfest定理}
+$$\Delta E \Delta t \ge \frac{\hbar}{2}$$
+式中$\Delta t$不是指时间不确定度。在非相对论量子力学中，时间与空间不平权，时间不是力学量。
+
+考虑某状态 $\ket{\psi}$ 中某个可观测量 $\hat{Q}$ 的期望值随时间的变化：
+\begin{align*}
+    \frac{d}{dt} \ev{\hat{Q}} &= \frac{d}{dt} \mel{\psi}{\hat{Q}}{\psi} \\
+    &= \braket{\pdv{t}\psi}{\hat{Q}|\psi} + \mel{\psi}{\pdv{\hat{Q}}{t}}{\psi} + \mel{\psi}{\hat{Q}}{\pdv{t}\psi} \\
+    &= \braket{\pdv{t}\psi}{\hat{Q}|\psi} + \mel{\psi}{\hat{Q}}{\pdv{t}\psi} + \ev{\pdv{\hat{Q}}{t}} \\
+    \intertext{{由 Schrödinger 方程$i\hbar \pdv{t} \ket{\psi} = \hat{H} \ket{\psi}$，两边同取厄米共轭$-i\hbar \pdv{t} \bra{\psi} = \bra{\psi} \hat{H}$，代入：}}
+    &= \frac{i}{\hbar} \mel{\psi}{\hat{H}\hat{Q}}{\psi} - \frac{i}{\hbar} \mel{\psi}{\hat{Q}\hat{H}}{\psi} + \ev{\pdv{\hat{Q}}{t}} \\
+    &= \frac{i}{\hbar} \ev{[\hat{H}, \hat{Q}]} + \ev{\pdv{\hat{Q}}{t}}
+\end{align*}
+综上，有：
+\begin{theorem}
+    \textbf{Ehrenfest定理}：
+    \[\begin{cases}
+        \frac{d}{dt} \ev{\hat{Q}} &= \frac{1}{i\hbar} \ev{[\hat{Q}, \hat{H}]} + \ev{\pdv{\hat{Q}}{t}} \\
+        \frac{d}{dt} \ev{\hat{Q}} &= \frac{1}{i\hbar} \ev{[\hat{Q}, \hat{H}]} \quad \text{$\hat{Q}$不显含时间的退化形式}
+    \end{cases}\]
+\end{theorem}
+
+由广义Heisenberg不确定性原理：
+\begin{align*}
+    \Delta \hat{Q} \Delta \hat{H} &\ge \left| \frac{1}{2i} \ev{[\hat{Q}, \hat{H}]} \right| = \left| \frac{\hbar}{2} \frac{d}{dt} \ev{\hat{Q}} \right| \\
+    \Delta \hat{H} \frac{\Delta \hat{Q}}{\left| \frac{d}{dt} \ev{\hat{Q}} \right|} &\ge \frac{\hbar}{2}
+\end{align*}
+
+有$\Delta t = \frac{\Delta \hat{Q}}{\left| \frac{d}{dt} \ev{\hat{Q}} \right|},\Delta H=\Delta E$，则：
+$$\Delta E \Delta t \ge \frac{\hbar}{2}$$
+
+$\Delta \hat{Q}$ 是 $\hat{Q}$ 的一个标准差，而 $\frac{d}{dt} \ev{\hat{Q}}$ 是 $\ev{\hat{Q}}$ 变化的速率。
+
+$\Delta t$ 的物理意义为 $\ev{\hat{Q}}$ 变化一个标准差所用的时间。
+
+
+\section{表象变换}
+\begin{definition}
+    \overtext{表象}{representation}是指使用某个厄米算符的全体本征态构成的正交归一完备基将Hilbert空间中的态或力学量表达为具体数学对象的过程.
+\end{definition}
+\subsection{幺正算符\texorpdfstring{$\hat{U}$}{U}的矩阵形式}
+对一组正交归一本征基$\{\ket{a^{(i)}}\}$进行幺正变换可以转变为另一组正交归一本征基$\{\ket{b^{(i)}}\}$.
+
+上述操作$\hat{U}\{\ket{a^{(i)}}\}=\{\ket{b^{(i)}}\}$即将$\hat{A}$表象变换至$\hat{B}$表象.
+\begin{gather*}
+    \text{矩阵元} \quad U_{mn} = \mel{a^{(m)}}{\hat{U}}{a^{(n)}} = \braket{a^{(m)}}{b^{(n)}} \\
+    \text{因此$\hat{A}$表象下} \quad \hat{U} = \begin{bmatrix} 
+    \braket{a^{(1)}}{b^{(1)}} & \braket{a^{(1)}}{b^{(2)}} & \cdots & \braket{a^{(1)}}{b^{(N)}} \\
+    \braket{a^{(2)}}{b^{(1)}} & \braket{a^{(2)}}{b^{(2)}} & \cdots & \braket{a^{(2)}}{b^{(N)}} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    \braket{a^{(N)}}{b^{(1)}} & \braket{a^{(N)}}{b^{(2)}} & \cdots & \braket{a^{(N)}}{b^{(N)}} 
+    \end{bmatrix}
+\end{gather*}
+用上述方法计算过于繁琐，试在 $\hat{A}$ 表象下求取 $\hat{B}$ 的本征方程：
+\begin{align*}
+    \hat{B} \ket{b^{(j)}} &= b_j \ket{b^{(j)}} 
+    &\intertext{两边同乘$\bra{a^{(i)}}$：}
+    \mel{a^{(i)}}{\hat{B}}{b^{(j)}} &= b_j \braket{a^{(i)}}{b^{(j)}} \\
+    \sum_k \mel{a^{(i)}}{\hat{B}}{a^{(k)}} \braket{a^{(k)}}{b^{(j)}} &= b_j \braket{a^{(i)}}{b^{(j)}} \\
+    \begin{bmatrix}
+    B_{11} & B_{12} & \cdots & B_{1N} \\
+    B_{21} & B_{22} & \cdots & B_{2N} \\
+    \vdots & \vdots & \ddots & \vdots \\
+    B_{N1} & B_{N2} & \cdots & B_{NN}
+    \end{bmatrix} \begin{bmatrix}
+    \braket{a^{(1)}}{b^{(j)}} \\
+    \braket{a^{(2)}}{b^{(j)}} \\
+    \vdots \\
+    \braket{a^{(N)}}{b^{(j)}}
+    \end{bmatrix} &= b_j \begin{bmatrix}
+    \braket{a^{(1)}}{b^{(j)}} \\
+    \braket{a^{(2)}}{b^{(j)}} \\
+    \vdots \\
+    \braket{a^{(N)}}{b^{(j)}}
+    \end{bmatrix}
+\end{align*}
+因此 $b_j$ 对应的本征矢即为 $\hat{U}$ 矩阵第 $j$ 列的矩阵元，将 $\hat{B}$ 所有的本征矢求出并列起来便可得到变换矩阵 $\hat{U}$.
+
+\begin{question}
+    求 $\hat{S}_z$ 表象到 $\hat{S}_x$ 表象的变换矩阵 $\hat{U}_{zx}$ 并证明其幺正性.
+\end{question}
+\begin{solution}
+    在 $\hat{S}_z$ 表象下求解 $\hat{S}_x$ 的本征方程：
+    $$\frac{\hbar}{2} \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} \begin{bmatrix} \alpha \\ \beta \end{bmatrix} = s_x \begin{bmatrix} \alpha \\ \beta \end{bmatrix}$$
+    解得$\begin{cases}
+        s_{x+} &= \frac{\hbar}{2} \\
+        s_{x-} &= -\frac{\hbar}{2}
+    \end{cases}$.对应本征矢$\ket{+} = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix},\ket{-} = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ -1 \end{bmatrix}$.
+
+    因此：
+    $$\hat{U}_{zx} = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix} \quad \text{(本征矢排列的顺序对作用效果无影响)}$$
+    $$\hat{U}_{zx}^\dagger \hat{U}_{zx} = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix} \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \\ 1 & -1 \end{bmatrix} = \hat{I}$$
+    故 $\hat{U}_{zx}$是幺正的.
+\end{solution}
+\begin{extension}{在新基中表示旧基中的矢量}
+    旧基下：
+    $$\ket{w} = \begin{bmatrix} \braket{a^{(1)}}{b^{(j)}} \\ \braket{a^{(2)}}{b^{(j)}} \\ \vdots \\ \braket{a^{(n)}}{b^{(j)}} \end{bmatrix} = \begin{bmatrix} a_1 \\ a_2 \\ \vdots \\ a_n \end{bmatrix}$$
+    新基下的展开系数：
+    \begin{align*}
+        \braket{b^{(i)}}{w} &= \sum_j \braket{b^{(i)}}{a^{(j)}} \braket{a^{(j)}}{w} \\
+        &= \sum_j \braket{a^{(j)}}{b^{(i)}}^* \braket{a^{(j)}}{w} \\
+        &= \sum_j \left( \mel{a^{(j)}}{\hat{U}}{a^{(i)}} \right)^* \braket{a^{(j)}}{w} \\
+        &= \sum_j U_{ji}^* a_j \\
+        &= \sum_j U_{ij}^\dagger a_j \quad \text{旧基下的展开系数}
+    \end{align*}
+    则有:
+    \begin{itemize}
+        \item $\ket{w}_b = \hat{U}^\dagger \ket{w}_a$ \\
+        旧表象 $\rightarrow$ 新表象，坐标系被旋转，客观存在的态矢往反方向旋转才能维持 Hilbert 空间中的原位置.
+        \item $\ket{b^{(i)}} = \hat{U} \ket{a^{(i)}}$ \\
+        旋转坐标本身，不是对客观实在的观察.
+    \end{itemize}
+\end{extension}
+\begin{extension}{在新基中表示旧基中的矩阵}
+    旧基下：
+    $$\left. \Omega_{mn} \right|_A = \mel{a^{(m)}}{\hat{\Omega}}{a^{(n)}}$$
+    则;
+    \begin{align*}
+        \eval{\Omega_{mn}}_B &= \mel{b^{(m)}}{\hat{\Omega}}{b^{(n)}} \\
+        &= \sum_{\alpha=1}^N \sum_{\beta=1}^N \braket{b^{(m)}}{a^{(\alpha)}} \mel{a^{(\alpha)}}{\hat{\Omega}}{a^{(\beta)}} \braket{a^{(\beta)}}{b^{(n)}} \\
+        &= \sum_{\alpha=1}^N \sum_{\beta=1}^N \mel{a^{(m)}}{\hat{U}^\dagger}{a^{(\alpha)}} \mel{a^{(\alpha)}}{\hat{\Omega}}{a^{(\beta)}} \mel{a^{(\beta)}}{\hat{U}}{a^{(n)}} \\
+        &= \hat{U}^\dagger \left.\hat{\Omega}\right|_A \hat{U}
+    \end{align*}
+\end{extension}
+
+\section{动量表象波函数}
+\noindent % 防止当前行缩进
+\begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \textbf{在 $x$ 表象下将 $\ket{\psi}$ 展开}
+    \begin{align*}
+        \ket{\psi} &= \int \ket{x}\braket{x}{\psi} \dd x \\
+        &= \int \braket{x}{\psi} \ket{x} \dd x \\
+        &= \int \psi(x)\ket{x} \dd x
+    \end{align*}
+\end{minipage}
+\hfill\vrule\hfill
+\begin{minipage}[t]{0.48\textwidth}
+    \centering
+    \textbf{在 $p$ 表象下将 $\ket{\psi}$ 展开}
+    \begin{align*}
+        \ket{\psi} &= \int \ket{p}\braket{p}{\psi} \dd p \\
+        &= \int \braket{p}{\psi} \ket{p} \dd p \\
+        &= \int \psi(p)\ket{p} \dd p
+    \end{align*}
+\end{minipage}
+\vspace{1em}
+
+波函数是态矢量在具体表象基矢上的投影.
+
+$|\psi(p)|^2 = |\braket{p}{\psi}|^2$为在$\ket{\psi}$态中$p$处找到粒子的概率密度.
+
+\subsection{\texorpdfstring{$\phi(x)$和$\phi(p)$的变换}{phi(x)和phi(p)的变换}}
+\noindent
+\begin{align*}
+    \psi(p) &= \braket{p}{\psi} & \qquad \ket{x} &= \int \ket{p} \braket{p}{x} \dd{p} \\
+    &= \int \braket{p}{x} \braket{x}{\psi} \dd{x} & \qquad &= \int \braket{p}{x} \ket{p} \dd{p} \\
+    &= \int \psi(x) \braket{p}{x} \dd{x} & \qquad \braket{p}{x} & \text{的意义为 } x \text{ 的本征态用 } p \text{ 本征态展开时的展开系数}
+\end{align*}
+$\text{为求 } \braket{p}{x} \text{，先求 } \braket{x}{p} \text{，令 } f_p(x) = \braket{x}{p}$
+\begin{align*}
+    \text{本征方程} \quad \hat{p} \ket{p} &= p \ket{p} \\
+    \mel{x}{\hat{p}}{p} &= p \braket{x}{p} \\
+    \intertext{由于$\hat{p} = -i\hbar \pdv{x}$且$\hat{p}$是厄米算符：}
+    -i\hbar \pdv{x} \braket{x}{p} &= p \braket{x}{p} \\
+    -i\hbar \pdv{f_p(x)}{x} &= p f_p(x) \\
+    \pdv{f_p(x)}{x} &= \frac{ip}{\hbar} f_p(x) \\
+    \int \frac{1}{f_p(x)} \dd{f_p(x)} &= \int \frac{ip}{\hbar} \dd{x} \\
+    \ln(f_p(x)) &= \frac{ipx}{\hbar} + C' \\
+    f_p(x) &= C e^{\frac{ipx}{\hbar}}
+\end{align*}
+为求$C$，考虑：
+\begin{align*}
+    \delta(x-x') &= \braket{x}{x'} \\
+    &=\int \braket{x}{p} \braket{p}{x'} \dd p \\
+    &=\int Ce^{\frac{ipx}{\hbar}} \cdot C^* e^{-\frac{ipx}{\hbar}} \dd p \\
+    &=|C|^2 \int e^{ip(x-x')/\hbar} \dd p \\
+    \intertext{由$\delta(x-x')$的Fourier变换$\delta(x-x') = \frac{1}{2\pi} \int^{+\infty}_{-\infty} e^{ik(x'-x)} \dd k$：}
+    &=|C|^2 \int e^{ik(x-x')} \dd{\hbar k} \\
+    \intertext{代入de Brogile关系$p=\hbar k$：}
+    &=|C|^2 2\pi \hbar \delta(x-x') \Rightarrow C=\frac{1}{\sqrt{2\pi \hbar}}
+\end{align*}
+
+故而有：
+\[\begin{cases}
+f_p(x) = \braket{x}{p} = \frac{1}{2\pi \hbar} e^{ipx/\hbar} \quad \text{(p在x表象中的本征函数)} \\
+f_x(p) = \braket{p}{x} = \braket{x}{p}^* = \frac{1}{2\pi \hbar} e^{-ipx/\hbar} \quad \text{(x在p表象中的本征函数)}
+\end{cases}\]
+
+综上：
+\[\begin{cases}
+    \psi(p) = \frac{1}{2\pi \hbar} \int e^{-ipx/\hbar} \psi(x) \dd x \\
+    \psi(x) = \frac{1}{2\pi \hbar} \int e^{ipx/\hbar} \psi(p) \dd p
+\end{cases}\]
+
+
+\section{动量表象位置算符}
+\subsection{\texorpdfstring{$\hat{p}$表象下的 $\hat{x}$ 矩阵元}{p表象下的x矩阵元}}
+\begin{align*}
+    x_{p'p} &= \bra{p'} \hat{x} \ket{p} \\
+    &= \iint \bra{p'} x' \rangle \textcolor{PurpleDeep}{\bra{x'} \hat{x} \ket{x}} \bra{x} p \rangle \dd{x'} \dd{x} \\
+    &= \iint \frac{1}{\sqrt{2\pi\hbar}} e^{-ip'x'/\hbar} \textcolor{PurpleDeep}{x \bra{x'} x \rangle} \frac{1}{\sqrt{2\pi\hbar}} e^{ipx/\hbar} \dd{x'} \dd{x} \\
+    &= \frac{1}{2\pi\hbar} \int \underbrace{\left[\textcolor{BlueDeep}{\int e^{-ip'x'/\hbar}} \textcolor{PurpleDeep}{x \delta(x-x')} \textcolor{BlueDeep}{\dd{x'}} \right]}_{\textcolor{BlueDeep}{\text{$\delta$函数的采样性}}} e^{ipx/\hbar} \dd{x} \\
+    &= \frac{1}{2\pi\hbar} \int \textcolor{BlueDeep}{x} e^{-ip'\textcolor{BlueDeep}{x}/\hbar} e^{ipx/\hbar} \dd{x} \\
+    &= \frac{1}{2\pi\hbar} \int \textcolor{OrangeDeep}{i\hbar \frac{d}{dp'} e^{-ip'x/\hbar}} e^{ipx/\hbar} \dd{x} \\
+    &= \frac{1}{2\pi\hbar} \textcolor{OrangeDeep}{i\hbar \frac{d}{dp'}} \int \textcolor{OrangeDeep}{e^{-ip'x/\hbar}} e^{ipx/\hbar} \dd{x} \\
+    &= i\hbar \frac{d}{dp'} \int \bra{p'} x \rangle \bra{x} p \rangle \dd{x} \\
+    &= i\hbar \frac{d}{dp'} \bra{p'} p \rangle \\
+    &= i\hbar \frac{d}{dp'} \delta(p'-p)
+\end{align*}
+
+\subsection{\texorpdfstring{$\hat{x}$的算符形式}{x的算符形式}}
+考虑 $\ket{\varphi} = \hat{x} \ket{\phi}$，使之在 $p$ 表象中表示 $\bra{p} \ket{\varphi} = \hat{x} \bra{p} \ket{\phi}$：
+
+用矩阵乘法写为 
+$\begin{bmatrix} \vdots \\ \bra{p} \ket{\varphi} \\ \vdots \end{bmatrix} = \begin{bmatrix} & & \\ & x_{pp'} & \\ & & \end{bmatrix} \begin{bmatrix} \vdots \\ \bra{p'} \ket{\phi} \\ \vdots \end{bmatrix}$
+\begin{align*}
+    \text{则 } \bra{p}\ket{\varphi} &= \varphi_p \\
+    &= \int_{-\infty}^{+\infty} \textcolor{PurpleDeep}{x_{pp'}} \textcolor{BlueDeep}{\bra{p'}\ket{\phi}} \dd{p'} \\
+    \intertext{$x$是厄米算符，有$x_{pp'} = x^*_{p'p} = \left[i\hbar \frac{\dd}{\dd{p'}}\delta(p'-p)\right]^* = -x_{p'p}$：}
+    &= \textcolor{PurpleDeep}{-} \int_{-\infty}^{+\infty} \textcolor{PurpleDeep}{x_{p'p}} \textcolor{BlueDeep}{\phi_{p'}} \dd{p'} \\
+    &= -\int_{-\infty}^{+\infty} i\hbar \left[ \frac{d}{\textcolor{OrangeDeep}{dp'}} \delta(p'-p) \right] \phi_{p'} \textcolor{OrangeDeep}{\dd{p'}} \\
+    &= -\int_{-\infty}^{+\infty} i\hbar \phi_{p'} \dd{[\delta(p'-p)]} \\
+    &= \textcolor{PurpleDeep}{\left[ -i\hbar \phi_{p'} \delta(p-p') \right]_{-\infty}^{+\infty}} + i\hbar \int_{-\infty}^{+\infty} \delta(p-p') \frac{d}{dp'} \phi_{p'} \dd{p'} \\
+    \intertext{波函数在无穷远处取$0$：}
+    &= i\hbar \frac{d}{dp} \phi_p
+\end{align*}
+即$\varphi_p = i\hbar\frac{\dd}{\dd p}\phi_p \Rightarrow \hat{x} = i\hbar\frac{\dd}{\dd p}$.
+
+\section{动量表象下的能量本征方程}
+\begin{derivation}
+    能量本征方程：
+    \begin{align*}
+        \hat{H}\ket{\psi} &= E\ket{\psi} \\
+        \intertext{式中Hamilton量$\hat{H}=\underset{\text{动能}}{\hat{T}} + \underset{\text{势能}}{\hat{V}} = \dfrac{\hat{p}}{2\mu} + \hat{V}$：}
+        (\hat{H}-E)\ket{\psi} &= 0 \\
+        \int (\hat{T} + \hat{V} -E)\ket{p'}\braket{p'}{\psi} \dd{p'} &= 0 \\
+        \intertext{投影到$\ket{p}$方向：}
+        \bra{p} \int (\hat{T} + \hat{V} -E)\ket{p'}\braket{p'}{\psi} \dd{p'} &= 0 \\
+        \int (\mel{p}{\hat{T}}{p'} + \mel{p}{\hat{V}}{p'} - E\braket{p}{p'})\braket{p'}{\psi} \dd{p'} &= 0 \\
+        \int \left[\frac{{p'}^2}{2\mu}\braket{p}{p'}+V_{pp'}-E\delta(p-p')\right]\braket{p'}{\psi} \dd{p'} &= 0 \\
+        \int \left[\frac{{p'}^2}{2\mu}\braket{p}{p'}+V_{pp'}-E\delta(p-p')\right] \psi_{p'} \dd{p'} &= 0\\
+        \frac{p'}{2\mu}\psi_p + \int V_{pp'}\psi_{p'}\dd{p'} &= E\psi_p
+    \end{align*}
+    式中：
+    \begin{align*}
+        V_{pp'} &= \mel{p}{\hat{V}}{p'} \\
+        &= \iint \braket{p}{x}\mel{x}{V(\hat{x})}{x'}\braket{x'}{p'} \dd{x} \dd{x'} \\
+        &= \iint \frac{1}{\sqrt{2\pi\hbar}} e^{-ipx/\hbar} V(x') \braket{x}{x'} \frac{1}{\sqrt{2\pi\hbar}} e^{ip'x'/\hbar} \dd{x} \dd{x'} \\
+        &= \iint \frac{1}{\sqrt{2\pi\hbar}} e^{-ipx/\hbar} V(x') \delta(x-x') \frac{1}{\sqrt{2\pi\hbar}} e^{ip'x'/\hbar} \dd{x'} \dd{x} \\
+        &= \frac{1}{2\pi\hbar} \int e^{-ipx/\hbar} V(x) e^{ip'x/\hbar} \dd{x} \\
+        &= \frac{1}{2\pi\hbar} \int V(x) e^{i(p'-p)x/\hbar} \dd{x}
+    \end{align*}
+    特别地，若$V(\hat{x})$可表示成$V(x) = \sum_{n}^{} c_n \hat{x}^n$，根据$\hat{x} e^{i(p'-p)x/\hbar} = i\hbar\pdv{p}e^{i(p'-p)x/\hbar}$则：
+    \begin{align*}
+        V_{pp'} &= \frac{1}{2\pi\hbar}\int\sum_{n}^{} c_n \hat{x}^n e^{i(p'-p)x/\hbar} \dd{x} \\
+        &= \sum_{n}^{} c_n \frac{1}{2\pi\hbar} \int \left(i\hbar\pdv{p}\right)^n e^{i(p'-p)x/\hbar} \dd{x} \\
+        &= \sum_{n}^{} c_n \textcolor{PurpleDeep}{\frac{1}{2\pi\hbar}}\left(i\hbar\pdv{p}\right)^n \textcolor{PurpleDeep}{\int e^{i(p'-p)x/\hbar} \dd{x}} \\
+        &= \textcolor{BlueDeep}{\sum_{n}^{} c_n \left(i\hbar\pdv{p}\right)^n} \textcolor{PurpleDeep}{\int \braket{p}{x}\braket{x}{p'} \dd{x}} \\
+        &= \textcolor{BlueDeep}{V(\hat{x})}\textcolor{PurpleDeep}{\delta(p-p')} \\
+        &\Rightarrow \text{一般式：} V_{pp'} = \frac{1}{2\pi\hbar} \int V(x) e^{i(p'-p)x/\hbar} \dd{x}
+    \end{align*}
+    代入$V_{pp'}$至能量本征方程：
+    \begin{align*}
+        \frac{p^2}{2\mu}\psi_p + \int V_{pp'} \psi_{p'} \dd{p'} &= E\psi_p \\
+        \frac{p^2}{2\mu}\psi_p + \int V(x)\delta(p-p')\psi_{p'}\dd{p'} &= E\psi_p \\
+        \frac{p^2}{2\mu}\psi_p + V(\hat{x})\psi_p &= E\psi_p \\
+        \left[\frac{p^2}{2\mu} + V(\hat{x})\right]\psi_p &= E\psi_p
+    \end{align*}
+    这就是$p$表象下的能量本征方程.
+\end{derivation}
+利用上述能量本征方程，如谐振子势
+\[V(\hat{x})=\frac{1}{2}\mu \omega^2 \hat{x}^2 = \frac{1}{2} \mu \omega^2 \left(i\hbar\pdv{p}\right)^2\]
+在$p$表象下的能量本征方程为：
+\[\left[\frac{p^2}{2\mu} + \frac{1}{2}\mu\omega^2 \left(i\hbar\pdv{p}\right)^2\right]\psi_p = E\psi_p\]
+
+
+\section{动量与空间平移算符}
+把$x'$处的态$\psi(x')$平移到$x'+a$处：
+\begin{align*}
+    \psi(x'+a) &= \psi(x') + \frac{a}{1!}\dv{x'}\psi(x') + \frac{a^2}{2!} \dv[2]{}{{x'}} \psi(x') + \cdots \quad \text{Taylor展开} \\
+    \intertext{若$a$极小，取$1$阶近似：}
+    &\approx \psi(x') + \frac{a}{1!}\dv{x'} \psi(x') \\
+    &= \left(1+a\dv{x'}\right) \psi(x')
+\end{align*}
+令$\hat{g}(a) \equiv 1+a\dv{x'}$，称之为无穷小平移算符.
+
+分析力学表明，动量是无穷小平移生成元.
+
+\begin{derivation}
+    尝试基于$\hat{g}(a)$中的$\dv{x}$构造动量算符$\hat{p}$：
+
+    $\hat{g}(a)$中的求导算符$\dv{x'}$是反厄米算符，乘以$\pm i$使之变成厄米的.
+
+    $\pm i\dv{x'}$的量纲为$L^{-1}$，$\hat{p}$的量纲为$MLT^{-1}$，乘以量纲为$ML^2T^{-1}$(角动量量纲)的$\hbar$，则：
+    \begin{align*}
+        \hat{g}(a) &= 1 \pm \frac{1}{\hbar}\cdot\left(\pm ai\hbar\dv{x}\right) \\
+        &= 1 \mp \frac{i}{\hbar}\cdot\left(\pm ai\hbar\dv{x}\right) \\
+        &= 1 + \frac{ia}{\hbar}\cdot\left(-i\hbar\dv{x}\right)
+    \end{align*}
+\end{derivation}
+
+\begin{derivation}
+    尝试构造有限大平移算符：
+    \begin{align*}
+        \psi(x'+a) &= \psi(x') + \frac{a}{1!}\dv{x'}\psi(x') + \frac{a}{2!}\dv[2]{}{{x'}}\psi(x') + \cdots \\
+        &= \left( 1 + \frac{\frac{i}{\hbar}\hat{p}a}{1!} + \frac{\frac{i}{\hbar}\hat{p}a}{2!} + \cdots \right) \psi(x') \\
+        &= e^{\frac{i}{\hbar}\hat{p}a}\psi(x')
+    \end{align*}
+    令$\hat{T}(a) \equiv e^{\frac{i}{\hbar}\hat{p}a}$，称之为\overtext{空间平移算符}{spatial translation operator}.
+\end{derivation}
+
+$\hat{T}$对本征矢的作用：
+\begin{itemize}
+    \item $\begin{cases}
+        (\bra{x'}\hat{T}(a))^\dagger = \hat{T}^\dagger(a)\ket{x'} = \ket{x'+a} \\
+        \hat{T}(a)\ket{x'} = \ket{x'-a}
+    \end{cases} \Rightarrow \quad \hat{T}(-a) = \hat{T}^\dagger(a)$ 对本征基的移动
+    \item $1+\frac{i\hat{p}}{\hbar}a\ket{x'} = \ket{x'-a}$
+    \item $1-\frac{i\hat{p}}{\hbar}a\ket{x'} = \ket{x'+a}$
+\end{itemize}
