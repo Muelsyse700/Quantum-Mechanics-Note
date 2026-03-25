@@ -1,0 +1,38 @@
+\chapter{量子动力学}
+\section{时间演化算符}
+\subsection{Noether定理}
+每一种对称性都对应着一个守恒量，每一个守恒量都对应一种对称变换的生成元.
+\begin{itemize}
+    \item \textbf{空间平移对称性 $\rightarrow$ 动量 $\hat{p}$ 守恒} \\
+    若空间处处均匀，物体会倾向于保持它的运动状态.
+    \item \textbf{时间平移对称性 $\rightarrow$ 能量 $\hat{H}$ 守恒} \\
+    若物理规律不随时间改变，系统的总能量不能凭空产生或消失.
+    \item \textbf{旋转对称性 $\rightarrow$ 角动量 $\hat{L}$ 守恒} \\
+    若空间没有偏向哪个方向，旋转的物体就会保持它的旋转状态.
+\end{itemize}
+由无穷小空间平移算符$\hat{g}(\dd{x})=1+\frac{i}{\hbar}\hat{p}\dd{x}$猜测无穷小时间演化(平移)算符$\hat{u}(\dd{t})$：
+\[\hat{g}(\dd{x})\psi(x_0) = \psi(x_0+\dd{x}) \qquad \hat{u}(\dd{t})\psi(t_0) = \psi(t_0+\dd{t})\]
+由于 $\ket{\psi}$ 中不包含坐标信息， $\hat{g}(\dd{x})$ 是作用在左矢上的.而 $\ket{\psi}$中 包含时间信息， $\hat{u}$ 作用在右矢上， $\hat{u}$ 与 $\hat{g}(\dd{x})$ 应是复共轭的.
+\[\hat{g}(\dd{x})=1+\frac{i}{\hbar}\hat{p}\dd{x} \quad \rightarrow \quad \hat{u}(\dd{t})=1-\hat{H}\dd{t}\]
+猜测时间演化算符$\hat{U}(t)=e^{-\frac{i}{\hbar}\hat{H}t}$；任意时刻形式$\hat{U}(t,t_0)=e^{-\frac{i}{\hbar}\hat{H}(t-t_0)}$.
+
+\subsection{时间演化算符的性质}
+\begin{enumerate}
+    \item 非相对论量子力学中粒子不会创生和湮灭(粒子数守恒) \\
+    这表明粒子总得在空间的某个或某些地方，全空间总概率必然是归一化的.所以$\hat{U}(t)$必然是幺正的，确保概率归一(保模长).
+    \begin{proof}
+        $\hat{U}^\dagger(t,t_0)\hat{U}(t,t_0)=\hat{I}$
+        \[\begin{cases}
+            \hat{U}(t,t_0) &= e^{-\frac{i}{\hbar}\hat{H}(t,t_0)} \\
+            \hat{U}^\dagger(t,t_0) &= e^{\frac{i}{\hbar}\hat{H}(t,t_0)}
+        \end{cases} \quad \Rightarrow \quad \hat{U}^\dagger(t,t_0)\hat{U}(t,t_0)=\hat{I}\]
+    \end{proof}
+    \item 从$t_0 \rightarrow t_1$再从$t_1 \rightarrow t_2$应等价于$t_0 \rightarrow t_2$ \\
+    即$\hat{U}(t_2,t_0)=\hat{U}(t_2,t_1)\hat{U}(t_1,t_0)$.
+    \item 从$t_0 \rightarrow t_1$应等于从$t_1 \rightarrow t_0$的逆变换 \\
+    即$\hat{U}(t_0,t_1) = \hat{U}^{-1}(t_1,t_0)$.
+    \item 从$t_0 \rightarrow t_0$的时间演化算符应为单位算符
+    即$\hat{U}(t_0,t_0)=\hat{I}$.
+\end{enumerate}
+
+\subsection{\texorpdfstring{自旋$S=1/2$体系中的时间演化}{自旋S等于1/2体系中的时间演化}}
