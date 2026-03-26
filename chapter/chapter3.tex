@@ -36,3 +36,95 @@
 \end{enumerate}
 
 \subsection{\texorpdfstring{自旋$S=1/2$体系中的时间演化}{自旋S等于1/2体系中的时间演化}}
+\begin{question}
+    设一粒子一开始处于$S_x=\frac{\hbar}{2}$的本征态，现加入沿$z$轴的磁场$\vec{B}=B\vec{e_x}$.求：
+    \begin{enumerate}
+        \item 任意$t$时刻粒子处于什么状态？
+        \item 任意$t$时刻处于$S_x=\frac{\hbar}{2}$态的概率是多少？处于$S_x=-\frac{\hbar}{2}$态的概率是多少？
+        \item 任意$t$时刻$\expval{\hat{S}_x},\expval{\hat{S}_y},\expval{\hat{S}_z}$是多少？
+    \end{enumerate}
+\end{question}
+\begin{solution}
+    \begin{enumerate}
+        \item $$\ket{\psi(t)} = \hat{U}(t)\ket{\psi(0)}$$
+        式中$\ket{\psi(0)} = \ket{+},\hat{U}(t) = e^{-i\hat{H}t/\hbar}$. \\
+        在本题中Hamilton量又称为磁偶极相互作用能(Zeeman能)，它表述为：
+        \[\begin{aligned}
+        \hat{H} &= -\hat{\mu}_z \cdot B \\
+        &= -\gamma_s \hat{S}_z \cdot B \quad \text{式中旋磁比 } \gamma_s = \frac{e}{2\mu_c} \cdot g_s \\
+        &= -\gamma_s B \hat{S}_z
+        \end{aligned}\]
+        显然 $\hat{U}(t)$ 是 $\hat{S}_z$ 的函数，不能直接作用在 $\ket{+}$ 态上，故而将 $\ket{+}$ 在 $\hat{S}_z$ 的本征态 $\ket{\uparrow}, \ket{\downarrow}$ 上展开：
+        \[\begin{aligned}
+        \ket{\psi(t)} &= e^{i\gamma_s B \hat{S}_z t / \hbar} \ket{+} \\
+        &= e^{i\gamma_s B \hat{S}_z t / \hbar} \textcolor{GreenDeep}{(\ket{\uparrow}\bra{\uparrow} + \ket{\downarrow}\bra{\downarrow})} \ket{+} \quad \textcolor{GreenDeep}{\text{恒等算符}} \\
+        &= e^{i\gamma_s B \hat{S}_z t / \hbar} \left( \ket{\uparrow} [1, 0] \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} + \ket{\downarrow} [0, 1] \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} \right) \\
+        &= \frac{1}{\sqrt{2}} e^{i\gamma_s B \hat{S}_z t / \hbar} (\ket{\uparrow} + \ket{\downarrow}) \\
+        &= \frac{1}{\sqrt{2}} \left( e^{i\gamma_s B \frac{\hbar}{2} t / \hbar} \ket{\uparrow} + e^{i\gamma_s B (-\frac{\hbar}{2}) t / \hbar} \ket{\downarrow} \right) \quad \text{本征方程} \\
+        &= \frac{1}{\sqrt{2}} \begin{bmatrix} e^{i \gamma_s B \frac{t}{2}} \\ e^{-i \gamma_s B \frac{t}{2}} \end{bmatrix} \quad \text{令 } \omega = \frac{1}{2} \gamma_s B
+        \end{aligned}\]
+        则$\ket{\psi(t)} = \frac{1}{\sqrt{2}} \begin{bmatrix} e^{i\omega t} \\ e^{-i\omega t} \end{bmatrix}$.
+
+        \vspace{1em}\hrule
+
+        \item \[\begin{aligned}
+        P_{S_x=\frac{\hbar}{2}} &= \left| \braket{+}{\psi(t)} \right|^2 \\
+        &= \left| \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \end{bmatrix} \frac{1}{\sqrt{2}} \begin{bmatrix} e^{i\omega t} \\ e^{-i\omega t} \end{bmatrix} \right|^2 \\
+        &= \frac{1}{4} \left| e^{i\omega t} + e^{-i\omega t} \right|^2 \\
+        &= \frac{1}{4} \left| \cos(\omega t) + i\sin(\omega t) + \cos(\omega t) - i\sin(\omega t) \right|^2 \\
+        &= \frac{1}{4} \left| 2\cos(\omega t) \right|^2 \\
+        &= \cos^2(\omega t) \\[1.5em]
+        P_{S_x=-\frac{\hbar}{2}} &= 1 - P_{S_x=\frac{\hbar}{2}} \\
+        &= 1 - \cos^2(\omega t) \\
+        &= \sin^2(\omega t)
+        \end{aligned}\]
+
+        \hrule
+
+        \item \[\begin{aligned}
+        \ev{\hat{S}_x} &= \mel{\psi(t)}{\hat{S}_x}{\psi(t)} \\
+        &= \frac{1}{\sqrt{2}} \begin{bmatrix} e^{-i\omega t} & e^{i\omega t} \end{bmatrix} \frac{\hbar}{2} \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix} \frac{1}{\sqrt{2}} \begin{bmatrix} e^{i\omega t} \\ e^{-i\omega t} \end{bmatrix} \\
+        &= \frac{\hbar}{4} (-e^{-i2\omega t} + e^{i2\omega t}) \\
+        &= \frac{\hbar}{2} \cos(2\omega t) \\[1.5em]
+        \ev{\hat{S}_y} &= \mel{\psi(t)}{\hat{S}_y}{\psi(t)} \\
+        &= \frac{1}{\sqrt{2}} \begin{bmatrix} e^{-i\omega t} & e^{i\omega t} \end{bmatrix} \frac{\hbar}{2} \begin{bmatrix} 0 & -i \\ i & 0 \end{bmatrix} \frac{1}{\sqrt{2}} \begin{bmatrix} e^{i\omega t} \\ e^{-i\omega t} \end{bmatrix} \\
+        &= \frac{i\hbar}{4} (-e^{-i2\omega t} + e^{i2\omega t}) \\
+        &= -\frac{\hbar}{2} \sin(2\omega t) \\[1.5em]
+        \ev{\hat{S}_z} &= \mel{\psi(t)}{\hat{S}_z}{\psi(t)} \\
+        &= \frac{1}{\sqrt{2}} \begin{bmatrix} e^{-i\omega t} & e^{i\omega t} \end{bmatrix} \frac{\hbar}{2} \begin{bmatrix} 1 & 0 \\ 0 & -1 \end{bmatrix} \frac{1}{\sqrt{2}} \begin{bmatrix} e^{i\omega t} \\ e^{-i\omega t} \end{bmatrix} \\
+        &= \frac{\hbar}{4} \begin{bmatrix} e^{-i\omega t} & e^{i\omega t} \end{bmatrix} \begin{bmatrix} e^{i\omega t} \\ -e^{-i\omega t} \end{bmatrix} \\
+        &= \frac{\hbar}{4} (e^0 - e^0) \\
+        &= 0
+        \end{aligned}\]
+    \end{enumerate}
+\end{solution}
+上述值表明，粒子在$x-y$平面做进动.
+
+\noindent
+\begin{minipage}[c]{0.3\linewidth}
+\centering
+\begin{tikzpicture}[scale=1.5, extended line/.style={shorten >=-#1,shorten <=-#1}]
+    \draw[->, ultra thick, dashed] (0, -0.5) -- (0, 0);
+    \draw[->, ultra thick] (0, 0) -- (0, 3) node[anchor=south] {$z$};
+    \draw[->, very thick] (-0.3, 2) -- (-0.3, 2.8) node[anchor=south] {$\vec{B}$};
+    \coordinate (O) at (0, 0);
+    \coordinate (P0) at (-1.5, 0);
+    \draw[dashed, color=OrangeDeep, thick] (O) ellipse (1.5cm and 0.4cm);
+    \draw[->, color=OrangeDeep, thick] (1.5, 0) arc (0:-20:1.5cm and 0.4cm);
+    \draw[->, color=OrangeDeep, thick] (-1.5, 0) arc (180:160:1.5cm and 0.4cm);
+    \draw[-, color=BlueDeep, ultra thick] (O) -- (P0);
+    \filldraw[color=PurpleDeep!50, fill=purple!20, thick] (P0) circle (0.15cm);
+    \filldraw[color=PurpleDeep, fill=white, thick] (P0) circle (0.1cm);
+    \begin{scope}[shift={(P0)}, scale=0.8]
+        \draw[->, color=cyan!80!blue, thick] (-0.2, -0.2) arc (-135:-45:0.25cm);
+        \draw[->, color=cyan!80!blue, thick] (0.2, 0.2) arc (45:135:0.25cm);
+    \end{scope}
+\end{tikzpicture}
+\end{minipage}
+\begin{minipage}[c]{0.6\linewidth}
+    \raggedright
+    这是一种特殊的\textbf{Larmor}\overtext{进动}{precession}. \\
+    若不仅在$x-y$平面内绕$z$轴进动，则是一般的Larmor进动.
+\end{minipage}
+
+\section{Schrödinger绘景和Heisenberg绘景}
