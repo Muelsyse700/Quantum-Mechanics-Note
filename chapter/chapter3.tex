@@ -128,3 +128,34 @@
 \end{minipage}
 
 \section{Schrödinger绘景和Heisenberg绘景}
+幺正变换下力学量期望值的变换为：
+\[\ev{\hat{\Omega}} = \ev{\hat{\Omega}}{\psi} \xrightarrow{\text{幺正变换}} \ev{\hat{U}^\dagger \hat{\Omega} \hat{U}}{\psi}\]
+这个变换可以从两个角度理解：
+\begin{center}
+    \begin{enumerate}
+            \item $\hat{\Omega} \rightarrow \hat{U}^\dagger \hat{\Omega} \hat{U} \qquad$ 力学量变，态矢不变(被动变换)
+            \item $\begin{cases}
+                \ket{\psi} \rightarrow \hat{U}\ket{\psi} \\
+                \bra{\psi} \rightarrow \bra{\psi}\hat{U}^\dagger
+            \end{cases} \qquad$ 态矢变，力学量不变(主动变换)
+    \end{enumerate}   
+\end{center}
+时间演化算符是幺正算符，因此体系随时间演化的方式也可以用两种不同的视角研究.
+\begin{definition}
+    \begin{itemize}
+        \item 称态矢量随时间演变的视角为Schrödinger绘景(S绘景).
+        \[\ket{\alpha(t)} = \hat{U}(t)\ket{\alpha(O)} \qquad \hat{A}(t) = \hat{A}(0)\]
+        \item 称力学量随时间演变的视角为Heisenberg绘景(H绘景).
+        \[\hat{A}(t) = \hat{U}^\dagger (t)\hat{A}(0)\hat{U}(t) \qquad \ket{\alpha(t)} = \ket{\alpha(0)}\]
+    \end{itemize}
+\end{definition}
+这意味着：
+\[\ket{\alpha,0}_{\mathrm{S}} = \ket{\alpha}_{\mathrm{H}} \qquad \hat{A}_{\mathrm{H}}(t=0)=\hat{A}_{\mathrm{S}}\]
+
+\subsection{关于绘景的重要命题}
+\begin{proposition}
+    内积与绘景无关.
+\end{proposition}
+\begin{proof}
+    
+\end{proof}
