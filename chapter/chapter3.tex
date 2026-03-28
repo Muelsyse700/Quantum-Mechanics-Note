@@ -157,5 +157,88 @@
     内积与绘景无关.
 \end{proposition}
 \begin{proof}
-    
+    ${}_{\mathrm{s}}\!\bra{\alpha, t} \ket{\beta, t}\!{}_{\mathrm{s}} = {}_{\mathrm{s}}\!\bra{\alpha, 0} \hat{U}^\dagger \hat{U} \ket{\beta, 0}\!{}_{\mathrm{s}} = {}_{\mathrm{s}}\!\bra{\alpha, 0} \ket{\beta, 0}\!{}_{\mathrm{s}} = {}_{\mathrm{H}}\!\bra{\alpha} \ket{\beta}\!{}_{\mathrm{H}}$
 \end{proof}
+\begin{proposition}
+    对易关系与绘景无关.
+\end{proposition}
+\begin{proof}
+    设在S绘景中存在对易关系$\comm{\hat{A}_{\mathrm{S}}}{\hat{B}_{\mathrm{S}}}=\hat{C}_{\mathrm{S}}$.
+    \begin{align*}
+        \text{H绘景中}\comm{\hat{A}(t)}{\hat{B}(t)} &= \comm{\hat{U}^\dagger \hat{A}_{\mathrm{S}} \hat{U}}{\hat{U}^\dagger \hat{B}_{\mathrm{S}} \hat{U}} \\
+        &= \hat{U}^\dagger \hat{A}_{\mathrm{S}} \hat{U} \hat{U}^\dagger \hat{B}_{\mathrm{S}} \hat{U} - \hat{U}^\dagger \hat{B}_{\mathrm{S}} \hat{U} \hat{U}^\dagger \hat{A}_{\mathrm{S}} \hat{U} \\
+        &= \hat{U}^\dagger \left(\hat{A}_{\mathrm{S}}\hat{B}_{\mathrm{S}} - \hat{B}_{\mathrm{S}} \hat{A}_{\mathrm{S}}\right) \hat{U} \\
+        &= \hat{U}^\dagger \hat{C}_{\mathrm{S}} \hat{U} \\
+        &= \hat{C}(t)
+    \end{align*}
+    该命题也可拓展为：幺正变换不改变对易关系.
+\end{proof}
+\begin{proposition}
+    不含时 Hamilton 算符的形式与绘景无关.
+\end{proposition}
+\begin{proof}
+    S绘景中：\[\hat{U}(t) = e^{-i \hat{H}_{\mathrm{H}} t / \hbar}\]
+
+    H绘景中：\begin{align*}
+        \hat{H}(t) &= \hat{U}^\dagger \hat{H}_{\mathrm{S}} \hat{U} \\
+        &= e^{i \hat{H}_{\mathrm{H}} t / \hbar} \hat{H}_{\mathrm{S}} e^{-i \hat{H}_{\mathrm{H}} t / \hbar} \\
+        &= e^{i \hat{H}_{\mathrm{H}} t / \hbar} e^{-i \hat{H}_{\mathrm{H}} t / \hbar} \hat{H}_{\mathrm{S}} \qquad \textcolor{GreenDeep}{\text{对易关系} \comm{x}{f(x)}=0}\\
+        &= \hat{H}_{\mathrm{S}}
+    \end{align*}
+\end{proof}
+
+\subsection{H绘景中基矢的演化方式}
+基矢由力学量的性质决定，由其本征方程求得，在S绘景下力学量不随时间演化，而在H绘景下力学量随时间演化.
+\begin{derivation}
+    S绘景：\[\hat{A}_{\mathrm{S}}\ket{a}_{\mathrm{S}} = a\ket{a}_{\mathrm{S}} \qquad \text{本征方程中不含时}\]
+    H绘景：\begin{align*}
+        \hat{A}_{\mathrm{H}}(t)\ket{a}_{\mathrm{H}} &= a\ket{a}_{\mathrm{H}} \\
+        \hat{U}^\dagger \hat{A}_{\mathrm{H}}(0) \hat{U} \ket{a}_{\mathrm{H}} &= a\ket{a}_{\mathrm{H}} \\
+        \hat{U}^\dagger \hat{A}_{\mathrm{S}} \hat{U} \ket{a}_{\mathrm{H}} &= a\ket{a}_{\mathrm{H}} \\
+        \hat{U} \hat{U}^\dagger \hat{A}_{\mathrm{S}} \hat{U} \ket{a}_{\mathrm{H}} &= a\hat{U}\ket{a}_{\mathrm{H}} \\
+        \hat{A}_{\mathrm{S}} \textcolor{PurpleDeep}{\hat{U}\ket{a}_{\mathrm{H}}} &= a\textcolor{PurpleDeep}{\hat{U}\ket{a}_{\mathrm{H}}}
+    \end{align*}
+    与S绘景中的式子$\hat{A}_{\mathrm{S}} \hat{U}\ket{a}_{\mathrm{S}} = a\hat{U}\ket{a}_{\mathrm{S}}$相对比，有：$$\hat{U}\ket{a}_{\mathrm{H}} = \ket{a}_{\mathrm{S}} = \ket{a,0}_{\mathrm{H}}$$进而有：$$\ket{a}_{\mathrm{H}} = \hat{U}^\dagger \ket{a,0}_{\mathrm{H}} = \ket{a,t}_{\mathrm{H}}$$
+    上式的$\hat{U}^\dagger$表明，在H绘景中，人为地规定态矢量静滞于$t=0$，为了在演化的系统中补偿这个态矢量本应向未来进行的演化，就需要将这个态矢量的表象向过去演化.
+\end{derivation}
+
+\subsection{Heisenberg方程}
+\begin{xltabular}{\textwidth}{@{} >{\hsize=0.15\hsize}Z >{\hsize=0.425\hsize}Z >{\hsize=0.425\hsize}Z @{}}
+    \midrule[0.08em]
+    \textbf{类别} & \textbf{Schrödinger 绘景} & \textbf{Heisenberg 绘景} \\
+    \midrule[0.08em]
+    \endfirsthead
+    \multicolumn{3}{c}{表\thetable \quad 量子力学绘景对比（续）} \\
+    \toprule[0.08em]
+    \textbf{类别} & \textbf{Schrödinger 绘景} & \textbf{Heisenberg 绘景} \\
+    \midrule[0.08em]
+    \endhead
+    \midrule[0.08em]
+    \multicolumn{3}{r@{}}{(接下表)} \\
+    \endfoot
+    \bottomrule[0.08em]
+    \endlastfoot
+    
+    态 & $\ket{\alpha, t}_{\mathrm{s}} = \hat{U}(t) \ket{\alpha, 0}_{\mathrm{s}}$ & $\ket{\alpha}_{\mathrm{H}}$ \\ \addlinespace
+    
+    力学量 & $\hat{A}_{\mathrm{s}}$ & $\hat{A}_{\mathrm{H}}(t) = \hat{U}^\dagger(t) \hat{A}_{\mathrm{H}}(0) \hat{U}(t)$ \\ \addlinespace
+    
+    基 & $\ket{a}_{\mathrm{s}}$ & $\ket{a, t}_{\mathrm{H}} = \hat{U}^\dagger(t) \ket{a, 0}_{\mathrm{H}}$ \\ \addlinespace
+    
+    运动方程 & \makecell{{\scriptsize Schrödinger 方程} \\ $i \hbar \pdv{t} \ket{\alpha, t}_{\mathrm{s}} = \hat{H} \ket{\alpha, t}_{\mathrm{s}}$} & \makecell{{\scriptsize Heisenberg 方程} \\ $\dv{t} \hat{A}_{\mathrm{H}}(t) = \frac{1}{i \hbar} [\hat{A}_{\mathrm{H}}(t), \hat{H}]$} \\
+    
+\end{xltabular}
+\begin{extension}{Heisenberg方程的推导}
+    \begin{align*}
+        \dv{t} \hat{A}_{\mathrm{H}}(t) &= \dv{t} \left( \hat{U}^\dagger \hat{A}_{\mathrm{H}}(0) \hat{U} \right) \\
+        &= \dv{t} \left( e^{i \hat{H} t / \hbar} \hat{A}_{\mathrm{s}} e^{-i \hat{H} t / \hbar} \right) \\
+        &= \left( \dv{t} e^{i \hat{H} t / \hbar} \right) \hat{A}_{\mathrm{s}} e^{-i \hat{H} t / \hbar} + e^{i \hat{H} t / \hbar} \textcolor{OrangeDeep}{\left(\dv{t} \hat{A}_{\mathrm{s}}\right)} e^{-i \hat{H} t / \hbar} + e^{i \hat{H} t / \hbar} \hat{A}_{\mathrm{s}} \left( \dv{t} e^{-i \hat{H} t / \hbar} \right) \\
+        &= -\frac{1}{i \hbar} e^{i \hat{H} t / \hbar} \hat{H} \hat{A}_{\mathrm{s}} e^{-i \hat{H} t / \hbar} + \frac{1}{i \hbar} e^{i \hat{H} t / \hbar} \hat{A}_{\mathrm{s}} \hat{H} e^{-i \hat{H} t / \hbar} \\
+        &= -\frac{1}{i \hbar} \hat{U}^\dagger \hat{H} \hat{U} \hat{U}^\dagger \hat{A}_{\mathrm{s}} \hat{U} + \frac{1}{i \hbar} \hat{U}^\dagger \hat{A}_{\mathrm{s}} \hat{U} \hat{U}^\dagger \hat{H} \hat{U}  \qquad \textcolor{PurpleDeep}{\text{式中$\hat{H}$不显含时}}\\
+        &= -\frac{1}{i \hbar} \hat{H} \hat{A}_{\mathrm{H}}(t) + \frac{1}{i \hbar} \hat{A}_{\mathrm{H}}(t) \hat{H} \\
+        &= \frac{1}{i \hbar} \comm{\hat{A}_{\mathrm{H}}(t)}{\hat{H}}
+    \end{align*}
+    对比Ehrenfest定理：
+    \[\dv{t}\ev{Q} = \frac{1}{i\hbar}\ev{\comm{\hat{Q}}{\hat{H}}}\]
+    显然，在H绘景下，Ehrenfest定理是易证的.
+\end{extension}
