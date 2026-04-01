@@ -1,4 +1,29 @@
 \chapter{一维问题}
 \section{定态 Schrödinger 方程}
 考虑在 $\hat{H}$不显含时的情况下求解 Schrödinger 方程：
-\[i\hbar\pdv{\psi(x,t)}{t} = \hat{H}\psi\]
+\[i\hbar\pdv{\psi(x,t)}{t} = \hat{H}\psi(x,t) = \left[\frac{\hat{p}^2}{2\mu}+V(x)\right]\psi(x,t)\]
+常采用分离变量法求解二阶齐次线性偏微分方程，令$\psi(x,t) \equiv \phi(x) T(t)$：
+\begin{align*}
+    i\hbar \frac{\partial [\psi(x)T(t)]}{\partial t} &= \left[ \frac{\hat{p}^2}{2\mu} + V(x) \right] \psi(x)T(t) \\
+    i\hbar \psi(x) \frac{\dd T(t)}{\dd t} &= -\frac{\hbar^2}{2\mu} \frac{\dd^2 \psi(x)}{\dd x^2} T(t) + V(x) \psi(x)T(t) \\
+    \underbrace{i\hbar \frac{1}{T(t)} \frac{\dd T(t)}{\dd t}}_{\text{只与$t$相关}} &= \underbrace{-\frac{\hbar^2}{2\mu} \frac{\dd^2 \psi(x)}{\dd x^2} \frac{1}{\psi(x)} + V(x)}_{\text{只与$x$相关}}
+\end{align*}
+两边都会变化，而自变量却不是同一个，说明两边都只能等于一个常数.从量纲上看，这个常数显然为能量.
+\[i\hbar\frac{1}{T(t)}\dv{T(t)}{t} = E = -\frac{\hbar^2}{2\mu}\dv[2]{\phi(x)}{x}\frac{1}{\phi(x)} + V(x)\]
+\begin{align*}
+    \text{左边} \qquad i\hbar\frac{1}{T(t)}\dv{T(t)}{t} &= E \\
+    \frac{1}{T}\dd{T} &= \frac{E}{i\hbar}\dd{t} \\
+    \ln T &= \frac{Et}{i\hbar} + C \\
+    T &= A e^{-\frac{iEt}{\hbar}}
+\end{align*}
+\begin{align*}
+    \text{右边} \qquad -\frac{\hbar^2}{2\mu}\dv[2]{\phi(x)}{x}\frac{1}{\phi(x)} + V(x) &= E \\
+    \left[-\frac{\hbar^2}{2\mu}\dv[2]{}{x}+V(x)\right]\phi(x) &= E\phi(x) \\
+    \hat{H}\phi(x) &= E\phi(x) \qquad \text{x表象下的能量本征方程}
+\end{align*}
+$\hat{H}\phi(x) = E\phi(x)$的解即为能量本征态，又称作定态，该方程也称作定态 Schrödinger 方程.
+综上：\[\psi(x,t) = A\phi(x) e^{-iEt/\hbar}\]
+注意到：\[\hat{U}(t)\phi(x) = e^{-i\hat{H}t/\hbar}\phi(x)=e^{-iEt/\hbar}\phi(x)\]
+故而：\[\psi(x) = \psi(x,0)\]
+
+\subsection{定态}
