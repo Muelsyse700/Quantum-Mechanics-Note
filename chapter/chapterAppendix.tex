@@ -1,0 +1,63 @@
+\chapter{附录}
+\section{密度泛函理论简介}
+\begin{center}
+    \textbf{注意：为了简洁，本节采用原子单位制：$\hbar = m = e^2 = 1$}
+\end{center}
+
+传统的\overtext{波函数理论}{wave function theory}\textbf{(WFT)}在处理含$N$个电子的问题时，往往需要求解含$3N$个空间坐标的反对称波函数$\psi(\vect{r}_1, \vect{r}_2, \dots, \vect{r}_N)$.显然，这样的计算量是极大的.
+
+\overtext{密度泛函理论}{density functional theory}\textbf{(DFT)}原则上是求解多电子体系 Schrödinger 方程的精确理论.
+
+\overtext{泛函}{functional}是将一个函数映射到一个数值的规则.在计算力学量$\hat{\Omega}$在某个态$\ket{\psi}$下的期望值时就已经涉及到了泛函的思想：
+\[\ev{\hat{\Omega}} = \ev{\hat{\Omega}}{\psi(\vect{r})} = \int \psi^*(\vect{r}) \hat{\Omega} \psi(\vect{r}) \dd{\vect{r}}\]
+期望值 $\hat{\Omega}$ 的大小，完全取决于将其展开的波函数$\psi(\vect{r})$的形式.给定一个波函数，就能算出一个确定的数值，这就是一个泛函，即：期望值是波函数的泛函.
+
+Hohenberg-Kohn定理表明：多电子系统的基态总能量 $E$ 是电子密度 $\rho(\vect{r})$ 的唯一泛函，记作 $E[\rho]$，称作\textbf{密度泛函}.若考虑自旋，则称为\textbf{自旋密度泛函}.
+虽然Hohenberg-Kohn定理证明了$E[\rho]$的存在性，但是并没有给出它的具体数学形式.
+
+\subsection{Kohn-Sham方法}
+Kohn和Sham在表达$E[\rho]$时的思路是：虚构一个电子之间\textbf{没有相互作用}的系统，只要这个虚构系统的电子密度 $\rho(\vect{r})$ 与真实系统的电子密度完全一样，那么它们就等价。
+
+这个虚构系统中的单电子 Schrödinger 方程表示为：
+\[\left( \underbrace{-\frac{1}{2}\nabla^2}_{\text{动能项}} + \underbrace{v_\mathrm{ext} + \int \frac{\rho(\vect{r}')}{|\vect{r} - \vect{r}'|} \dd{\vect{r}'} + v_\mathrm{xc}^\sigma([\rho_\uparrow, \rho_\downarrow]; \vect{r})}_{\text{有效势场$v_{eff}(\vect{r})$}} \right) \psi_{i\sigma}(\vect{r}) = \varepsilon_{i\sigma} \psi_{i\sigma}(\vect{r})\]
+式中：
+\begin{itemize}
+    \item $-\frac{1}{2}\nabla^2$是动能项.
+    \item $v_\mathrm{ext}$是外部势能项，它描述了空间位置 $\vect{r}$ 处的电子受到所有原子核的库仑吸引力，它具体表述为：
+    \[v_\mathrm{ext} = -\sum_{\alpha=1}^{M} \frac{Z_\alpha}{\abs{\vect{r} - \vect{R}_\alpha}}\]
+    上式中 $Z_\alpha$ 是第 $\alpha$ 个原子核的电荷数，$\vect{R}_\alpha$ 是它的坐标.
+    \item $\int \frac{\rho(\vect{r}')}{|\vect{r} - \vect{r}'|} \dd{\vect{r}'}$是经典库仑能(Hartree势).它假设电子不是一个个离散的点粒子，而是分布在空间中的连续电荷密度 $\rho(\mathbf{r})$.这一项计算的是在 $\mathbf{r}$ 点的一个电荷，受到全空间所有电荷密度 $\rho(\mathbf{r}')$ 产生的静电排斥力.应当注意，这个积分包含了电子自己对自己产生的排斥，这个误差需要在下一项中进行修正.
+    \item $v_\mathrm{xc}^\sigma([\rho_\uparrow, \rho_\downarrow]; \mathbf{r})$是交换-关联势，它是DFT理论研究的焦点，它需要补偿前两项中对量子效应的忽略所产生的误差.它没有精确的数学形式，关于它的不同近似方法决定了DFT计算的精度和复杂度.
+    \item $\psi_{i\sigma}(\vect{r})$被称为Kohn-Sham轨道，它是一个为了构造电子密度而虚构的单电子轨道，没有实际的物理意义.它的模平方即为电子密度：
+    \[\rho_\sigma(\vect{r}) = \sum_{j}^{\mathrm{occ}}\abs{\psi_{j\sigma}(\vect{r})}^2\]
+\end{itemize}
+
+根据上述单电子 Schrödinger 方程 Hamilton 量的形式，整个多电子系统的 Born-Oppenheimer 电子能或密度泛函$E[\rho]$可以表示为：
+\[E = \underbrace{T_\mathrm{s}[\rho_\uparrow,\rho_\downarrow]}_{\text{动能}} + \underbrace{E_\mathrm{ext}[\rho]}_{\text{外部势能}} + \underbrace{E_\mathrm{ee}[\rho]}_{\text{经典库仑能}} + \underbrace{E_\mathrm{xc}[\rho_\uparrow,\rho_\downarrow]}_{\text{交换-关联能}}\]
+式中：
+\begin{itemize}
+    \item 动能$T_\mathrm{s}[\rho_\uparrow,\rho_\downarrow]$是具有与真实系统相同自旋密度的无相互作用系统的动能，即自旋密度泛函.它不显含$\rho$，但Hohenberg-Kohn定理表明其必然含有$\rho$，在含$\rho$的态中取其期望值使之隐含$\rho$，具体数学表述为：
+    \[T_\mathrm{s}[\rho_\uparrow,\rho_\downarrow] = \sum_{j,\sigma}^{\mathrm{occ}}\ev{-\frac{1}{2}\nabla^2}{\psi_{j\sigma}} = \sum_{j,\sigma}^{\mathrm{occ}} \int \psi^*_{j\sigma}(\vect{r})\left(-\frac{1}{2}\nabla^2\right)\psi_{j\sigma}(\vect{r}) \dd(\vect{r})\]
+    \item 外部势能$E_\mathrm{ext}[\rho]$，它的具体数学表述为：
+    \[E_\mathrm{ext}[\rho] = \int \rho(\vect{r}) v_\mathrm{\vect{r}} \dd{\vect{r}}\]
+    \item 经典库仑能(Hartree势)$E_\mathrm{ee}[\rho]$，基于经典电磁学原理，它的具体数学表述为：
+    \[E_\mathrm{ee}[\rho] = \frac{1}{2}\iint\frac{\rho(\vect{r})\rho(\vect{r}')}{\abs{\vect{r}-\vect{r}'}}\dd{\vect{r}}\dd{\vect{r}'}\]
+    显然这一项包括了相互作用能和自相互作用误差.
+    \item 交换-关联能$E_\mathrm{xc}[\rho_\uparrow,\rho_\downarrow]$，它的泛函导数即为交换-关联势：
+    \[v^{\sigma}_\mathrm{xc}\left([\rho_\uparrow,\rho_\downarrow];\vect{r}\right) = \frac{\delta E_\mathrm{xc}}{\delta \rho_{\sigma}(\vect{r})}\]
+    通常将这一项写为交换能和关联能之和：
+    \[E_\mathrm{xc}[\rho_\uparrow,\rho_\downarrow] = E_\mathrm{x}[\rho_\uparrow,\rho_\downarrow] + E_\mathrm{c}[\rho_\uparrow,\rho_\downarrow]\]
+    交换能产生于Pauli原理，交换势可以用Hartree–Fock交换给出精确的表达式：
+    \[v^\mathrm{HF}\psi_i(\vect{r}_1) = -\sum_{j}^{}\psi_j(\vect{r}_1)\int\psi^*_j(\vect{r}_2)\frac{1}{\abs{\vect{r}_1-\vect{r}_2}}\psi_i(\vect{r}_2) \dd{\vect{r}_2}\]
+    由于HF势是精确的，这失去了其他项近似的修正，使得计算结果反而出现了偏离.因此在此基础上开发了\overtext{杂化}{hybrid}泛函方法，将近似交换势与精确的HF势按一定比例混合，获得了较好的精度.
+
+    其他的所有相互作用，都被包含在了关联能$E_\mathrm{c}$中.在不同领域，它有不同的近似表达.一般所说的开发了某种密度泛函，实际上指的是开发了某种交换-关联泛函的近似表达.
+
+    综上，若此项已知，根据上述四式即可求得$N$电子体系的基态能量和自旋密度泛函.
+\end{itemize}
+
+\subsection{近似泛函}
+已开发的200余种近似泛函总体上可被分为五类：\overtext{局部泛函}{local functional}、\overtext{非局域交换泛函}{functionals with nonlocal exchange}、\overtext{非局域范德华相互作用关联泛函}{functionals with nonlocal van der Waals correlation}、\overtext{双重杂化泛函}{doubly hybrid functionals}和\overtext{分子力学色散校正泛函}{functionals with molecular mechanics dispersion}.
+\subsubsection{局部泛函}
+最早期和最简单的用作交换-关联能的自旋密度泛函就是\textbf{局部自旋密度近似(LSDA)}：
+\[E^\mathrm{LSDA}_{xc}[\rho_\uparrow,\rho_\downarrow] = \int \rho e^\mathrm{UEG}_\mathrm{xc}(\rho_\uparrow,\rho_\downarrow) \dd^3{\vect{r}}\]
